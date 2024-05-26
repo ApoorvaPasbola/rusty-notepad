@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --primary-dark-900: #212121;
+    --primary-dark-800: #424242;
+    --primary-light-workpad: #eceff1;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    background-color: var(--primary-light-workpad);
+  
+}
