@@ -1,8 +1,8 @@
 [package]
 name = "rusty-notepad"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.0.1"
+description = "A Rusty Notepad"
+authors = ["Apoorva Pasbola"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

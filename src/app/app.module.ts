@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { ToolbarModule } from './modules/toolbar/toolbar.module';
+import {WorkpadComponent} from "./modules/ui-elements/workpad/workpad.component";
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     CommonModule,
     BrowserModule,
-    ToolbarModule
+    ToolbarModule,
+      WorkpadComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

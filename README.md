@@ -7,6 +7,25 @@ image storage, all while maintaining exceptional performance and minimal resourc
 
 
 
+# Development
+
+## Pre-requisites 
+- Check node version is `v20.13.1`. 
+  - `node --version`
+- Rust Compiler version `rustc 1.78.0 (9b00956e5 2024-04-29)`
+  - `rustc --version`
+- `Python 3.12.4` (optional) is installed for build pipelines. 
+  - `py --version`
+  - pydoit is installed. Install pydoit using `pip install pydoit` | `py -m pip install pydoit`
+
+## Running the application
+- To start dev server of tauri.
+  - `py -m doit start` This would start the development server. If python `doit` is not installed then  
+    - Run `npm run tauri dev`.
+
+## Building the Application 
+- To build the application.
+  - `py -m doit build`. Or run `npm run tauri build`
 
 
 ## Recommended IDE Setup

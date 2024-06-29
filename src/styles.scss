@@ -1,15 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
+    // colors
     --primary-dark-900: #212121;
     --primary-dark-800: #424242;
-    --primary-light-workpad: #eceff1;
+    --workpad-background: rgb(34, 34, 34);
+
+    // Typography
+    --workpad-font-family: "Courier New" ;
+    --workpad-text-color: white;
+
+    // paddings and margins
+    --padding-xs: .25rem;
+    --padding-s: .5rem;
+    --padding-m: .75rem;
+    --padding-x: 1rem;
+    --padding-xl: 1.5rem;
 }
 
 * {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: var(--workpad-background);
 }
 
-body {
-    background-color: var(--primary-light-workpad);
-  
+html {
+    font-size: 16px;
 }
