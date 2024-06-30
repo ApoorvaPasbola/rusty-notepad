@@ -1,6 +1,5 @@
 import {
   Component,
-  Renderer2,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,8 +14,6 @@ import { FormsModule } from '@angular/forms';
 
 export class WorkpadComponent {
   work: string = '';
-  constructor(private renderer: Renderer2) {
-  }
 
   resize(textArea: HTMLTextAreaElement) {
       textArea.style.height = 'auto'

@@ -4,14 +4,24 @@
     --primary-dark-900: #212121;
     --primary-dark-800: #424242;
     --workpad-background: rgb(34, 34, 34);
+    --workpad-background-elevated: rgba(39,38,38,0.86);
 
     // Typography
     --workpad-font-family: "Courier New" ;
-    --base-text-color: white;
+    // Color 
+    --text-color-base: white;
+    --text-color-accent: #F8F8FF;
+    //  Font - Weight 
+    --font-weight-primary: 200;
+    --font-weight-secondary: 400;
+
+    // Font - Size 
+    --font-size-primary: 1rem;
+    --font-size-secondary: .8rem;
 
     // paddings and margins
     --padding-xs: .25rem;
-    --padding-s: .5rem;
+    --padding-s: .4rem;
     --padding-m: .75rem;
     --padding-x: 1rem;
     --padding-xl: 1.5rem;
@@ -27,6 +37,6 @@
 
 html {
     font-size: 16px;
-    color: var(--base-text-color);
+    color: var(--text-color-base);
     // Base level font 
 }
