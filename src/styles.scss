@@ -7,7 +7,7 @@
 
     // Typography
     --workpad-font-family: "Courier New" ;
-    --workpad-text-color: white;
+    --base-text-color: white;
 
     // paddings and margins
     --padding-xs: .25rem;
@@ -27,4 +27,6 @@
 
 html {
     font-size: 16px;
+    color: var(--base-text-color);
+    // Base level font 
 }
