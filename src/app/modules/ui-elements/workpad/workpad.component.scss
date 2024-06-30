@@ -7,10 +7,11 @@
   font-family: var(--workpad-font-family), serif;
   
   .id-container{
+    color: var(--text-color-accent);
     align-content: center;
     border-right: 1px solid var(--primary-dark-800);
     text-align: right;
-    padding: var(--padding-s);
+    padding: var(--padding-xs) var(--padding-xs) var(--padding-xs) var(--padding-s);
     font-size: var(--font-size-secondary);
     background-color: var(--workpad-background-elevated);
     box-shadow: rgba(15, 15, 15, 0.19) 1.95px 1.95px 2.6px;
