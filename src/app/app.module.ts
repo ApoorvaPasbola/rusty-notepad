@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { ToolbarModule } from './modules/toolbar/toolbar.module';
 import {WorkpadComponent} from "./modules/ui-elements/workpad/workpad.component";
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -12,7 +11,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     BrowserModule,
     ToolbarModule,
-      WorkpadComponent
+    WorkpadComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

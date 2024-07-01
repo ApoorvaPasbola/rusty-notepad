@@ -1,2 +1,11 @@
-<textarea #textarea placeholder="Start taking notes..." [(ngModel)]="work" class="workpad-containers">
-</textarea>
+<div class="workpad-container">
+    <div class="id-container">1</div>
+  <textarea
+    #textarea
+    workpadResizer
+    placeholder="Start taking notes..."
+    [(ngModel)]="work"
+    class="workpad"
+  >
+  </textarea>
+</div>
