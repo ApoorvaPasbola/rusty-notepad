@@ -3,11 +3,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ResizerDirective } from '../../directives/resizer/resizer.directive';
 
 @Component({
   selector: 'app-workpad',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ResizerDirective],
   templateUrl: './workpad.component.html',
   styleUrl: './workpad.component.scss',
 })
@@ -15,8 +16,4 @@ import { FormsModule } from '@angular/forms';
 export class WorkpadComponent {
   work: string = '';
 
-  resize(textArea: HTMLTextAreaElement) {
-      textArea.style.height = 'auto'
-      textArea.style.height = (textArea.scrollHeight) + 'px';
-  }
 }
