@@ -1,21 +1,25 @@
-.workpad-container{
+.workpad-container {
   display: grid;
   grid-template-columns: minmax(20px, min-content) auto;
-  
-  line-height: 1.5em;
-  align-content: center;
+
   font-family: var(--workpad-font-family), serif;
-  
-  .id-container{
+
+  .id-container {
     color: var(--text-color-accent);
-    align-content: center;
     border-right: 1px solid var(--primary-dark-800);
-    text-align: right;
-    padding: var(--padding-xs) var(--padding-xs) var(--padding-xs) var(--padding-s);
-    font-size: var(--font-size-secondary);
-    background-color: var(--workpad-background-elevated);
-    box-shadow: rgba(15, 15, 15, 0.19) 1.95px 1.95px 2.6px;
+    box-shadow: rgba(15, 15, 15, 0.19) 1.95px 1.95px 2.6px; 
+    height: 17.35px;
+    margin-top: 10px;
+    div {
+      text-align: center;
+      height: 17.35px;
+      align-content: center;
+      font-size: var(--font-size-secondary);
+      background-color: var(--workpad-background-elevated);
+
+    }
   }
+
   .workpad {
     width: auto;
     color: var(--text-color-base);
@@ -26,7 +30,6 @@
     align-content: center;
     padding-left: var(--padding-s);
     margin-left: 3px;
+    line-height: 1.3;
   }
-  
 }
-

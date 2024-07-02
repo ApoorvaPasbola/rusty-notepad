@@ -1,5 +1,7 @@
 <div class="workpad-container">
-    <div class="id-container">1</div>
+    <div class="id-container">
+      <div *ngFor="let row of ' '.repeat(rows).split(''),let x= index">{{x}}</div>
+    </div>
   <textarea
     #textarea
     workpadResizer
