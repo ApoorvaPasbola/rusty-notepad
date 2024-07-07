@@ -1,35 +1,5 @@
+
 .workpad-container {
-  display: grid;
-  grid-template-columns: minmax(20px, min-content) auto;
 
   font-family: var(--workpad-font-family), serif;
-
-  .id-container {
-    color: var(--text-color-accent);
-    border-right: 1px solid var(--primary-dark-800);
-    box-shadow: rgba(15, 15, 15, 0.19) 1.95px 1.95px 2.6px; 
-    height: 17.35px;
-    margin-top: 10px;
-    div {
-      text-align: center;
-      height: 17.35px;
-      align-content: center;
-      font-size: var(--font-size-secondary);
-      background-color: var(--workpad-background-elevated);
-
-    }
-  }
-
-  .workpad {
-    width: auto;
-    color: var(--text-color-base);
-    border: none;
-    resize: none;
-    overflow: hidden;
-    outline: none;
-    align-content: center;
-    padding-left: var(--padding-s);
-    margin-left: 3px;
-    line-height: 1.3;
-  }
 }
