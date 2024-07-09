@@ -28,10 +28,9 @@
     --padding-xl: 1.5rem;
 
     // line heights
-    --workpad-line-height: 1.1;
+    --workpad-line-height: 1.3;
 
-    // workpad-row sizing
-    --workpad-row-height: 30px;
+
 
 }
 
@@ -39,11 +38,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    // background-color: var(--workpad-background);
-}
-
-html {
+    background-color: rgba(33, 37, 41, 1);
+    color: var(--text-color-base);
     font-size: 16px;
-    // color: var(--text-color-base);
-    // Base level font
+
 }

@@ -1,5 +1,11 @@
-
-.workpad-container {
-
-  font-family: var(--workpad-font-family), serif;
-}
+  .workpad {
+    width: auto;
+    color: var(--text-color-base);
+    border: none;
+    resize: none;
+    overflow: hidden;
+    outline: none;
+    padding-left: var(--padding-s);
+    line-height: var(--workpad-line-height);
+    font-size: .8rem;
+  }
