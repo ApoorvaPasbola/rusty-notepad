@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TabsBarComponent } from './tabs-bar.component';
+import { TooltipComponent } from './tooltip.component';
 
-describe('TabsBarComponent', () => {
-  let component: TabsBarComponent;
-  let fixture: ComponentFixture<TabsBarComponent>;
+describe('TooltipComponent', () => {
+  let component: TooltipComponent;
+  let fixture: ComponentFixture<TooltipComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TabsBarComponent]
+      declarations: [TooltipComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(TabsBarComponent);
+
+    fixture = TestBed.createComponent(TooltipComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

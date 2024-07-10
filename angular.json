@@ -30,10 +30,8 @@
             "assets": ["src/assets"],
             "styles": [
               "src/styles.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
-            ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "node_modules/primeflex/primeflex.css",
+              "node_modules/primeflex/themes/primeone-dark.css"
             ]
           },
           "configurations": {
