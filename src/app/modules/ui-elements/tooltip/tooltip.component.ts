@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
   imports: []
 })
 export class TooltipComponent {
-  tooltip = "";
+  tooltip = "Tooltip is working!!";
   left:number = 0;
   top:number = 0;
 }

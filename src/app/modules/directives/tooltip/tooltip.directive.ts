@@ -17,7 +17,7 @@ export class TooltipDirective {
 	private componentFactoryResolver: ComponentFactoryResolver,
 	private injector: Injector) {
   }
-
+//  TODO -> good idea -> making the tooltip open on mousehover on text when we have some selected items 
   @HostListener('contextmenu')
   onMouseEnter(): void {
     if (this.componentRef === null) {
