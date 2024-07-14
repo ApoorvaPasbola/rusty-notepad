@@ -1,11 +1,2 @@
-<div class="workpad-container">
-    <div class="id-container">1</div>
-  <textarea
-    #textarea
-    workpadResizer
-    placeholder="Start taking notes..."
-    [(ngModel)]="work"
-    class="workpad"
-  >
-  </textarea>
-</div>
+<div [tooltip]="'this is some text'"  workpadResizer class="workpad" id="editor" contenteditable="true"></div>
+

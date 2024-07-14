@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MenuBarComponent } from './menu-bar.component';
+import { RustyViewComponent } from './rusty-view.component';
 
-describe('MenuBarComponent', () => {
-  let component: MenuBarComponent;
-  let fixture: ComponentFixture<MenuBarComponent>;
+describe('RustyViewComponent', () => {
+  let component: RustyViewComponent;
+  let fixture: ComponentFixture<RustyViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MenuBarComponent]
+      declarations: [RustyViewComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(MenuBarComponent);
+
+    fixture = TestBed.createComponent(RustyViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
