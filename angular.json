@@ -11,7 +11,6 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "rusty",
-
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
@@ -25,9 +24,13 @@
             "outputPath": "dist/rusty-notepad",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/assets"],
+            "assets": [
+              "src/assets"
+            ],
             "styles": [
               "src/styles.scss",
               "node_modules/primeflex/primeflex.css",
@@ -72,6 +75,41 @@
             }
           },
           "defaultConfiguration": "development"
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "browserTarget": "rusty-notepad:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "."
+            ],
+            "port": 6006,
+            "styles":[
+              "src/styles.scss",
+              "node_modules/primeflex/primeflex.css",
+              "node_modules/primeflex/themes/primeone-dark.css"
+            ]
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "browserTarget": "rusty-notepad:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "."
+            ],
+            "outputDir": "storybook-static"
+          }
         }
       }
     }
