@@ -1,12 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { fn } from '@storybook/test';
-import { ButtonComponent } from './button.component';
+import { SplitterComponent } from '../../app/modules/ui-elements/splitter/splitter.component';
+
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
-const meta: Meta<ButtonComponent> = {
-  title: 'Example/Button',
-  component: ButtonComponent,
+const meta: Meta<SplitterComponent> = {
+  title: 'Example/Splitter',
+  component: SplitterComponent,
   tags: ['autodocs'],
+
   argTypes: {
     backgroundColor: {
       control: 'color',
@@ -17,32 +19,11 @@ const meta: Meta<ButtonComponent> = {
 };
 
 export default meta;
-type Story = StoryObj<ButtonComponent>;
+type Story = StoryObj<SplitterComponent>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary: Story = {
-  args: {
-    primary: true,
-    label: 'Button',
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    label: 'Button',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: 'large',
-    label: 'Button',
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: 'small',
-    label: 'Button',
-  },
+export const Basic: Story = {
+  render: (args) => ({
+    // template: `<> This is Basic Horizontal Bar </app-horizontal-bar>`
+  })
 };
