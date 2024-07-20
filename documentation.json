@@ -1,0 +1,940 @@
+{
+    "pipes": [],
+    "interfaces": [],
+    "injectables": [],
+    "guards": [],
+    "interceptors": [],
+    "classes": [],
+    "directives": [
+        {
+            "name": "ResizerDirective",
+            "id": "directive-ResizerDirective-b877ff0d06c950f50e033ed334c499ae8f181705cb585691cefff27e9291e85011bdcd47038349412717f9535b355e4d9d3c99ff957d0eb1bd18766d63272b09",
+            "file": "src/app/modules/directives/resizer/resizer.directive.ts",
+            "type": "directive",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Directive, ElementRef, HostListener } from '@angular/core';\r\n\r\n@Directive({\r\n  selector: '[workpadResizer]',\r\n  standalone: true\r\n})\r\nexport class ResizerDirective {\r\n\r\n  @HostListener(\"input\") onTextChange(){\r\n    this.resize(this.el.nativeElement);\r\n  }\r\n\r\n  constructor(private el: ElementRef) { }\r\n\r\n  resize(textArea: HTMLTextAreaElement) {\r\n    textArea.style.height = 'auto'\r\n    textArea.style.height = (textArea.scrollHeight) + 'px';\r\n}\r\n\r\n}\r\n",
+            "selector": "[workpadResizer]",
+            "providers": [],
+            "hostDirectives": [],
+            "standalone": true,
+            "inputsClass": [],
+            "outputsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [
+                {
+                    "name": "input",
+                    "args": [],
+                    "argsDecorator": [],
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 9
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "onTextChange",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 9,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "HostListener",
+                            "stringifiedArguments": "'input'"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
+                },
+                {
+                    "name": "resize",
+                    "args": [
+                        {
+                            "name": "textArea",
+                            "type": "HTMLTextAreaElement",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 15,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "textArea",
+                            "type": "HTMLTextAreaElement",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "extends": [],
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "el",
+                        "type": "ElementRef",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 11,
+                "jsdoctags": [
+                    {
+                        "name": "el",
+                        "type": "ElementRef",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "TooltipDirective",
+            "id": "directive-TooltipDirective-ebbb0f557e91379bc0f0ce55f911748c37f885259979ad9e0ee1aab5a0f71b1219624f012bca74e426388579d452b3f06072ee06179843c1d35e84184a549735",
+            "file": "src/app/modules/directives/tooltip/tooltip.directive.ts",
+            "type": "directive",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Directive, ElementRef, EmbeddedViewRef, HostListener, Injector, Input } from '@angular/core';\r\nimport { TooltipComponent } from '../../ui-elements/tooltip/tooltip.component';\r\n\r\n@Directive({\r\n  selector: '[tooltip]',\r\n  standalone: true\r\n})\r\nexport class TooltipDirective {\r\n\r\n  @Input() tooltip:string = '';\r\n\r\n  private componentRef: ComponentRef<any> | null = null;\r\n\r\n  constructor(\r\n\tprivate elementRef: ElementRef,\r\n\tprivate appRef: ApplicationRef,\r\n\tprivate componentFactoryResolver: ComponentFactoryResolver,\r\n\tprivate injector: Injector) {\r\n  }\r\n//  TODO -> good idea -> making the tooltip open on mousehover on text when we have some selected items \r\n  @HostListener('contextmenu')\r\n  onMouseEnter(): void {\r\n    if (this.componentRef === null) {\r\n        const componentFactory =\r\n              this.componentFactoryResolver.resolveComponentFactory(\r\n              TooltipComponent);\r\n        this.componentRef = componentFactory.create(this.injector);\r\n        this.appRef.attachView(this.componentRef.hostView);\r\n        const domElem =\r\n              (this.componentRef.hostView as EmbeddedViewRef<any>)\r\n              .rootNodes[0] as HTMLElement;\r\n        document.body.appendChild(domElem);\r\n        this.setTooltipComponentProperties();\r\n    }\r\n  }\r\n\r\n  private setTooltipComponentProperties() {\r\n    if (this.componentRef !== null) {\r\n      this.componentRef.instance.tooltip = this.tooltip;\r\n      const {left, right, bottom} =\r\n            this.elementRef.nativeElement.getBoundingClientRect();\r\n      this.componentRef.instance.left = (right - left) / 2 + left;\r\n      this.componentRef.instance.top = bottom;\r\n    }\r\n  }\r\n\r\n  @HostListener('click')\r\n  onMouseLeave(): void {\r\n    this.destroy();\r\n  }\r\n\r\n  ngOnDestroy(): void {\r\n    this.destroy();\r\n  }\r\n\r\n  destroy(): void {\r\n    if (this.componentRef !== null) {\r\n      this.appRef.detachView(this.componentRef.hostView);\r\n      this.componentRef.destroy();\r\n      this.componentRef = null;\r\n    }\r\n  }\r\n\r\n}\r\n",
+            "selector": "[tooltip]",
+            "providers": [],
+            "hostDirectives": [],
+            "standalone": true,
+            "inputsClass": [
+                {
+                    "name": "tooltip",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 10,
+                    "type": "string",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [
+                {
+                    "name": "click",
+                    "args": [],
+                    "argsDecorator": [],
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 48
+                },
+                {
+                    "name": "contextmenu",
+                    "args": [],
+                    "argsDecorator": [],
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 22
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "componentRef",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ComponentRef<any> | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 12,
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "destroy",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 56,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "ngOnDestroy",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 52,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onMouseEnter",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 22,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "HostListener",
+                            "stringifiedArguments": "'contextmenu'"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
+                },
+                {
+                    "name": "onMouseLeave",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 48,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "HostListener",
+                            "stringifiedArguments": "'click'"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
+                },
+                {
+                    "name": "setTooltipComponentProperties",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 37,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "extends": [],
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "elementRef",
+                        "type": "ElementRef",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "appRef",
+                        "type": "ApplicationRef",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "componentFactoryResolver",
+                        "type": "ComponentFactoryResolver",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "injector",
+                        "type": "Injector",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 12,
+                "jsdoctags": [
+                    {
+                        "name": "elementRef",
+                        "type": "ElementRef",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "appRef",
+                        "type": "ApplicationRef",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "componentFactoryResolver",
+                        "type": "ComponentFactoryResolver",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "injector",
+                        "type": "Injector",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "components": [
+        {
+            "name": "AppComponent",
+            "id": "component-AppComponent-ea3a3f404adb5516ff3f6797df5bee911b5b193186f3efdc183e9000048bdc9c5d28864768176c7d35f882464f855fb52ff70a8ba67d920ef78b5f45d34d377c",
+            "file": "src/app/app.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-root",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./app.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "greetingMessage",
+                    "defaultValue": "\"\"",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "greet",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "SubmitEvent",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "SubmitEvent",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\n\r\n@Component({\r\n  selector: 'app-root',\r\n  templateUrl: './app.component.html',\r\n  styleUrl: './app.component.scss'\r\n})\r\nexport class AppComponent {\r\n  greetingMessage = \"\";\r\n\r\n  greet(event: SubmitEvent, name: string): void {\r\n    event.preventDefault();\r\n\r\n    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command\r\n    invoke<string>(\"greet\", { name }).then((text) => {\r\n      this.greetingMessage = text;\r\n    });\r\n  }\r\n}\r\n",
+            "styleUrl": "./app.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<app-rusty-view #workpad></app-rusty-view>\r\n"
+        },
+        {
+            "name": "HorizontalBarComponent",
+            "id": "component-HorizontalBarComponent-275481caf51eda8750c4c686c6a57df06c1684422cba1a7fe64d29beb4c0b1172a7b23c4290b2d7893e8451719351062b9170a76faf8a463f71f5d0b84c6b588",
+            "file": "src/app/modules/ui-elements/horizontal-bar/horizontal-bar.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-horizontal-bar",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./horizontal-bar.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-horizontal-bar',\r\n  templateUrl: './horizontal-bar.component.html',\r\n  styleUrl: './horizontal-bar.component.scss',\r\n  standalone: true,\r\n  imports: []\r\n})\r\nexport class HorizontalBarComponent {\r\n\r\n}\r\n",
+            "styleUrl": "./horizontal-bar.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div class=\"h-2rem w-full px-2\" role=\"toolbar\" aria-label=\"Toolbar with button groups\">\r\n  <div class=\"inline-flex\">\r\n    <ng-content></ng-content>\r\n  </div>\r\n  <p class=\"break-line\"></p>\r\n</div>\r\n"
+        },
+        {
+            "name": "RustyViewComponent",
+            "id": "component-RustyViewComponent-05be12821a804bbd9f1d723af5aff6686b88d6e378d764f93a74acc976b8d366b5d4ba675e51c8a4727896b314293b844352c70e605de386934f922b146330d1",
+            "file": "src/app/modules/ui-elements/rusty-view/rusty-view.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-rusty-view",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./rusty-view.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "TabsComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "WorkpadComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabsComponent } from \"../tabs/tabs.component\";\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\n\r\n@Component({\r\n  selector: 'app-rusty-view',\r\n  templateUrl: './rusty-view.component.html',\r\n  styleUrl: './rusty-view.component.scss',\r\n  standalone: true,\r\n  imports: [TabsComponent, WorkpadComponent]\r\n})\r\nexport class RustyViewComponent {\r\n\r\n}\r\n",
+            "styleUrl": "./rusty-view.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div class=\"layout\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-tabs></app-tabs>\r\n  <app-workpad></app-workpad>\r\n</div>\r\n"
+        },
+        {
+            "name": "SplitterComponent",
+            "id": "component-SplitterComponent-e8fdf43e8f49b2a01fb5d0386c99294f586ef0fb3828a65c099ad82e3ae1e155f74d4a5a2e83703a42bed9716de96438a452937551836a546ff3f452165659c8",
+            "file": "src/app/modules/ui-elements/splitter/splitter.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-splitter",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./splitter.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-splitter',\r\n  templateUrl: './splitter.component.html',\r\n  styleUrl: './splitter.component.scss',\r\n  standalone: true,\r\n  imports: []\r\n})\r\nexport class SplitterComponent {\r\n\r\n}\r\n",
+            "styleUrl": "./splitter.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<p>splitter works!</p>\r\n"
+        },
+        {
+            "name": "TabsComponent",
+            "id": "component-TabsComponent-8d0eb8c0ac8fecbe5792e920c13bf53f41bb895f021d4a51dac30761c06e5c915a38039898212e678a1e02091ab8bbf26496a41da4f5fbaad49fe3fd93a057f6",
+            "file": "src/app/modules/ui-elements/tabs/tabs.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-tabs",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./tabs.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "HorizontalBarComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { HorizontalBarComponent } from '../horizontal-bar/horizontal-bar.component';\r\n\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [HorizontalBarComponent]\r\n})\r\nexport class TabsComponent {\r\n\r\n}\r\n",
+            "styleUrl": "./tabs.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<app-horizontal-bar>Tabs Content</app-horizontal-bar>\r\n"
+        },
+        {
+            "name": "TooltipComponent",
+            "id": "component-TooltipComponent-bf44bf2042da76a5b3670946546c6c1a6ed35c28c096f6fcee3871beecd50843315f7c27415260b0a4ab3065d6ec93a7fcf49973a822f28b53ac40ec79118165",
+            "file": "src/app/modules/ui-elements/tooltip/tooltip.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-tooltip",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./tooltip.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "left",
+                    "defaultValue": "0",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                },
+                {
+                    "name": "tooltip",
+                    "defaultValue": "\"Tooltip is working!!\"",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "top",
+                    "defaultValue": "0",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-tooltip',\r\n  templateUrl: './tooltip.component.html',\r\n  styleUrl: './tooltip.component.scss',\r\n  standalone: true,\r\n  imports: []\r\n})\r\nexport class TooltipComponent {\r\n  tooltip = \"Tooltip is working!!\";\r\n  left:number = 0;\r\n  top:number = 0;\r\n}\r\n",
+            "styleUrl": "./tooltip.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div class=\"tooltip\"\r\n     [style.left]=\"left + 'px'\" [style.top]=\"top + 'px'\">\r\n  {{tooltip}}\r\n</div>\r\n"
+        },
+        {
+            "name": "WorkpadComponent",
+            "id": "component-WorkpadComponent-d921c6c16476da3d0a8b792b1c2488528331d78aef01f605a074bd9859963a2fe79c683534e4d0d42052b406a2dc21358405950938d04d2083c4b3c34c107025",
+            "file": "src/app/modules/ui-elements/workpad/workpad.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-workpad",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./workpad.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "createLink",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 28,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "formatText",
+                    "args": [
+                        {
+                            "name": "command",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "value",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "undefined"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 25,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "command",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "value",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "undefined",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                },
+                {
+                    "name": "FormsModule",
+                    "type": "module"
+                },
+                {
+                    "name": "ResizerDirective",
+                    "type": "directive"
+                },
+                {
+                    "name": "NgFor"
+                },
+                {
+                    "name": "TooltipDirective",
+                    "type": "directive"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import {\r\n  Component,\r\n  ElementRef,\r\n  OnInit,\r\n  ViewChild\r\n} from '@angular/core';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\nimport { FormsModule } from '@angular/forms';\r\nimport { ResizerDirective } from '../../directives/resizer/resizer.directive';\r\nimport { HorizontalBarComponent } from \"../horizontal-bar/horizontal-bar.component\";\r\nimport { TooltipComponent } from '../tooltip/tooltip.component';\r\nimport { TooltipDirective } from '../../directives/tooltip/tooltip.directive';\r\n\r\n@Component({\r\n  selector: 'app-workpad',\r\n  standalone: true,\r\n  imports: [CommonModule, FormsModule, ResizerDirective, NgFor, TooltipDirective],\r\n  templateUrl: './workpad.component.html',\r\n  styleUrl: './workpad.component.scss',\r\n})\r\n\r\nexport class WorkpadComponent  {\r\n\r\n\r\n  formatText(command:any, value = undefined) {\r\n    document.execCommand(command, false, value);\r\n  }\r\n  createLink(){\r\n\r\n  }\r\n\r\n\r\n\r\n}\r\n",
+            "styleUrl": "./workpad.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div [tooltip]=\"'this is some text'\"  workpadResizer class=\"workpad\" id=\"editor\" contenteditable=\"true\"></div>\r\n\r\n"
+        }
+    ],
+    "modules": [
+        {
+            "name": "AppModule",
+            "id": "module-AppModule-5af2fa6b2cea3894443811a9fd21f1300015b5dfa05c1e469f74574c8eacb3f2578a34268c50b463681377f1b1f463a5e4e22a711cbded5ac114fe4d3f51d672",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/app.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { BrowserModule } from '@angular/platform-browser';\r\nimport { AppComponent } from './app.component';\r\nimport { RustyViewComponent } from './modules/ui-elements/rusty-view/rusty-view.component';\r\nimport { TooltipComponent } from './modules/ui-elements/tooltip/tooltip.component';\r\n\r\n\r\n@NgModule({\r\n  declarations: [AppComponent],\r\n  imports: [\r\n    CommonModule,\r\n    BrowserModule,\r\n    RustyViewComponent\r\n  ],\r\n  providers: [],\r\n  bootstrap: [AppComponent]\r\n})\r\nexport class AppModule { }\r\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "RustyViewComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "AppRoutingModule",
+            "id": "module-AppRoutingModule-d66c0e3073452a4e998b362c0524606d485dd600521cbaac9f4974777bc5819f86cc3e73e09542012cf90735ce422e91386643b9aa2a8d6aebe791616ab4597e",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/app.routes.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from \"@angular/core\";\r\nimport { RouterModule, Routes } from \"@angular/router\";\r\n\r\nexport const routes: Routes = [];\r\n\r\n@NgModule({\r\n    imports: [RouterModule.forRoot(routes)],\r\n    exports: [RouterModule]\r\n  })\r\n  export class AppRoutingModule { }",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "miscellaneous": [],
+    "routes": [],
+    "coverage": {
+        "count": 0,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "src/app/app.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AppComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/directives/resizer/resizer.directive.ts",
+                "type": "directive",
+                "linktype": "directive",
+                "name": "ResizerDirective",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/directives/tooltip/tooltip.directive.ts",
+                "type": "directive",
+                "linktype": "directive",
+                "name": "TooltipDirective",
+                "coveragePercent": 0,
+                "coverageCount": "0/11",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/horizontal-bar/horizontal-bar.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HorizontalBarComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/rusty-view/rusty-view.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "RustyViewComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/splitter/splitter.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SplitterComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/tabs/tabs.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "TabsComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/tooltip/tooltip.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "TooltipComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/workpad/workpad.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "WorkpadComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            }
+        ]
+    }
+}
