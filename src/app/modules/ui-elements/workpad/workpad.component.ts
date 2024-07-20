@@ -1,34 +1,36 @@
 import {
   Component,
-  ElementRef,
+  Input,
   OnInit,
-  ViewChild
 } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ResizerDirective } from '../../directives/resizer/resizer.directive';
-import { HorizontalBarComponent } from "../horizontal-bar/horizontal-bar.component";
-import { TooltipComponent } from '../tooltip/tooltip.component';
 import { TooltipDirective } from '../../directives/tooltip/tooltip.directive';
+import { ContentEditableModelDirective } from '../../directives/contentEditableModel/content-editable-model.directive';
 
 @Component({
   selector: 'app-workpad',
   standalone: true,
-  imports: [CommonModule, FormsModule, ResizerDirective, NgFor, TooltipDirective],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ResizerDirective,
+    NgFor,
+    TooltipDirective,
+    ContentEditableModelDirective
+  ],
   templateUrl: './workpad.component.html',
   styleUrl: './workpad.component.scss',
 })
+export class WorkpadComponent implements OnInit {
 
-export class WorkpadComponent  {
+  @Input('contentFromFile')
+  contentFromFile: string | undefined;
 
-
-  formatText(command:any, value = undefined) {
-    document.execCommand(command, false, value);
+  work: string = '';
+  ngOnInit(): void {
+    if (this.contentFromFile) this.work = this.contentFromFile;
   }
-  createLink(){
-
-  }
-
-
 
 }
