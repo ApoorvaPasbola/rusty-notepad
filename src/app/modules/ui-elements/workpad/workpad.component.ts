@@ -10,9 +10,14 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './workpad.component.scss',
 })
 export class WorkpadComponent implements OnInit {
-  @Input('contentFromFile')
-  contentFromFile: string | undefined;
+  /**
+   * Takes input string from tabs . Which reads data from the file
+   */
+  @Input('contentFromFile') contentFromFile: string | undefined;
 
+  /**
+   * Current draft work in progress 
+   */
   work: string = '';
   
   showHeader: boolean = false;

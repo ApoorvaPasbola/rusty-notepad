@@ -9,7 +9,7 @@
         </ng-template>
         <!-- Content  -->
         <ng-template pTemplate="content"> 
-            {{tab.content}} 
+          <app-workpad [contentFromFile]="tab.content"></app-workpad>
         </ng-template>
     </p-tabPanel>
   </p-tabView>

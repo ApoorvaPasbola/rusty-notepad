@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TabViewModule } from 'primeng/tabview';
 import { CommonModule, NgFor } from '@angular/common';
-import { TabComponent } from './tab/tab.component';
+import { WorkpadComponent } from '../workpad/workpad.component';
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   standalone: true,
-  imports: [CommonModule,TabViewModule, TabComponent, NgFor],
+  imports: [CommonModule,TabViewModule,WorkpadComponent, NgFor],
 })
 export class TabsComponent {
-  tabs: { id: number; content: string; title: string, isClosable:boolean,selected:boolean }[] = [
+  /**
+   * This takes a list of tabs from the service which reads all the files 
+   */
+  @Input("tabs") tabs: { id: number; content: string; title: string, isClosable:boolean,selected:boolean }[] = [
     {
       id: 1,
       selected: true,

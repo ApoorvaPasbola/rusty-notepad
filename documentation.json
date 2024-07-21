@@ -548,7 +548,7 @@
         },
         {
             "name": "TabsComponent",
-            "id": "component-TabsComponent-36e212fdc91b63840d1e823edc3e7c980f56e31f99b0372e1d4721baf3da0b75ff6eb12c8391225d202019bd5a32a30a5157f096dfe69a06d39904a902da480a",
+            "id": "component-TabsComponent-374ae8ec49560ef73f110079d708ad5d630d0adc17df99816c1ffbefd4b8fdc9640ca676099416d893a416edc1abc86b551028ef0a773ca9e64394c1ae322ae1",
             "file": "src/app/modules/ui-elements/tabs/tabs.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -565,7 +565,18 @@
             "hostDirectives": [],
             "inputsClass": [],
             "outputsClass": [],
-            "propertiesClass": [],
+            "propertiesClass": [
+                {
+                    "name": "tabs",
+                    "defaultValue": "[\r\n    {\r\n      id: 1,\r\n      selected: true,\r\n      isClosable:true,\r\n      content:\r\n        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n      title: 'Tab 1',\r\n    },\r\n    {\r\n      id: 2,\r\n      selected: false,\r\n      isClosable:true,\r\n      content:'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n      title: 'Tab 2',\r\n    },\r\n    {\r\n      id: 3,\r\n      selected: false,\r\n      isClosable:true,\r\n      content:\r\n        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n      title: 'Tab 3',\r\n    },\r\n  ]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                }
+            ],
             "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
@@ -574,20 +585,27 @@
             "standalone": true,
             "imports": [
                 {
+                    "name": "CommonModule",
+                    "type": "module"
+                },
+                {
                     "name": "TabViewModule",
                     "type": "module"
+                },
+                {
+                    "name": "NgFor"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabViewModule } from \"primeng/tabview\";\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [TabViewModule]\r\n})\r\nexport class TabsComponent {\r\n\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule,TabViewModule, NgFor],\r\n})\r\nexport class TabsComponent {\r\n  tabs: { id: number; content: string; title: string, isClosable:boolean,selected:boolean }[] = [\r\n    {\r\n      id: 1,\r\n      selected: true,\r\n      isClosable:true,\r\n      content:\r\n        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n      title: 'Tab 1',\r\n    },\r\n    {\r\n      id: 2,\r\n      selected: false,\r\n      isClosable:true,\r\n      content:'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n      title: 'Tab 2',\r\n    },\r\n    {\r\n      id: 3,\r\n      selected: false,\r\n      isClosable:true,\r\n      content:\r\n        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n      title: 'Tab 3',\r\n    },\r\n  ];\r\n}\r\n",
             "styleUrl": "./tabs.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "    <p-tabView id=\"closableTabView\">\r\n        <p-tabPanel header=\"Header I\" [selected]=\"true\">\r\n            <p>\r\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\n                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n            </p>\r\n        </p-tabPanel>\r\n        <p-tabPanel header=\"Header II\" [closable]=\"true\">\r\n            <p>\r\n                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim\r\n                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.\r\n            </p>\r\n        </p-tabPanel>\r\n        <p-tabPanel header=\"Header III\" [closable]=\"true\">\r\n            <p>\r\n                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa\r\n                qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.\r\n            </p>\r\n        </p-tabPanel>\r\n    </p-tabView>"
+            "templateData": "<div class=\"tabs-container\">\r\n  <p-tabView id=\"closableTabView\" [scrollable]=\"true\">\r\n    <p-tabPanel *ngFor=\"let tab of tabs\" [selected]=\"tab.selected\" [closable]=\"tab.isClosable\">\r\n        <!-- HEADER -->\r\n        <ng-template pTemplate=\"header\">\r\n            <div class=\"flex align-items-center gap-2\">\r\n                    {{tab.title}}\r\n            </div>\r\n        </ng-template>\r\n        <!-- Content  -->\r\n        <ng-template pTemplate=\"content\"> \r\n            {{tab.content}} \r\n        </ng-template>\r\n    </p-tabPanel>\r\n  </p-tabView>\r\n</div>\r\n"
         },
         {
             "name": "TooltipComponent",
@@ -757,13 +775,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-5af2fa6b2cea3894443811a9fd21f1300015b5dfa05c1e469f74574c8eacb3f2578a34268c50b463681377f1b1f463a5e4e22a711cbded5ac114fe4d3f51d672",
+            "id": "module-AppModule-587bb01bf19de91e969da2a313bd0b0390e1bc6c6f912a6a2bb1cea639a3189dd6fff6f1938cd2bf380e99a15557f1f2439f5a11a91008650f383db4e7690c82",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { BrowserModule } from '@angular/platform-browser';\r\nimport { AppComponent } from './app.component';\r\nimport { RustyViewComponent } from './modules/ui-elements/rusty-view/rusty-view.component';\r\nimport { TooltipComponent } from './modules/ui-elements/tooltip/tooltip.component';\r\n\r\n\r\n@NgModule({\r\n  declarations: [AppComponent],\r\n  imports: [\r\n    CommonModule,\r\n    BrowserModule,\r\n    RustyViewComponent\r\n  ],\r\n  providers: [],\r\n  bootstrap: [AppComponent]\r\n})\r\nexport class AppModule { }\r\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { BrowserModule } from '@angular/platform-browser';\r\nimport { AppComponent } from './app.component';\r\nimport { RustyViewComponent } from './modules/ui-elements/rusty-view/rusty-view.component';\r\n\r\n\r\n@NgModule({\r\n  declarations: [AppComponent],\r\n  imports: [\r\n    CommonModule,\r\n    BrowserModule,\r\n    RustyViewComponent,\r\n  ],\r\n  providers: [],\r\n  bootstrap: [AppComponent]\r\n})\r\nexport class AppModule { }\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -906,7 +924,7 @@
                 "linktype": "component",
                 "name": "TabsComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/1",
+                "coverageCount": "0/2",
                 "status": "low"
             },
             {
