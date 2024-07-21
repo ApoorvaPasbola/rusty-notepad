@@ -32,9 +32,9 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/primeng/resources/themes/lara-dark-blue/theme.css",
               "src/styles.scss",
-              "node_modules/primeflex/primeflex.css",
-              "node_modules/primeflex/themes/primeone-dark.css"
+              "node_modules/primeflex/primeflex.css"
             ]
           },
           "configurations": {

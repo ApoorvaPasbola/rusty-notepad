@@ -1,18 +1,28 @@
 @import 'primeflex/primeflex.scss';
+
 /* You can add global styles to this file, and also import other style files */
 :root {
-    // colors
-    --primary-dark-900: #212121;
-    --primary-dark-800: #424242;
-    // --workpad-background: var(--gray-700);
-    --workpad-background: var(--bluegray-900);
-    --workpad-background-elevated: var(--gray-800);
-
+    color-scheme: dark light;
+    // Background 
+    
+    // Dark Themes
+    --surface-dark-primary: #1e1e1e;
+    --surface-dark-secondary: #252526;
+    --surface-dark-tertiary: #333333;
+    
+    // Light themes 
+    --surface-light-primary: white;
+    
+    --workpad-background: light-dark(var(--surface-light-primary), var(--surface-dark-primary));
+    
     // Typography
     --workpad-font-family: "Courier New" ;
     // Color
-    --text-color-base: white;
+    --text-color-dark-base: white;
+    --text-color-light-base: black;
+
     --text-color-accent: wheat;
+
     //  Font - Weight
     --font-weight-primary: 200;
     --font-weight-secondary: 400;
@@ -30,22 +40,13 @@
 
     // line heights
     --workpad-line-height: 1.3;
-
-
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: var(--workpad-background);
 }
 
-.group {
-  @include styleclass('m-2');
-}
-.btn {
 
-  svg{
-    background-color: transparent;
-  }
-}
