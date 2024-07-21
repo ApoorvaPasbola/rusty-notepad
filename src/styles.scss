@@ -1,7 +1,7 @@
 @import "primeflex/primeflex.scss";
 @import "quill/dist/quill.core.css";
 @import "quill/dist/quill.snow.css";
-
+@import "primeicons/primeicons.css";
 
 /* You can add global styles to this file, and also import other style files */
 :root {
@@ -47,25 +47,34 @@
   // line heights
   --workpad-line-height: 1.3;
 
-.p-editor-container{
-  
-  .p-editor-toolbar.ql-toolbar.ql-snow{
-    border: none;
+  // Quill Editor Border CSS
+  .p-editor-container {
+    .p-editor-toolbar.ql-toolbar.ql-snow {
+      border: none;
+    }
+    .p-editor-content.ql-container.ql-snow {
+      border: none;
+    }
   }
-  .p-editor-content.ql-container.ql-snow{
-    border: none ;
+  // Tabs Padding CSS
+  .p-tabview .p-tabview-nav li {
+    width: max(100px, 5%);
+    .p-tabview-nav-link {
+      padding: 0 0.3rem 0.2rem 0.45rem;
+      font-weight: 200;
+      font-size: 1rem;
+    }
+    .p-element.p-icon-wrapper {
+      margin-left: auto;
+      padding-right: 2px;
+    }
+    timesicon > svg{
+      height: 9px;
+      width: 9px;
+    }
   }
   
 }
-
-}
-
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   background-color: var(--workpad-background) !important;
-}
-body {
-  height: 100%;
 }
