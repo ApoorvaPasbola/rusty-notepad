@@ -10,7 +10,7 @@ const preview: Preview = {
       values: [
         {
           name: 'dark',
-          value: 'var(--gray-700)',
+          value: 'var(--workpad-background)',
         },
         {
           name: 'light',
