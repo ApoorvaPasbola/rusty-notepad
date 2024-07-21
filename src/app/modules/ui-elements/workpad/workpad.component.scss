@@ -1,16 +1,4 @@
-  
-  .workpad {
-    width: auto;
-    color: light-dark(var(--text-color-light-base),var(--text-color-dark-base));
-    border: none;
-    resize: none;
-    overflow: hidden;
-    outline: none;
-    padding-left: var(--padding-s);
-  }
-
-/* CSS */
-.btn {
-  width: 10px;
-  height: 10px;
+.workpad {
+  color: light-dark(var(--text-color-light-base), var(--text-color-dark-base));
+  height: 400px;
 }

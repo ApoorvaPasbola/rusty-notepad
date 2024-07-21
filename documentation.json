@@ -7,139 +7,6 @@
     "classes": [],
     "directives": [
         {
-            "name": "ContentEditableModelDirective",
-            "id": "directive-ContentEditableModelDirective-98ad57eef386e4765f4a9c985b0e0d4d0233b7721ce2adbe28c1601c51b2f7152a3a47f6feab65755ea5d92a9730e826171f9783dcf9b5371f538ba5ecb10c15",
-            "file": "src/app/modules/directives/contentEditableModel/content-editable-model.directive.ts",
-            "type": "directive",
-            "description": "",
-            "rawdescription": "\n",
-            "sourceCode": "import { Directive, ElementRef, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';\r\n\r\n@Directive({\r\n  selector: '[contenteditableModel]',\r\n  standalone: true,\r\n  host: {\r\n    '(keyup)': 'onKeyup()'\r\n  }\r\n})\r\nexport class ContentEditableModelDirective {\r\n\r\n  @Input('contenteditableModel') model!: string;\r\n  @Output('contenteditableModelChange') update = new EventEmitter();\r\n  private lastViewModel!: string;\r\n  constructor(private elRef: ElementRef) {\r\n  }\r\n  ngOnChanges(changes: SimpleChanges) {\r\n    if (changes['model'] && changes['model'].currentValue !== this.lastViewModel) {\r\n      this.lastViewModel = this.model;\r\n      this.refreshView();\r\n    }\r\n  }\r\n\r\n  /** This should probably be debounced. */\r\n  onKeyup() {\r\n    var value = this.elRef.nativeElement.innerText;\r\n    this.lastViewModel = value;\r\n    this.update.emit(value);\r\n  }\r\n\r\n  private refreshView() {\r\n    this.elRef.nativeElement.innerText = this.model\r\n  }\r\n}\r\n",
-            "selector": "[contenteditableModel]",
-            "providers": [],
-            "hostDirectives": [],
-            "standalone": true,
-            "inputsClass": [
-                {
-                    "name": "contenteditableModel",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 12,
-                    "type": "string",
-                    "decorators": []
-                }
-            ],
-            "outputsClass": [
-                {
-                    "name": "contenteditableModelChange",
-                    "defaultValue": "new EventEmitter()",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 13,
-                    "type": "EventEmitter"
-                }
-            ],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "propertiesClass": [
-                {
-                    "name": "lastViewModel",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "string",
-                    "optional": false,
-                    "description": "",
-                    "line": 14,
-                    "modifierKind": [
-                        123
-                    ]
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "ngOnChanges",
-                    "args": [
-                        {
-                            "name": "changes",
-                            "type": "SimpleChanges",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 17,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "name": "changes",
-                            "type": "SimpleChanges",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "onKeyup",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 25,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nThis should probably be debounced.",
-                    "description": "<p>This should probably be debounced.</p>\n"
-                },
-                {
-                    "name": "refreshView",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 31,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "modifierKind": [
-                        123
-                    ]
-                }
-            ],
-            "extends": [],
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "args": [
-                    {
-                        "name": "elRef",
-                        "type": "ElementRef",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    }
-                ],
-                "line": 14,
-                "jsdoctags": [
-                    {
-                        "name": "elRef",
-                        "type": "ElementRef",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    }
-                ]
-            }
-        },
-        {
             "name": "ResizerDirective",
             "id": "directive-ResizerDirective-b877ff0d06c950f50e033ed334c499ae8f181705cb585691cefff27e9291e85011bdcd47038349412717f9535b355e4d9d3c99ff957d0eb1bd18766d63272b09",
             "file": "src/app/modules/directives/resizer/resizer.directive.ts",
@@ -639,7 +506,7 @@
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"layout\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-tabs></app-tabs>\r\n  <app-workpad [contentFromFile]=\"this.workfile\"></app-workpad>\r\n</div>\r\n"
+            "templateData": "<div class=\"layout\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <!-- <app-tabs></app-tabs> -->\r\n  <app-workpad [contentFromFile]=\"this.workfile\"></app-workpad>\r\n</div>\r\n"
         },
         {
             "name": "SplitterComponent",
@@ -793,7 +660,7 @@
         },
         {
             "name": "WorkpadComponent",
-            "id": "component-WorkpadComponent-63c80f0d71e0e325fb393b91d345fcf9657d55b744a2abb6ef2ca0a1082e356bf6539c900bd360458b8fdca203a4b7254343388149f9584a18aa3b6dc9060ff5",
+            "id": "component-WorkpadComponent-d717bf2566e8bad3bb904c29b5b4c81bbaca5194fdf88ca70fd5e56cd75dcac359ca7af31712dce0e3670788581ce16d95ddd54dc777695cd62aff430d9710de",
             "file": "src/app/modules/ui-elements/workpad/workpad.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -813,13 +680,23 @@
                     "name": "contentFromFile",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 29,
+                    "line": 14,
                     "type": "string | undefined",
                     "decorators": []
                 }
             ],
             "outputsClass": [],
             "propertiesClass": [
+                {
+                    "name": "showHeader",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
                 {
                     "name": "work",
                     "defaultValue": "''",
@@ -828,7 +705,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 31
+                    "line": 16
                 }
             ],
             "methodsClass": [
@@ -838,7 +715,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 32,
+                    "line": 19,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -854,29 +731,18 @@
                     "type": "module"
                 },
                 {
-                    "name": "FormsModule",
+                    "name": "EditorModule",
                     "type": "module"
                 },
                 {
-                    "name": "ResizerDirective",
-                    "type": "directive"
-                },
-                {
-                    "name": "NgFor"
-                },
-                {
-                    "name": "TooltipDirective",
-                    "type": "directive"
-                },
-                {
-                    "name": "ContentEditableModelDirective",
-                    "type": "directive"
+                    "name": "FormsModule",
+                    "type": "module"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\r\n  Component,\r\n  Input,\r\n  OnInit,\r\n} from '@angular/core';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\nimport { FormsModule } from '@angular/forms';\r\nimport { ResizerDirective } from '../../directives/resizer/resizer.directive';\r\nimport { TooltipDirective } from '../../directives/tooltip/tooltip.directive';\r\nimport { ContentEditableModelDirective } from '../../directives/contentEditableModel/content-editable-model.directive';\r\n\r\n@Component({\r\n  selector: 'app-workpad',\r\n  standalone: true,\r\n  imports: [\r\n    CommonModule,\r\n    FormsModule,\r\n    ResizerDirective,\r\n    NgFor,\r\n    TooltipDirective,\r\n    ContentEditableModelDirective\r\n  ],\r\n  templateUrl: './workpad.component.html',\r\n  styleUrl: './workpad.component.scss',\r\n})\r\nexport class WorkpadComponent implements OnInit {\r\n\r\n  @Input('contentFromFile')\r\n  contentFromFile: string | undefined;\r\n\r\n  work: string = '';\r\n  ngOnInit(): void {\r\n    if (this.contentFromFile) this.work = this.contentFromFile;\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { EditorModule } from 'primeng/editor';\r\nimport { FormsModule } from '@angular/forms';\r\n@Component({\r\n  selector: 'app-workpad',\r\n  standalone: true,\r\n  imports: [CommonModule, EditorModule, FormsModule],\r\n  templateUrl: './workpad.component.html',\r\n  styleUrl: './workpad.component.scss',\r\n})\r\nexport class WorkpadComponent implements OnInit {\r\n  @Input('contentFromFile')\r\n  contentFromFile: string | undefined;\r\n\r\n  work: string = '';\r\n  \r\n  showHeader: boolean = false;\r\n  ngOnInit(): void {\r\n    if(this.contentFromFile)\r\n      this.work = this.contentFromFile;\r\n  }\r\n}\r\n",
             "styleUrl": "./workpad.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -885,7 +751,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div [(contenteditableModel)]=\"work\" #editor [tooltip]=\"'This is tooltip'\"  workpadResizer class=\"workpad\" id=\"editor\" contenteditable=\"true\"></div>\r\n\r\n"
+            "templateData": "<!-- <div [(contenteditableModel)]=\"work\" #editor [tooltip]=\"'This is tooltip'\"  workpadResizer class=\"workpad\" id=\"editor\" contenteditable=\"true\"></div> -->\r\n\r\n<p-editor [(ngModel)]=\"work\" class=\"workpad\">\r\n    <ng-template  pTemplate=\"header\">\r\n        <span *ngIf=\"showHeader\" class=\"ql-formats\">\r\n            <button type=\"button\" class=\"ql-bold\" aria-label=\"Bold\"></button>\r\n            <button type=\"button\" class=\"ql-italic\" aria-label=\"Italic\"></button>\r\n            <button type=\"button\" class=\"ql-underline\" aria-label=\"Underline\"></button>\r\n        </span>\r\n    </ng-template>\r\n</p-editor>"
         }
     ],
     "modules": [
@@ -977,7 +843,7 @@
     "miscellaneous": [],
     "routes": [],
     "coverage": {
-        "count": 1,
+        "count": 0,
         "status": "low",
         "files": [
             {
@@ -987,15 +853,6 @@
                 "name": "AppComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/modules/directives/contentEditableModel/content-editable-model.directive.ts",
-                "type": "directive",
-                "linktype": "directive",
-                "name": "ContentEditableModelDirective",
-                "coveragePercent": 12,
-                "coverageCount": "1/8",
                 "status": "low"
             },
             {
@@ -1067,7 +924,7 @@
                 "linktype": "component",
                 "name": "WorkpadComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             }
         ]
