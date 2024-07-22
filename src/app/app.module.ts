@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { RustyViewComponent } from './modules/ui-elements/rusty-view/rusty-view.component';
-import { TooltipComponent } from './modules/ui-elements/tooltip/tooltip.component';
 
 
 @NgModule({
@@ -11,7 +10,7 @@ import { TooltipComponent } from './modules/ui-elements/tooltip/tooltip.componen
   imports: [
     CommonModule,
     BrowserModule,
-    RustyViewComponent
+    RustyViewComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

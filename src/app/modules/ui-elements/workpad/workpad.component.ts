@@ -1,36 +1,28 @@
-import {
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { EditorModule } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
-import { ResizerDirective } from '../../directives/resizer/resizer.directive';
-import { TooltipDirective } from '../../directives/tooltip/tooltip.directive';
-import { ContentEditableModelDirective } from '../../directives/contentEditableModel/content-editable-model.directive';
-
 @Component({
   selector: 'app-workpad',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ResizerDirective,
-    NgFor,
-    TooltipDirective,
-    ContentEditableModelDirective
-  ],
+  imports: [CommonModule, EditorModule, FormsModule],
   templateUrl: './workpad.component.html',
   styleUrl: './workpad.component.scss',
 })
 export class WorkpadComponent implements OnInit {
+  /**
+   * Takes input string from tabs . Which reads data from the file
+   */
+  @Input('contentFromFile') contentFromFile: string | undefined;
 
-  @Input('contentFromFile')
-  contentFromFile: string | undefined;
-
+  /**
+   * Current draft work in progress 
+   */
   work: string = '';
+  
+  showHeader: boolean = true;
   ngOnInit(): void {
-    if (this.contentFromFile) this.work = this.contentFromFile;
+    if(this.contentFromFile)
+      this.work = this.contentFromFile;
   }
-
 }

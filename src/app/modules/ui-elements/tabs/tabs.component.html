@@ -1,1 +1,16 @@
-<app-horizontal-bar>Tabs Content</app-horizontal-bar>
+<div class="tabs-container">
+  <p-tabView id="closableTabView" [scrollable]="true">
+    <p-tabPanel *ngFor="let tab of tabs" [selected]="tab.selected" [closable]="tab.isClosable">
+        <!-- HEADER -->
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+                    {{tab.title}}
+            </div>
+        </ng-template>
+        <!-- Content  -->
+        <ng-template pTemplate="content"> 
+          <app-workpad [contentFromFile]="tab.content"></app-workpad>
+        </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+</div>
