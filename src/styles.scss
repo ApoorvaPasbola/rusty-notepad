@@ -50,7 +50,7 @@
   // Quill Editor CSS
   // Border
   .p-editor-container {
-    
+
     .p-editor-toolbar.ql-toolbar.ql-snow {
       border: none;
       padding: 0;
@@ -62,19 +62,19 @@
       padding: var(--padding-xs);
     }
   }
-  
-  // Paddings 
+
+  // Paddings
   div.p-tabview-panels {
-    padding: var(--padding-s) 0;
+    padding: var(--padding-xs) 0;
   }
-  
+
   // Tabs Padding CSS
   .p-tabview .p-tabview-nav li {
     width: max(100px, 5%);
     .p-tabview-nav-link {
-      padding: 0 0.3rem 0.2rem 0.45rem;
-      font-weight: 200;
-      font-size: 1rem;
+      padding: 0 var(--padding-xs) var(--padding-xs) var(--padding-s);
+      font-weight: 300;
+      font-size: 11px;
     }
     .p-element.p-icon-wrapper {
       margin-left: auto;
@@ -85,8 +85,12 @@
       width: 9px;
     }
   }
-  
+
 }
 * {
+  body {
+     margin: 2px;
+  }
+
   background-color: var(--workpad-background) !important;
 }
