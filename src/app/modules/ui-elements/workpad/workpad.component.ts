@@ -20,7 +20,7 @@ export class WorkpadComponent implements OnInit {
    */
   work: string = '';
   
-  showHeader: boolean = true;
+  showHeader: boolean = false;
   ngOnInit(): void {
     if(this.contentFromFile)
       this.work = this.contentFromFile;

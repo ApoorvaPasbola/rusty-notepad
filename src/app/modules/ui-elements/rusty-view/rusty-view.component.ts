@@ -10,6 +10,7 @@ import { WorkpadComponent } from '../workpad/workpad.component';
   imports: [TabsComponent, WorkpadComponent]
 })
 export class RustyViewComponent {
+
 workfile: string = "This is some default work from an file";
 
 }

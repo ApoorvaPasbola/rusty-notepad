@@ -72,9 +72,9 @@
   .p-tabview .p-tabview-nav li {
     width: max(100px, 5%);
     .p-tabview-nav-link {
-      padding: 0 var(--padding-xs) var(--padding-xs) var(--padding-s);
-      font-weight: 300;
-      font-size: 11px;
+      padding: 0 var(--padding-xs) var(--padding-xs) var(--padding-xs);
+      font-weight: 200;
+      font-size: 12px;
     }
     .p-element.p-icon-wrapper {
       margin-left: auto;
@@ -89,7 +89,7 @@
 }
 * {
   body {
-     margin: 2px;
+     margin: var(--padding-xs);
   }
 
   background-color: var(--workpad-background) !important;
