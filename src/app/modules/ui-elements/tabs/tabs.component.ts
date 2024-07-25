@@ -65,19 +65,15 @@ export class TabsComponent {
 
 
   /**
-   * Close Tab on control + W  
+   * New Tab on Ctrl + N 
    */
   @HostListener("document:keydown.control.N")
   newTab() {
     var newTab = NEW_TAB_DEFAULT
-    newTab.id = this.tabs.length + 1
+    newTab.id = this.tabs.length
     this.tabs.push(newTab)
     this.tabs[this.activeIndex].selected = false 
     this.activeIndex = newTab.id ;
   }
 
-  @HostListener("document:keydown.E")
-  log(){
-    console.log("Current tab is ", this.activeIndex);
-  }
 }
