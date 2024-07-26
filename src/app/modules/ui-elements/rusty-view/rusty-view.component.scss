@@ -1,0 +1,11 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    app-tabs {
+        flex-basis: 32px;
+        flex-grow: 0;
+    }
+    app-workpad {
+        flex-grow: 1;
+    }
+}

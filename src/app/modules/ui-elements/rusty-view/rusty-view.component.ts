@@ -8,7 +8,7 @@ import { Tab } from '../../utilities/interfaces/Tab';
   templateUrl: './rusty-view.component.html',
   styleUrl: './rusty-view.component.scss',
   standalone: true,
-  imports: [TabsComponent, WorkpadComponent,]
+  imports: [TabsComponent, WorkpadComponent]
 })
 export class RustyViewComponent {
 

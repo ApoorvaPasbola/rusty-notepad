@@ -50,16 +50,16 @@
   // Quill Editor CSS
   // Border
   .p-editor-container {
-
+    height: 100%;
     .p-editor-toolbar.ql-toolbar.ql-snow {
       border: none;
       padding: 0;
     }
     .p-editor-content.ql-container.ql-snow {
       border: none;
-    }
-    .ql-editor{
-      padding: var(--padding-xs);
+      .ql-editor {
+        padding: var(--padding-xs);
+      }
     }
   }
 
@@ -80,16 +80,16 @@
       margin-left: auto;
       padding-right: 2px;
     }
-    timesicon > svg{
+    timesicon > svg {
       height: 9px;
       width: 9px;
     }
   }
-
 }
 * {
   body {
-     margin: var(--padding-xs);
+    height: calc(100dvh - 0.5rem);
+    margin: var(--padding-xs);
   }
 
   background-color: var(--workpad-background) !important;
