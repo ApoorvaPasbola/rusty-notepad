@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditorModule } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
@@ -9,20 +15,23 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './workpad.component.html',
   styleUrl: './workpad.component.scss',
 })
-export class WorkpadComponent implements OnInit {
+export class WorkpadComponent implements OnInit, OnChanges {
   /**
    * Takes input string from tabs . Which reads data from the file
    */
   @Input('contentFromFile') contentFromFile: string | undefined;
 
   /**
-   * Current draft work in progress 
+   * Current draft work in progress
    */
   work: string = '';
-  
-  showHeader: boolean = true;
+
+  showHeader: boolean = false;
+
   ngOnInit(): void {
-    if(this.contentFromFile)
-      this.work = this.contentFromFile;
+    if (this.contentFromFile) this.work = this.contentFromFile;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.work = changes['contentFromFile'].currentValue;
   }
 }

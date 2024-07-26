@@ -1,5 +1,5 @@
-<div class="layout">
+<div class="layout h-full">
   <!--  Add a Folders option on left side  -->
-  <app-tabs></app-tabs>
-  
+  <app-tabs (activeTabChangeEvent)="updateWorkpad($event)"  [tabs]="dummyData"></app-tabs>
+  <app-workpad [contentFromFile]="workfile"></app-workpad>
 </div>
