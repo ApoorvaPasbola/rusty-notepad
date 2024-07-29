@@ -90,7 +90,11 @@
   body {
     height: calc(100dvh - 0.5rem);
     margin: var(--padding-xs);
+    background-color: var(--workpad-background);
   }
-
-  background-color: var(--workpad-background) !important;
 }
+// Custom Background per component
+.p-splitter, .p-tabview  * , .p-editor-content * {
+    background-color: var(--workpad-background) !important;
+}
+
