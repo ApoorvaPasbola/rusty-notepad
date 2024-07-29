@@ -1,1 +1,16 @@
-<p>splitter works!</p>
+<p-splitter
+    [panelSizes]="[25, 75]"
+    [minSizes]="[1, 20]"
+    [style]="{ border: 'none', height: '100%' }"
+    styleClass="mb-5">
+    <ng-template pTemplate>
+        <div >
+           <ng-content ></ng-content>
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <div [style]="{padding:'var(--padding-xs)'}" class="col ">
+           <ng-content select="[panel2]"></ng-content>
+        </div>
+    </ng-template>
+</p-splitter>

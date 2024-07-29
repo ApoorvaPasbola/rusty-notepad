@@ -11,7 +11,7 @@ const meta: Meta<SplitterComponent> = {
     props: {
       ...args,
     },
-    template: `<app-splitter ${argsToTemplate(args)} ></app-splitter>`,
+    template: `<app-splitter [style]="{ height: '500px' }"></app-splitter>`,
   }),
 
 };
@@ -21,5 +21,15 @@ type Story = StoryObj<SplitterComponent>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Basic: Story = {
-
 };
+
+export const WithComponents: Story = {
+  render: (args: SplitterComponent) =>({
+    template: `
+      <app-splitter [style]="{ height: '500px' }">
+      <div >Pane1</div>
+      <div panel2>Pane2</div>
+      </app-splitter>
+    `
+  })
+}

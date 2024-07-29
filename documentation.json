@@ -1,11 +1,134 @@
 {
     "pipes": [],
-    "interfaces": [],
+    "interfaces": [
+        {
+            "name": "Tab",
+            "id": "interface-Tab-13e7ffda712bbebb76e1f96901fac886c27ede00fa440da153f1c6bbdacdf95f61385bd25c532f475af1b2017852ebf439ca81835e44cdb6fe48b7c1ffbadf4d",
+            "file": "src/app/modules/utilities/interfaces/Tab.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface Tab{\r\n  id: number;\r\n  content: string;\r\n  title: string;\r\n  isClosable: boolean;\r\n  selected: boolean;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "content",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 3
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                },
+                {
+                    "name": "isClosable",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "selected",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "title",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": []
+        }
+    ],
     "injectables": [],
     "guards": [],
     "interceptors": [],
     "classes": [],
     "directives": [
+        {
+            "name": "AutofocusDirective",
+            "id": "directive-AutofocusDirective-91c33ec0a93f41a88fe1ac3e953b558462a71c24e0d1c7adffdc8b408b853a9cc2323236ece4c93d0290523e653b14e7c4b4fe3eef93c3e16a2cea45f129c963",
+            "file": "src/app/modules/directives/autofocus/autofocus.directive.ts",
+            "type": "directive",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { AfterViewInit, Directive, ElementRef } from '@angular/core';\r\n\r\n@Directive({\r\n  selector: '[rustyAutofocus]',\r\n  standalone: true,\r\n})\r\nexport class AutofocusDirective implements AfterViewInit {\r\n  constructor(private elementRef: ElementRef) {}\r\n\r\n  ngAfterViewInit() {    \r\n    this.elementRef.nativeElement.focus();\r\n  }\r\n}\r\n",
+            "selector": "[rustyAutofocus]",
+            "providers": [],
+            "hostDirectives": [],
+            "standalone": true,
+            "inputsClass": [],
+            "outputsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngAfterViewInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 10,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "extends": [],
+            "implements": [
+                "AfterViewInit"
+            ],
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "elementRef",
+                        "type": "ElementRef",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 7,
+                "jsdoctags": [
+                    {
+                        "name": "elementRef",
+                        "type": "ElementRef",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        },
         {
             "name": "ResizerDirective",
             "id": "directive-ResizerDirective-b877ff0d06c950f50e033ed334c499ae8f181705cb585691cefff27e9291e85011bdcd47038349412717f9535b355e4d9d3c99ff957d0eb1bd18766d63272b09",
@@ -410,7 +533,7 @@
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<app-rusty-view #workpad></app-rusty-view>\r\n"
+            "templateData": "<app-rusty-view ></app-rusty-view>\r\n"
         },
         {
             "name": "HorizontalBarComponent",
@@ -452,7 +575,7 @@
         },
         {
             "name": "RustyViewComponent",
-            "id": "component-RustyViewComponent-b20b38779abd5666ac95ad16ecd55b920d6b4adb0570224c1c12fea798ddee027021ae3dbf161f6cfdce1edfc6b8de2d122f4a867a275886e8fd2df8ef1facec",
+            "id": "component-RustyViewComponent-87dea3a586807faaaf7e6e148425336d775b50b58947dc54d092a1df344f3777f2dfede98b9a415666106de9408073937c9a1d7624df9546068d2e971ec67378",
             "file": "src/app/modules/ui-elements/rusty-view/rusty-view.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -471,6 +594,16 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
+                    "name": "dummyData",
+                    "defaultValue": "[\r\n  {\r\n    id: 1,\r\n    selected: true,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 1',\r\n  },\r\n  {\r\n    id: 2,\r\n    selected: false,\r\n    isClosable: true,\r\n    content: 'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 2',\r\n  },\r\n  {\r\n    id: 3,\r\n    selected: false,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n    title: 'Tab 3',\r\n  },\r\n]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Tab[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 17
+                },
+                {
                     "name": "workfile",
                     "defaultValue": "\"This is some default work from an file\"",
                     "deprecated": false,
@@ -478,10 +611,39 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 49
                 }
             ],
-            "methodsClass": [],
+            "methodsClass": [
+                {
+                    "name": "updateWorkpad",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "Tab",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 51,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "Tab",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
@@ -495,22 +657,26 @@
                 {
                     "name": "WorkpadComponent",
                     "type": "component"
+                },
+                {
+                    "name": "SplitterComponent",
+                    "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabsComponent } from \"../tabs/tabs.component\";\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\n\r\n@Component({\r\n  selector: 'app-rusty-view',\r\n  templateUrl: './rusty-view.component.html',\r\n  styleUrl: './rusty-view.component.scss',\r\n  standalone: true,\r\n  imports: [TabsComponent, WorkpadComponent]\r\n})\r\nexport class RustyViewComponent {\r\nworkfile: string = \"This is some default work from an file\";\r\n\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabsComponent } from \"../tabs/tabs.component\";\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { SplitterComponent } from \"../splitter/splitter.component\";\r\n\r\n@Component({\r\n  selector: 'app-rusty-view',\r\n  templateUrl: './rusty-view.component.html',\r\n  styleUrl: './rusty-view.component.scss',\r\n  standalone: true,\r\n  imports: [TabsComponent, WorkpadComponent, SplitterComponent]\r\n})\r\nexport class RustyViewComponent {\r\n\r\n\r\ndummyData: Tab[] =  [\r\n  {\r\n    id: 1,\r\n    selected: true,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 1',\r\n  },\r\n  {\r\n    id: 2,\r\n    selected: false,\r\n    isClosable: true,\r\n    content: 'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 2',\r\n  },\r\n  {\r\n    id: 3,\r\n    selected: false,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n    title: 'Tab 3',\r\n  },\r\n];\r\n\r\nworkfile: string = \"This is some default work from an file\";\r\n\r\nupdateWorkpad(event: Tab) {\r\n  this.workfile = event.content;\r\n}\r\n\r\n}\r\n",
             "styleUrl": "./rusty-view.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"layout\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-tabs></app-tabs>\r\n  <!-- <app-workpad [contentFromFile]=\"this.workfile\"></app-workpad> -->\r\n</div>\r\n"
+            "templateData": "<div class=\"layout h-full\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-splitter class=\"h-full\">\r\n    <!-- <div pane-2></div> -->\r\n    <app-tabs panel2 (activeTabChangeEvent)=\"updateWorkpad($event)\"  [tabs]=\"dummyData\"></app-tabs>\r\n    <app-workpad panel2 [contentFromFile]=\"workfile\"></app-workpad>\r\n\r\n  </app-splitter>\r\n</div>\r\n"
         },
         {
             "name": "SplitterComponent",
-            "id": "component-SplitterComponent-e8fdf43e8f49b2a01fb5d0386c99294f586ef0fb3828a65c099ad82e3ae1e155f74d4a5a2e83703a42bed9716de96438a452937551836a546ff3f452165659c8",
+            "id": "component-SplitterComponent-221be0fca16fa2221fe4135779960f588de9a5c8a805b098a7580af51fc8862d6ba250cdf9d1b585419f3bb5476d66a451d8000c92f3cf01b7ea4d3a383f2a7e",
             "file": "src/app/modules/ui-elements/splitter/splitter.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -534,21 +700,26 @@
             "hostBindings": [],
             "hostListeners": [],
             "standalone": true,
-            "imports": [],
+            "imports": [
+                {
+                    "name": "SplitterModule",
+                    "type": "module"
+                }
+            ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-splitter',\r\n  templateUrl: './splitter.component.html',\r\n  styleUrl: './splitter.component.scss',\r\n  standalone: true,\r\n  imports: []\r\n})\r\nexport class SplitterComponent {\r\n\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { SplitterModule } from 'primeng/splitter';\r\n@Component({\r\n  selector: 'app-splitter',\r\n  templateUrl: './splitter.component.html',\r\n  styleUrl: './splitter.component.scss',\r\n  standalone: true,\r\n  imports: [SplitterModule]\r\n})\r\nexport class SplitterComponent {\r\n}\r\n",
             "styleUrl": "./splitter.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<p>splitter works!</p>\r\n"
+            "templateData": "<p-splitter\r\n    [panelSizes]=\"[25, 75]\"\r\n    [minSizes]=\"[1, 20]\"\r\n    [style]=\"{ border: 'none', height: '100%' }\"\r\n    styleClass=\"mb-5\">\r\n    <ng-template pTemplate>\r\n        <div >\r\n           <ng-content ></ng-content>\r\n        </div>\r\n    </ng-template>\r\n    <ng-template pTemplate>\r\n        <div [style]=\"{padding:'var(--padding-xs)'}\" class=\"col \">\r\n           <ng-content select=\"[panel2]\"></ng-content>\r\n        </div>\r\n    </ng-template>\r\n</p-splitter>\r\n"
         },
         {
             "name": "TabsComponent",
-            "id": "component-TabsComponent-374ae8ec49560ef73f110079d708ad5d630d0adc17df99816c1ffbefd4b8fdc9640ca676099416d893a416edc1abc86b551028ef0a773ca9e64394c1ae322ae1",
+            "id": "component-TabsComponent-120421792d6be4991edac0ea25be1bf73a248e58af40cce050aa026aed630de100c9daf864d2029ea05dae5d57b31777a2d4499e1f4512e19ccaaa7dbe2f21a8",
             "file": "src/app/modules/ui-elements/tabs/tabs.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -563,25 +734,133 @@
             ],
             "viewProviders": [],
             "hostDirectives": [],
-            "inputsClass": [],
-            "outputsClass": [],
-            "propertiesClass": [
+            "inputsClass": [
                 {
                     "name": "tabs",
-                    "defaultValue": "[\r\n    {\r\n      id: 1,\r\n      selected: true,\r\n      isClosable:true,\r\n      content:\r\n        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n      title: 'Tab 1',\r\n    },\r\n    {\r\n      id: 2,\r\n      selected: false,\r\n      isClosable:true,\r\n      content:'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n      title: 'Tab 2',\r\n    },\r\n    {\r\n      id: 3,\r\n      selected: false,\r\n      isClosable:true,\r\n      content:\r\n        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n      title: 'Tab 3',\r\n    },\r\n  ]",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "literal type[]",
-                    "optional": false,
-                    "description": "",
-                    "line": 12
+                    "rawdescription": "\n\nThis takes a list of tabs from the service which reads all the files\n",
+                    "description": "<p>This takes a list of tabs from the service which reads all the files</p>\n",
+                    "line": 27,
+                    "type": "Tab[]",
+                    "decorators": []
                 }
             ],
-            "methodsClass": [],
+            "outputsClass": [
+                {
+                    "name": "activeTabChangeEvent",
+                    "defaultValue": "new  EventEmitter<Tab>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 17,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "activeIndex",
+                    "defaultValue": "0",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "<p>This is use to toggle active tab on Ctrl + Tab event</p>\n",
+                    "line": 22,
+                    "rawdescription": "\n\nThis is use to toggle active tab on Ctrl + Tab event\n",
+                    "modifierKind": [
+                        125
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "changeTab",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 39,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
+                    "description": "<p>Switch to next Tab on control + tab event</p>\n",
+                    "decorators": [
+                        {
+                            "name": "HostListener",
+                            "stringifiedArguments": "'document:keydown.control.tab'"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
+                },
+                {
+                    "name": "newTab",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 48,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nNew Tab on Ctrl + N\n",
+                    "description": "<p>New Tab on Ctrl + N</p>\n",
+                    "decorators": [
+                        {
+                            "name": "HostListener",
+                            "stringifiedArguments": "'document:keydown.control.N'"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 29,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "triggerTabChangeEvent",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 56,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
-            "hostListeners": [],
+            "hostListeners": [
+                {
+                    "name": "document:keydown.control.N",
+                    "args": [],
+                    "argsDecorator": [],
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nNew Tab on Ctrl + N\n",
+                    "description": "<p>New Tab on Ctrl + N</p>\n",
+                    "line": 48
+                },
+                {
+                    "name": "document:keydown.control.tab",
+                    "args": [],
+                    "argsDecorator": [],
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
+                    "description": "<p>Switch to next Tab on control + tab event</p>\n",
+                    "line": 39
+                }
+            ],
             "standalone": true,
             "imports": [
                 {
@@ -593,19 +872,26 @@
                     "type": "module"
                 },
                 {
+                    "name": "WorkpadComponent",
+                    "type": "component"
+                },
+                {
                     "name": "NgFor"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule,TabViewModule, NgFor],\r\n})\r\nexport class TabsComponent {\r\n  tabs: { id: number; content: string; title: string, isClosable:boolean,selected:boolean }[] = [\r\n    {\r\n      id: 1,\r\n      selected: true,\r\n      isClosable:true,\r\n      content:\r\n        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n      title: 'Tab 1',\r\n    },\r\n    {\r\n      id: 2,\r\n      selected: false,\r\n      isClosable:true,\r\n      content:'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n      title: 'Tab 2',\r\n    },\r\n    {\r\n      id: 3,\r\n      selected: false,\r\n      isClosable:true,\r\n      content:\r\n        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n      title: 'Tab 3',\r\n    },\r\n  ];\r\n}\r\n",
+            "sourceCode": "import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';\r\nimport { TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor} from '@angular/common';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { NEW_TAB_DEFAULT } from '../../utilities/Constants';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],\r\n})\r\nexport class TabsComponent implements OnInit {\r\n\r\n\r\n  @Output() activeTabChangeEvent = new  EventEmitter<Tab>();\r\n\r\n  /**\r\n   * This is use to toggle active tab on Ctrl + Tab event \r\n   */\r\n  public activeIndex: number = 0;\r\n\r\n  /**\r\n   * This takes a list of tabs from the service which reads all the files \r\n   */\r\n  @Input(\"tabs\") tabs!: Tab[] \r\n\r\n  ngOnInit(): void {\r\n    console.log(\"Current value of tabs is \", this.tabs);\r\n    \r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * Switch to next Tab on control + tab event \r\n   */\r\n  @HostListener(\"document:keydown.control.tab\")\r\n  changeTab() {\r\n    this.activeIndex = (this.activeIndex + 1) % this.tabs.length;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * New Tab on Ctrl + N \r\n   */\r\n  @HostListener(\"document:keydown.control.N\")\r\n  newTab() {\r\n    let newTab: Tab = {...NEW_TAB_DEFAULT , id: this.tabs.length }\r\n    this.tabs.push(newTab)\r\n    this.tabs[this.activeIndex].selected = false \r\n    this.activeIndex = newTab.id ;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  triggerTabChangeEvent(){\r\n    if(this.tabs?.length)\r\n      this.activeTabChangeEvent.emit(this.tabs[this.activeIndex]);\r\n  }\r\n\r\n}\r\n",
             "styleUrl": "./tabs.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"tabs-container\">\r\n  <p-tabView id=\"closableTabView\" [scrollable]=\"true\">\r\n    <p-tabPanel *ngFor=\"let tab of tabs\" [selected]=\"tab.selected\" [closable]=\"tab.isClosable\">\r\n        <!-- HEADER -->\r\n        <ng-template pTemplate=\"header\">\r\n            <div class=\"flex align-items-center gap-2\">\r\n                    {{tab.title}}\r\n            </div>\r\n        </ng-template>\r\n        <!-- Content  -->\r\n        <ng-template pTemplate=\"content\"> \r\n            {{tab.content}} \r\n        </ng-template>\r\n    </p-tabPanel>\r\n  </p-tabView>\r\n</div>\r\n"
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div  class=\"tabs-container\">\r\n  <p-tabView  [(activeIndex)]=\"activeIndex\" id=\"closableTabView\" [scrollable]=\"true\">\r\n    <p-tabPanel  *ngFor=\"let tab of tabs\" [selected]=\"tab.selected\" [closable]=\"tab.isClosable\">\r\n        <!-- HEADER -->\r\n        <ng-template  pTemplate=\"header\">\r\n            <div  class=\"flex align-items-center gap-2\">\r\n                    {{tab.title}}\r\n            </div>\r\n        </ng-template>\r\n        <!-- Content  -->\r\n    </p-tabPanel>\r\n  </p-tabView>\r\n</div>\r\n"
         },
         {
             "name": "TooltipComponent",
@@ -678,7 +964,7 @@
         },
         {
             "name": "WorkpadComponent",
-            "id": "component-WorkpadComponent-d717bf2566e8bad3bb904c29b5b4c81bbaca5194fdf88ca70fd5e56cd75dcac359ca7af31712dce0e3670788581ce16d95ddd54dc777695cd62aff430d9710de",
+            "id": "component-WorkpadComponent-381fceede8a91eda3374390b0e960a9bf5a998aab2efef06d7862d45eab6eaff85c721f1a4a94d05ad746c10dd10cf1d802d732b4bf4b776abff691c5a258e41",
             "file": "src/app/modules/ui-elements/workpad/workpad.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -698,7 +984,9 @@
                     "name": "contentFromFile",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 14,
+                    "rawdescription": "\n\nTakes input string from tabs . Which reads data from the file\n",
+                    "description": "<p>Takes input string from tabs . Which reads data from the file</p>\n",
+                    "line": 22,
                     "type": "string | undefined",
                     "decorators": []
                 }
@@ -713,7 +1001,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 18
+                    "line": 29
                 },
                 {
                     "name": "work",
@@ -722,18 +1010,47 @@
                     "deprecationMessage": "",
                     "type": "string",
                     "optional": false,
-                    "description": "",
-                    "line": 16
+                    "description": "<p>Current draft work in progress</p>\n",
+                    "line": 27,
+                    "rawdescription": "\n\nCurrent draft work in progress\n"
                 }
             ],
             "methodsClass": [
+                {
+                    "name": "ngOnChanges",
+                    "args": [
+                        {
+                            "name": "changes",
+                            "type": "SimpleChanges",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 34,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "changes",
+                            "type": "SimpleChanges",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
                 {
                     "name": "ngOnInit",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 19,
+                    "line": 31,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -760,16 +1077,17 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { EditorModule } from 'primeng/editor';\r\nimport { FormsModule } from '@angular/forms';\r\n@Component({\r\n  selector: 'app-workpad',\r\n  standalone: true,\r\n  imports: [CommonModule, EditorModule, FormsModule],\r\n  templateUrl: './workpad.component.html',\r\n  styleUrl: './workpad.component.scss',\r\n})\r\nexport class WorkpadComponent implements OnInit {\r\n  @Input('contentFromFile')\r\n  contentFromFile: string | undefined;\r\n\r\n  work: string = '';\r\n  \r\n  showHeader: boolean = false;\r\n  ngOnInit(): void {\r\n    if(this.contentFromFile)\r\n      this.work = this.contentFromFile;\r\n  }\r\n}\r\n",
+            "sourceCode": "import {\r\n  Component,\r\n  Input,\r\n  OnChanges,\r\n  OnInit,\r\n  SimpleChanges,\r\n} from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { EditorModule } from 'primeng/editor';\r\nimport { FormsModule } from '@angular/forms';\r\n@Component({\r\n  selector: 'app-workpad',\r\n  standalone: true,\r\n  imports: [CommonModule, EditorModule, FormsModule],\r\n  templateUrl: './workpad.component.html',\r\n  styleUrl: './workpad.component.scss',\r\n})\r\nexport class WorkpadComponent implements OnInit, OnChanges {\r\n  /**\r\n   * Takes input string from tabs . Which reads data from the file\r\n   */\r\n  @Input('contentFromFile') contentFromFile: string | undefined;\r\n\r\n  /**\r\n   * Current draft work in progress\r\n   */\r\n  work: string = '';\r\n\r\n  showHeader: boolean = false;\r\n\r\n  ngOnInit(): void {\r\n    if (this.contentFromFile) this.work = this.contentFromFile;\r\n  }\r\n  ngOnChanges(changes: SimpleChanges): void {\r\n    this.work = changes['contentFromFile'].currentValue;\r\n  }\r\n}\r\n",
             "styleUrl": "./workpad.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
             "implements": [
-                "OnInit"
+                "OnInit",
+                "OnChanges"
             ],
-            "templateData": "<!-- <div [(contenteditableModel)]=\"work\" #editor [tooltip]=\"'This is tooltip'\"  workpadResizer class=\"workpad\" id=\"editor\" contenteditable=\"true\"></div> -->\r\n\r\n<p-editor [(ngModel)]=\"work\" class=\"workpad\">\r\n    <ng-template  pTemplate=\"header\">\r\n        <span *ngIf=\"showHeader\" class=\"ql-formats\">\r\n            <button type=\"button\" class=\"ql-bold\" aria-label=\"Bold\"></button>\r\n            <button type=\"button\" class=\"ql-italic\" aria-label=\"Italic\"></button>\r\n            <button type=\"button\" class=\"ql-underline\" aria-label=\"Underline\"></button>\r\n        </span>\r\n    </ng-template>\r\n</p-editor>"
+            "templateData": "<p-editor [(ngModel)]=\"work\" class=\"workpad\">\r\n    <ng-template  pTemplate=\"header\">\r\n        <span *ngIf=\"showHeader\" class=\"ql-formats\">\r\n            <button type=\"button\" class=\"ql-bold\" aria-label=\"Bold\"></button>\r\n            <button type=\"button\" class=\"ql-italic\" aria-label=\"Italic\"></button>\r\n            <button type=\"button\" class=\"ql-underline\" aria-label=\"Underline\"></button>\r\n        </span>\r\n    </ng-template>\r\n</p-editor>"
         }
     ],
     "modules": [
@@ -858,10 +1176,43 @@
             ]
         }
     ],
-    "miscellaneous": [],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "NEW_TAB_DEFAULT",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/utilities/Constants.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Tab",
+                "defaultValue": "{\r\ncontent : \"Happy Taking notes\",\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\"\r\n}"
+            }
+        ],
+        "functions": [],
+        "typealiases": [],
+        "enumerations": [],
+        "groupedVariables": {
+            "src/app/modules/utilities/Constants.ts": [
+                {
+                    "name": "NEW_TAB_DEFAULT",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/utilities/Constants.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Tab",
+                    "defaultValue": "{\r\ncontent : \"Happy Taking notes\",\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\"\r\n}"
+                }
+            ]
+        },
+        "groupedFunctions": {},
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {}
+    },
     "routes": [],
     "coverage": {
-        "count": 0,
+        "count": 7,
         "status": "low",
         "files": [
             {
@@ -869,6 +1220,15 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "AppComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/directives/autofocus/autofocus.directive.ts",
+                "type": "directive",
+                "linktype": "directive",
+                "name": "AutofocusDirective",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
                 "status": "low"
@@ -906,7 +1266,7 @@
                 "linktype": "component",
                 "name": "RustyViewComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/2",
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {
@@ -923,9 +1283,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "TabsComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/2",
-                "status": "low"
+                "coveragePercent": 60,
+                "coverageCount": "6/10",
+                "status": "good"
             },
             {
                 "filePath": "src/app/modules/ui-elements/tooltip/tooltip.component.ts",
@@ -941,8 +1301,27 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "WorkpadComponent",
+                "coveragePercent": 33,
+                "coverageCount": "2/6",
+                "status": "medium"
+            },
+            {
+                "filePath": "src/app/modules/utilities/Constants.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "NEW_TAB_DEFAULT",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/utilities/interfaces/Tab.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Tab",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
                 "status": "low"
             }
         ]

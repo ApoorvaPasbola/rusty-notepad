@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { TabsComponent } from "../tabs/tabs.component";
 import { WorkpadComponent } from '../workpad/workpad.component';
 import { Tab } from '../../utilities/interfaces/Tab';
+import { SplitterComponent } from "../splitter/splitter.component";
 
 @Component({
   selector: 'app-rusty-view',
   templateUrl: './rusty-view.component.html',
   styleUrl: './rusty-view.component.scss',
   standalone: true,
-  imports: [TabsComponent, WorkpadComponent]
+  imports: [TabsComponent, WorkpadComponent, SplitterComponent]
 })
 export class RustyViewComponent {
 
