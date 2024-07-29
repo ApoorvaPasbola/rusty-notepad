@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { TabViewModule } from 'primeng/tabview';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, NgFor} from '@angular/common';
 import { WorkpadComponent } from '../workpad/workpad.component';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
@@ -12,6 +12,7 @@ import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
   imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],
 })
 export class TabsComponent implements OnInit {
+
 
   @Output() activeTabChangeEvent = new  EventEmitter<Tab>();
 
@@ -26,6 +27,8 @@ export class TabsComponent implements OnInit {
   @Input("tabs") tabs!: Tab[] 
 
   ngOnInit(): void {
+    console.log("Current value of tabs is ", this.tabs);
+    
     this.triggerTabChangeEvent();
   }
 
@@ -51,7 +54,8 @@ export class TabsComponent implements OnInit {
   }
 
   triggerTabChangeEvent(){
-    this.activeTabChangeEvent.emit(this.tabs[this.activeIndex]);
+    if(this.tabs?.length)
+      this.activeTabChangeEvent.emit(this.tabs[this.activeIndex]);
   }
 
 }

@@ -8,5 +8,4 @@ import { SplitterModule } from 'primeng/splitter';
   imports: [SplitterModule]
 })
 export class SplitterComponent {
-
 }

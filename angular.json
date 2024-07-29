@@ -14,7 +14,7 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": true
         }
       },
       "architect": {
@@ -92,8 +92,9 @@
             "port": 6006,
             "styles":[
               "src/styles.scss",
+              "node_modules/primeng/resources/themes/lara-dark-blue/theme.css",
               "node_modules/primeflex/primeflex.css",
-              "node_modules/primeflex/themes/primeone-dark.css"
+              "node_modules/primeng/resources/primeng.min.css"
             ]
           }
         },

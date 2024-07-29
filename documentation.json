@@ -676,7 +676,7 @@
         },
         {
             "name": "SplitterComponent",
-            "id": "component-SplitterComponent-0325be191567238ad405695074e9150f41b82aedd566498d93317da726d4a8433f7046b2ac2dababf444524b50360527e75327a348967b8beb46b49cd4e529fd",
+            "id": "component-SplitterComponent-221be0fca16fa2221fe4135779960f588de9a5c8a805b098a7580af51fc8862d6ba250cdf9d1b585419f3bb5476d66a451d8000c92f3cf01b7ea4d3a383f2a7e",
             "file": "src/app/modules/ui-elements/splitter/splitter.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -709,17 +709,17 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { SplitterModule } from 'primeng/splitter';\r\n@Component({\r\n  selector: 'app-splitter',\r\n  templateUrl: './splitter.component.html',\r\n  styleUrl: './splitter.component.scss',\r\n  standalone: true,\r\n  imports: [SplitterModule]\r\n})\r\nexport class SplitterComponent {\r\n\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { SplitterModule } from 'primeng/splitter';\r\n@Component({\r\n  selector: 'app-splitter',\r\n  templateUrl: './splitter.component.html',\r\n  styleUrl: './splitter.component.scss',\r\n  standalone: true,\r\n  imports: [SplitterModule]\r\n})\r\nexport class SplitterComponent {\r\n}\r\n",
             "styleUrl": "./splitter.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<p-splitter\r\n    [panelSizes]=\"[25, 75]\"\r\n    [minSizes]=\"[1, 20]\"\r\n    [style]=\"{ border: 'none', height: '100%' }\"\r\n    styleClass=\"mb-5\">\r\n    <ng-template pTemplate>\r\n        <div class=\"col flex align-items-center justify-content-center\">\r\n           <ng-content ></ng-content>\r\n        </div>\r\n    </ng-template>\r\n    <ng-template pTemplate>\r\n        <div class=\"col \">\r\n           <ng-content select=\"[panel2]\"></ng-content>\r\n        </div>\r\n    </ng-template>\r\n</p-splitter>\r\n"
+            "templateData": "<p-splitter\r\n    [panelSizes]=\"[25, 75]\"\r\n    [minSizes]=\"[1, 20]\"\r\n    [style]=\"{ border: 'none', height: '100%' }\"\r\n    styleClass=\"mb-5\">\r\n    <ng-template pTemplate>\r\n        <div >\r\n           <ng-content ></ng-content>\r\n        </div>\r\n    </ng-template>\r\n    <ng-template pTemplate>\r\n        <div [style]=\"{padding:'var(--padding-xs)'}\" class=\"col \">\r\n           <ng-content select=\"[panel2]\"></ng-content>\r\n        </div>\r\n    </ng-template>\r\n</p-splitter>\r\n"
         },
         {
             "name": "TabsComponent",
-            "id": "component-TabsComponent-41c003ff6418460e57806c8ba046c5ab3cef39fc34667284b177812d4183278837fe24de273b8f2a68c00e4ffd8f5d6ba928f49a8cc84764a124f0503a1b294b",
+            "id": "component-TabsComponent-120421792d6be4991edac0ea25be1bf73a248e58af40cce050aa026aed630de100c9daf864d2029ea05dae5d57b31777a2d4499e1f4512e19ccaaa7dbe2f21a8",
             "file": "src/app/modules/ui-elements/tabs/tabs.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -741,7 +741,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nThis takes a list of tabs from the service which reads all the files\n",
                     "description": "<p>This takes a list of tabs from the service which reads all the files</p>\n",
-                    "line": 26,
+                    "line": 27,
                     "type": "Tab[]",
                     "decorators": []
                 }
@@ -752,7 +752,7 @@
                     "defaultValue": "new  EventEmitter<Tab>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 16,
+                    "line": 17,
                     "type": "EventEmitter"
                 }
             ],
@@ -765,7 +765,7 @@
                     "type": "number",
                     "optional": false,
                     "description": "<p>This is use to toggle active tab on Ctrl + Tab event</p>\n",
-                    "line": 21,
+                    "line": 22,
                     "rawdescription": "\n\nThis is use to toggle active tab on Ctrl + Tab event\n",
                     "modifierKind": [
                         125
@@ -779,7 +779,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 36,
+                    "line": 39,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
@@ -800,7 +800,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 45,
+                    "line": 48,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nNew Tab on Ctrl + N\n",
@@ -821,7 +821,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 28,
+                    "line": 29,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -831,7 +831,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 53,
+                    "line": 56,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -848,7 +848,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nNew Tab on Ctrl + N\n",
                     "description": "<p>New Tab on Ctrl + N</p>\n",
-                    "line": 45
+                    "line": 48
                 },
                 {
                     "name": "document:keydown.control.tab",
@@ -858,7 +858,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
                     "description": "<p>Switch to next Tab on control + tab event</p>\n",
-                    "line": 36
+                    "line": 39
                 }
             ],
             "standalone": true,
@@ -882,7 +882,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';\r\nimport { TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { NEW_TAB_DEFAULT } from '../../utilities/Constants';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],\r\n})\r\nexport class TabsComponent implements OnInit {\r\n\r\n  @Output() activeTabChangeEvent = new  EventEmitter<Tab>();\r\n\r\n  /**\r\n   * This is use to toggle active tab on Ctrl + Tab event \r\n   */\r\n  public activeIndex: number = 0;\r\n\r\n  /**\r\n   * This takes a list of tabs from the service which reads all the files \r\n   */\r\n  @Input(\"tabs\") tabs!: Tab[] \r\n\r\n  ngOnInit(): void {\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * Switch to next Tab on control + tab event \r\n   */\r\n  @HostListener(\"document:keydown.control.tab\")\r\n  changeTab() {\r\n    this.activeIndex = (this.activeIndex + 1) % this.tabs.length;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * New Tab on Ctrl + N \r\n   */\r\n  @HostListener(\"document:keydown.control.N\")\r\n  newTab() {\r\n    let newTab: Tab = {...NEW_TAB_DEFAULT , id: this.tabs.length }\r\n    this.tabs.push(newTab)\r\n    this.tabs[this.activeIndex].selected = false \r\n    this.activeIndex = newTab.id ;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  triggerTabChangeEvent(){\r\n    this.activeTabChangeEvent.emit(this.tabs[this.activeIndex]);\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';\r\nimport { TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor} from '@angular/common';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { NEW_TAB_DEFAULT } from '../../utilities/Constants';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],\r\n})\r\nexport class TabsComponent implements OnInit {\r\n\r\n\r\n  @Output() activeTabChangeEvent = new  EventEmitter<Tab>();\r\n\r\n  /**\r\n   * This is use to toggle active tab on Ctrl + Tab event \r\n   */\r\n  public activeIndex: number = 0;\r\n\r\n  /**\r\n   * This takes a list of tabs from the service which reads all the files \r\n   */\r\n  @Input(\"tabs\") tabs!: Tab[] \r\n\r\n  ngOnInit(): void {\r\n    console.log(\"Current value of tabs is \", this.tabs);\r\n    \r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * Switch to next Tab on control + tab event \r\n   */\r\n  @HostListener(\"document:keydown.control.tab\")\r\n  changeTab() {\r\n    this.activeIndex = (this.activeIndex + 1) % this.tabs.length;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * New Tab on Ctrl + N \r\n   */\r\n  @HostListener(\"document:keydown.control.N\")\r\n  newTab() {\r\n    let newTab: Tab = {...NEW_TAB_DEFAULT , id: this.tabs.length }\r\n    this.tabs.push(newTab)\r\n    this.tabs[this.activeIndex].selected = false \r\n    this.activeIndex = newTab.id ;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  triggerTabChangeEvent(){\r\n    if(this.tabs?.length)\r\n      this.activeTabChangeEvent.emit(this.tabs[this.activeIndex]);\r\n  }\r\n\r\n}\r\n",
             "styleUrl": "./tabs.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -891,7 +891,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div class=\"tabs-container\">\r\n  <p-tabView [(activeIndex)]=\"activeIndex\" id=\"closableTabView\" [scrollable]=\"true\">\r\n    <p-tabPanel *ngFor=\"let tab of tabs\" [selected]=\"tab.selected\" [closable]=\"tab.isClosable\">\r\n        <!-- HEADER -->\r\n        <ng-template pTemplate=\"header\">\r\n            <div class=\"flex align-items-center gap-2\">\r\n                    {{tab.title}}\r\n            </div>\r\n        </ng-template>\r\n        <!-- Content  -->\r\n        <!-- <ng-template pTemplate=\"content\"> \r\n          \r\n        </ng-template> -->\r\n    </p-tabPanel>\r\n  </p-tabView>\r\n</div>\r\n"
+            "templateData": "<div  class=\"tabs-container\">\r\n  <p-tabView  [(activeIndex)]=\"activeIndex\" id=\"closableTabView\" [scrollable]=\"true\">\r\n    <p-tabPanel  *ngFor=\"let tab of tabs\" [selected]=\"tab.selected\" [closable]=\"tab.isClosable\">\r\n        <!-- HEADER -->\r\n        <ng-template  pTemplate=\"header\">\r\n            <div  class=\"flex align-items-center gap-2\">\r\n                    {{tab.title}}\r\n            </div>\r\n        </ng-template>\r\n        <!-- Content  -->\r\n    </p-tabPanel>\r\n  </p-tabView>\r\n</div>\r\n"
         },
         {
             "name": "TooltipComponent",
