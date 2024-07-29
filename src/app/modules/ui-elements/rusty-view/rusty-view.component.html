@@ -2,8 +2,8 @@
   <!--  Add a Folders option on left side  -->
   <app-splitter class="h-full">
     <!-- <div pane-2></div> -->
-    <app-tabs pane2 (activeTabChangeEvent)="updateWorkpad($event)"  [tabs]="dummyData"></app-tabs>
-    <app-workpad pane2 [contentFromFile]="workfile"></app-workpad>
+    <app-tabs panel2 (activeTabChangeEvent)="updateWorkpad($event)"  [tabs]="dummyData"></app-tabs>
+    <app-workpad panel2 [contentFromFile]="workfile"></app-workpad>
 
   </app-splitter>
 </div>

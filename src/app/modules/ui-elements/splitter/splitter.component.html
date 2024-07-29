@@ -4,13 +4,13 @@
     [style]="{ border: 'none', height: '100%' }"
     styleClass="mb-5">
     <ng-template pTemplate>
-        <div class="col flex align-items-center justify-content-center">
-           <ng-content select="[panel1]"></ng-content>
+        <div >
+           <ng-content ></ng-content>
         </div>
     </ng-template>
     <ng-template pTemplate>
-        <div class="col ">
-           <ng-content select="[pane2]"></ng-content>
+        <div [style]="{padding:'var(--padding-xs)'}" class="col ">
+           <ng-content select="[panel2]"></ng-content>
         </div>
     </ng-template>
 </p-splitter>

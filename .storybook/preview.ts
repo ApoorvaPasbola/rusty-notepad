@@ -5,19 +5,6 @@ setCompodocJson(docJson);
 
 const preview: Preview = {
   parameters: {
-    backgrounds: {
-      default: 'dark',
-      values: [
-        {
-          name: 'dark',
-          value: 'var(--workpad-background)',
-        },
-        {
-          name: 'light',
-          value: 'white',
-        },
-      ],
-    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

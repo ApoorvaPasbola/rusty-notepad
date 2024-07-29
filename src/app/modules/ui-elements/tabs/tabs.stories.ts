@@ -7,9 +7,9 @@ const meta: Meta<TabsComponent> = {
   title: 'Example/Tabs',
   component: TabsComponent,
   tags: ['autodocs'],
-  render: (args: TabsComponent) => ({
+  render: (args: any) => ({
     props: {
-      ...args,
+      tabs: args.tabs,
     },
     template: `<app-tabs ${argsToTemplate(args)} ></app-tabs>`,
   }),
