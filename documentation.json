@@ -2,6 +2,39 @@
     "pipes": [],
     "interfaces": [
         {
+            "name": "Node",
+            "id": "interface-Node-9f4f886dcbd1794e25e0e1ac0682748177a67d3eea0f4b7754e8e3788c1b622eb3f49b4ec03348eeadc3753f654844ec3bc74244895134dc9382dd21ca574396",
+            "file": "src/app/modules/utilities/interfaces/Node.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface Node {\r\n    name:string,\r\n    nodes?: Node[]\r\n}",
+            "properties": [
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                },
+                {
+                    "name": "nodes",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Node[]",
+                    "optional": true,
+                    "description": "",
+                    "line": 3
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": []
+        },
+        {
             "name": "Tab",
             "id": "interface-Tab-13e7ffda712bbebb76e1f96901fac886c27ede00fa440da153f1c6bbdacdf95f61385bd25c532f475af1b2017852ebf439ca81835e44cdb6fe48b7c1ffbadf4d",
             "file": "src/app/modules/utilities/interfaces/Tab.ts",
@@ -62,7 +95,55 @@
             "extends": []
         }
     ],
-    "injectables": [],
+    "injectables": [
+        {
+            "name": "ExplorerService",
+            "id": "injectable-ExplorerService-004b0b7cbf4ce0beb6d1a188397bc886944578146117469e54fa8963e36d177db3848bf30af4b26f3c49fd9df22cfd39acbdedf3795c966d66dc1fa3800cfa7c",
+            "file": "src/app/modules/ui-elements/explorer/explorer.service.ts",
+            "properties": [
+                {
+                    "name": "currentDirectories",
+                    "defaultValue": "signal<string[]>([])",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 9,
+                    "modifierKind": [
+                        125
+                    ]
+                }
+            ],
+            "methods": [
+                {
+                    "name": "listDirectory",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 13,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Injectable, signal } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class ExplorerService {\r\n\r\n  public currentDirectories = signal<string[]>([])\r\n\r\n  constructor() { }\r\n\r\n  listDirectory(){\r\n    let path = \"D:\\\\OpenSourceSoftware\\\\rusty-notepad\\\\src\\\\app\"\r\n\r\n    invoke<string>(\"read_directory\", { path }).then((response:any) => {\r\n      console.log(\"Current Directories \", response);\r\n      \r\n      this.currentDirectories.set(response)\r\n      console.log(\"signal value is \", this.currentDirectories());\r\n      \r\n    });\r\n  }\r\n}\r\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 9
+            },
+            "extends": [],
+            "type": "injectable"
+        }
+    ],
     "guards": [],
     "interceptors": [],
     "classes": [],
@@ -444,7 +525,7 @@
     "components": [
         {
             "name": "AppComponent",
-            "id": "component-AppComponent-ea3a3f404adb5516ff3f6797df5bee911b5b193186f3efdc183e9000048bdc9c5d28864768176c7d35f882464f855fb52ff70a8ba67d920ef78b5f45d34d377c",
+            "id": "component-AppComponent-d430f7ce62ca38880296ed26de1236fc07dcfa8c050536b47440e431616e2111a8d7ccd2ac15afccec191d4e685f3e9ce062e3f9ba8faf347ddc329e3916aa41",
             "file": "src/app/app.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -461,63 +542,8 @@
             "hostDirectives": [],
             "inputsClass": [],
             "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "greetingMessage",
-                    "defaultValue": "\"\"",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "string",
-                    "optional": false,
-                    "description": "",
-                    "line": 10
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "greet",
-                    "args": [
-                        {
-                            "name": "event",
-                            "type": "SubmitEvent",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        },
-                        {
-                            "name": "name",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 12,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "name": "event",
-                            "type": "SubmitEvent",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        },
-                        {
-                            "name": "name",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                }
-            ],
+            "propertiesClass": [],
+            "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
@@ -527,13 +553,182 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\n\r\n@Component({\r\n  selector: 'app-root',\r\n  templateUrl: './app.component.html',\r\n  styleUrl: './app.component.scss'\r\n})\r\nexport class AppComponent {\r\n  greetingMessage = \"\";\r\n\r\n  greet(event: SubmitEvent, name: string): void {\r\n    event.preventDefault();\r\n\r\n    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command\r\n    invoke<string>(\"greet\", { name }).then((text) => {\r\n      this.greetingMessage = text;\r\n    });\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\n\r\n@Component({\r\n  selector: 'app-root',\r\n  templateUrl: './app.component.html',\r\n  styleUrl: './app.component.scss'\r\n})\r\nexport class AppComponent {\r\n\r\n  \r\n}\r\n",
             "styleUrl": "./app.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
             "templateData": "<app-rusty-view ></app-rusty-view>\r\n"
+        },
+        {
+            "name": "ExplorerComponent",
+            "id": "component-ExplorerComponent-81a6691fe5f74308112fe7dc10acad1563408007093772872f0e78a826823db95f048586d1b32b2041dd42673012336726da86349e15fef22c2118ebd6d0b166",
+            "file": "src/app/modules/ui-elements/explorer/explorer.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "rusty-explorer",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./explorer.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "paths",
+                    "defaultValue": "computed(() => {\r\n    return this.fs_service.currentDirectories();\r\n  })",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "NgFor"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, computed } from '@angular/core';\r\nimport { ExplorerService } from './explorer.service';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\n\r\n@Component({\r\n  selector: 'rusty-explorer',\r\n  standalone: true,\r\n  imports: [NgFor],\r\n  templateUrl: './explorer.component.html',\r\n  styleUrl: './explorer.component.scss'\r\n})\r\nexport class ExplorerComponent {\r\n\r\n  paths = computed(() => {\r\n    return this.fs_service.currentDirectories();\r\n  })\r\n\r\n  constructor(private fs_service: ExplorerService ){\r\n    this.fs_service.listDirectory();\r\n  }\r\n\r\n}\r\n",
+            "styleUrl": "./explorer.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "fs_service",
+                        "type": "ExplorerService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 16,
+                "jsdoctags": [
+                    {
+                        "name": "fs_service",
+                        "type": "ExplorerService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "extends": [],
+            "templateData": "<div *ngFor=\"let node of paths()\">\r\n    <p>{{node}}</p>\r\n</div>\r\n"
+        },
+        {
+            "name": "FolderComponent",
+            "id": "component-FolderComponent-d57552136e8fcd59089a17cf6bc06e81e5315caf83f9f5bf34f31110c71a84121dcbe01ca05eea173e70efd1d2250bd8aa5111f9b7ecbf3de5078f0966ad168f",
+            "file": "src/app/modules/ui-elements/folder-tree/folder/folder.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "rusty-folder",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./folder.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'rusty-folder',\r\n  standalone: true,\r\n  imports: [],\r\n  templateUrl: './folder.component.html',\r\n  styleUrl: './folder.component.scss'\r\n})\r\nexport class FolderComponent {\r\n\r\n}\r\n",
+            "styleUrl": "./folder.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<p>folder works!</p>\r\n"
+        },
+        {
+            "name": "FolderTreeComponent",
+            "id": "component-FolderTreeComponent-214633f52c681bb4842b8c5d61c90780935aa8b564c697e7a163df49a2c4fc4c60f29ce79396e0fb6a478df461d15847888be433562dc8d9882e5ea3b7cef8ff",
+            "file": "src/app/modules/ui-elements/folder-tree/folder-tree.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "rusty-folder-tree",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./folder-tree.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "directory",
+                    "defaultValue": "[\r\n    { name: 'Movies', nodes: [{ name: 'Action' }, { name: 'Comedy' }] },\r\n    { name: 'Music', nodes: [{ name: 'Rock' }, { name: 'Classical' }] },\r\n    { name: 'Pictures' },\r\n    { name: 'Documents' },\r\n  ]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 13,
+                    "type": "Node[]",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "NgFor"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { NgFor } from '@angular/common';\r\nimport { Component, Input } from '@angular/core';\r\nimport { Node } from '../../utilities/interfaces/Node';\r\n\r\n@Component({\r\n  selector: 'rusty-folder-tree',\r\n  standalone: true,\r\n  imports: [NgFor],\r\n  templateUrl: './folder-tree.component.html',\r\n  styleUrl: './folder-tree.component.scss',\r\n})\r\nexport class FolderTreeComponent {\r\n  @Input('directory') dir: Node[] = [\r\n    { name: 'Movies', nodes: [{ name: 'Action' }, { name: 'Comedy' }] },\r\n    { name: 'Music', nodes: [{ name: 'Rock' }, { name: 'Classical' }] },\r\n    { name: 'Pictures' },\r\n    { name: 'Documents' },\r\n  ];\r\n}\r\n",
+            "styleUrl": "./folder-tree.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div class=\"p-8 max-w-full mx-auto\">\r\n  <ul>\r\n    <li class=\"my-1\">\r\n      <span class=\"flex items-center gap-1\">\r\n        <i class=\"pi pi-folder\"></i> Home\r\n      </span>\r\n\r\n      <ul class=\"pl-4 subFolders\">\r\n        <li class=\"my-1\" *ngFor=\"let folder of dir\">\r\n          <span class=\"flex items-center gap-1\">\r\n            <i class=\"pi pi-folder\"></i> {{ folder.name }}\r\n          </span>\r\n          <ul class=\"pl-4 subFolders\">\r\n            <li class=\"my-1\" *ngFor=\"let folder of folder.nodes\">\r\n              <span class=\"flex items-center gap-1\">\r\n                <i class=\"pi pi-folder\"></i> {{ folder.name}}\r\n              </span>\r\n            </li>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </li>\r\n  </ul>\r\n</div>\r\n"
         },
         {
             "name": "HorizontalBarComponent",
@@ -575,7 +770,7 @@
         },
         {
             "name": "RustyViewComponent",
-            "id": "component-RustyViewComponent-87dea3a586807faaaf7e6e148425336d775b50b58947dc54d092a1df344f3777f2dfede98b9a415666106de9408073937c9a1d7624df9546068d2e971ec67378",
+            "id": "component-RustyViewComponent-cb86f09564daa026c6ba8bc369e51cc8b566f25f97e5295d68c071b50a6ec9a596204eaa04932168a3785c455ceff9125cc794b421f7b29f683b8505a7dcec19",
             "file": "src/app/modules/ui-elements/rusty-view/rusty-view.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -601,7 +796,7 @@
                     "type": "Tab[]",
                     "optional": false,
                     "description": "",
-                    "line": 17
+                    "line": 18
                 },
                 {
                     "name": "workfile",
@@ -611,7 +806,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 49
+                    "line": 50
                 }
             ],
             "methodsClass": [
@@ -628,7 +823,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 51,
+                    "line": 52,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -661,18 +856,22 @@
                 {
                     "name": "SplitterComponent",
                     "type": "component"
+                },
+                {
+                    "name": "ExplorerComponent",
+                    "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabsComponent } from \"../tabs/tabs.component\";\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { SplitterComponent } from \"../splitter/splitter.component\";\r\n\r\n@Component({\r\n  selector: 'app-rusty-view',\r\n  templateUrl: './rusty-view.component.html',\r\n  styleUrl: './rusty-view.component.scss',\r\n  standalone: true,\r\n  imports: [TabsComponent, WorkpadComponent, SplitterComponent]\r\n})\r\nexport class RustyViewComponent {\r\n\r\n\r\ndummyData: Tab[] =  [\r\n  {\r\n    id: 1,\r\n    selected: true,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 1',\r\n  },\r\n  {\r\n    id: 2,\r\n    selected: false,\r\n    isClosable: true,\r\n    content: 'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 2',\r\n  },\r\n  {\r\n    id: 3,\r\n    selected: false,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n    title: 'Tab 3',\r\n  },\r\n];\r\n\r\nworkfile: string = \"This is some default work from an file\";\r\n\r\nupdateWorkpad(event: Tab) {\r\n  this.workfile = event.content;\r\n}\r\n\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabsComponent } from \"../tabs/tabs.component\";\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { SplitterComponent } from \"../splitter/splitter.component\";\r\nimport { ExplorerComponent } from '../explorer/explorer.component';\r\n\r\n@Component({\r\n  selector: 'app-rusty-view',\r\n  templateUrl: './rusty-view.component.html',\r\n  styleUrl: './rusty-view.component.scss',\r\n  standalone: true,\r\n  imports: [TabsComponent, WorkpadComponent, SplitterComponent, ExplorerComponent]\r\n})\r\nexport class RustyViewComponent {\r\n\r\n\r\ndummyData: Tab[] =  [\r\n  {\r\n    id: 1,\r\n    selected: true,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 1',\r\n  },\r\n  {\r\n    id: 2,\r\n    selected: false,\r\n    isClosable: true,\r\n    content: 'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 2',\r\n  },\r\n  {\r\n    id: 3,\r\n    selected: false,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n    title: 'Tab 3',\r\n  },\r\n];\r\n\r\nworkfile: string = \"This is some default work from an file\";\r\n\r\nupdateWorkpad(event: Tab) {\r\n  this.workfile = event.content;\r\n}\r\n\r\n}\r\n",
             "styleUrl": "./rusty-view.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"layout h-full\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-splitter class=\"h-full\">\r\n    <!-- <div pane-2></div> -->\r\n    <app-tabs panel2 (activeTabChangeEvent)=\"updateWorkpad($event)\"  [tabs]=\"dummyData\"></app-tabs>\r\n    <app-workpad panel2 [contentFromFile]=\"workfile\"></app-workpad>\r\n\r\n  </app-splitter>\r\n</div>\r\n"
+            "templateData": "<div class=\"layout h-full\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-splitter class=\"h-full\">\r\n    <div >\r\n      <rusty-explorer></rusty-explorer>\r\n    </div>\r\n    <app-tabs panel2 (activeTabChangeEvent)=\"updateWorkpad($event)\"  [tabs]=\"dummyData\"></app-tabs>\r\n    <app-workpad panel2 [contentFromFile]=\"workfile\"></app-workpad>\r\n\r\n  </app-splitter>\r\n</div>\r\n"
         },
         {
             "name": "SplitterComponent",
@@ -719,7 +918,7 @@
         },
         {
             "name": "TabsComponent",
-            "id": "component-TabsComponent-120421792d6be4991edac0ea25be1bf73a248e58af40cce050aa026aed630de100c9daf864d2029ea05dae5d57b31777a2d4499e1f4512e19ccaaa7dbe2f21a8",
+            "id": "component-TabsComponent-dc2772efc1d02a010225cad85faf39099109c3ee4fb40bed97db9a183df21f08d4acaacd937a083baf101dfd66d039a15920a696325144689890743c2ffc41ad",
             "file": "src/app/modules/ui-elements/tabs/tabs.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -779,7 +978,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 39,
+                    "line": 37,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
@@ -800,7 +999,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 48,
+                    "line": 46,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nNew Tab on Ctrl + N\n",
@@ -831,7 +1030,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 56,
+                    "line": 54,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -848,7 +1047,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nNew Tab on Ctrl + N\n",
                     "description": "<p>New Tab on Ctrl + N</p>\n",
-                    "line": 48
+                    "line": 46
                 },
                 {
                     "name": "document:keydown.control.tab",
@@ -858,7 +1057,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
                     "description": "<p>Switch to next Tab on control + tab event</p>\n",
-                    "line": 39
+                    "line": 37
                 }
             ],
             "standalone": true,
@@ -882,7 +1081,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';\r\nimport { TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor} from '@angular/common';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { NEW_TAB_DEFAULT } from '../../utilities/Constants';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],\r\n})\r\nexport class TabsComponent implements OnInit {\r\n\r\n\r\n  @Output() activeTabChangeEvent = new  EventEmitter<Tab>();\r\n\r\n  /**\r\n   * This is use to toggle active tab on Ctrl + Tab event \r\n   */\r\n  public activeIndex: number = 0;\r\n\r\n  /**\r\n   * This takes a list of tabs from the service which reads all the files \r\n   */\r\n  @Input(\"tabs\") tabs!: Tab[] \r\n\r\n  ngOnInit(): void {\r\n    console.log(\"Current value of tabs is \", this.tabs);\r\n    \r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * Switch to next Tab on control + tab event \r\n   */\r\n  @HostListener(\"document:keydown.control.tab\")\r\n  changeTab() {\r\n    this.activeIndex = (this.activeIndex + 1) % this.tabs.length;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * New Tab on Ctrl + N \r\n   */\r\n  @HostListener(\"document:keydown.control.N\")\r\n  newTab() {\r\n    let newTab: Tab = {...NEW_TAB_DEFAULT , id: this.tabs.length }\r\n    this.tabs.push(newTab)\r\n    this.tabs[this.activeIndex].selected = false \r\n    this.activeIndex = newTab.id ;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  triggerTabChangeEvent(){\r\n    if(this.tabs?.length)\r\n      this.activeTabChangeEvent.emit(this.tabs[this.activeIndex]);\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';\r\nimport { TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor} from '@angular/common';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { NEW_TAB_DEFAULT } from '../../utilities/Constants';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],\r\n})\r\nexport class TabsComponent implements OnInit {\r\n\r\n\r\n  @Output() activeTabChangeEvent = new  EventEmitter<Tab>();\r\n\r\n  /**\r\n   * This is use to toggle active tab on Ctrl + Tab event \r\n   */\r\n  public activeIndex: number = 0;\r\n\r\n  /**\r\n   * This takes a list of tabs from the service which reads all the files \r\n   */\r\n  @Input(\"tabs\") tabs!: Tab[] \r\n\r\n  ngOnInit(): void {\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * Switch to next Tab on control + tab event \r\n   */\r\n  @HostListener(\"document:keydown.control.tab\")\r\n  changeTab() {\r\n    this.activeIndex = (this.activeIndex + 1) % this.tabs.length;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * New Tab on Ctrl + N \r\n   */\r\n  @HostListener(\"document:keydown.control.N\")\r\n  newTab() {\r\n    let newTab: Tab = {...NEW_TAB_DEFAULT , id: this.tabs.length }\r\n    this.tabs.push(newTab)\r\n    this.tabs[this.activeIndex].selected = false \r\n    this.activeIndex = newTab.id ;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  triggerTabChangeEvent(){\r\n    if(this.tabs?.length)\r\n      this.activeTabChangeEvent.emit(this.tabs[this.activeIndex]);\r\n  }\r\n\r\n}\r\n",
             "styleUrl": "./tabs.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -1212,7 +1411,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 7,
+        "count": 5,
         "status": "low",
         "files": [
             {
@@ -1221,7 +1420,7 @@
                 "linktype": "component",
                 "name": "AppComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/3",
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -1249,6 +1448,42 @@
                 "name": "TooltipDirective",
                 "coveragePercent": 0,
                 "coverageCount": "0/11",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/explorer/explorer.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ExplorerComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/explorer/explorer.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "ExplorerService",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/folder-tree/folder-tree.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "FolderTreeComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/folder-tree/folder/folder.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "FolderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -1313,6 +1548,15 @@
                 "name": "NEW_TAB_DEFAULT",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/utilities/interfaces/Node.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Node",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {

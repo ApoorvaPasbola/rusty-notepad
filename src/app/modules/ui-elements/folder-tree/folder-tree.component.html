@@ -1,0 +1,20 @@
+<div class="p-8 max-w-full mx-auto">
+  <ul>
+    <li class="my-1">
+      <span class="flex items-center gap-1">
+        <i class="pi pi-folder"></i> Home
+      </span>
+
+      <ul class="pl-4 subFolders">
+        <li class="my-1" *ngFor="let folder of dir">
+          <span class="flex items-center gap-1">
+            <i class="pi pi-folder"></i> {{ folder.name }}
+          </span>
+          <ul class="pl-4 subFolders">
+                <rusty-folder [folders]="folder.nodes"/>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
