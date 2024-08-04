@@ -3,13 +3,14 @@ import { TabsComponent } from "../tabs/tabs.component";
 import { WorkpadComponent } from '../workpad/workpad.component';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { SplitterComponent } from "../splitter/splitter.component";
+import { ExplorerComponent } from '../explorer/explorer.component';
 
 @Component({
   selector: 'app-rusty-view',
   templateUrl: './rusty-view.component.html',
   styleUrl: './rusty-view.component.scss',
   standalone: true,
-  imports: [TabsComponent, WorkpadComponent, SplitterComponent]
+  imports: [TabsComponent, WorkpadComponent, SplitterComponent, ExplorerComponent]
 })
 export class RustyViewComponent {
 
