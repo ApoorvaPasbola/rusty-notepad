@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
 
 @Injectable({
@@ -6,14 +6,19 @@ import { invoke } from '@tauri-apps/api';
 })
 export class ExplorerService {
 
+  public currentDirectories = signal<string[]>([])
+
   constructor() { }
 
-  listDirectory(event: any): void {
-    event.preventDefault();
+  listDirectory(){
     let path = "D:\\OpenSourceSoftware\\rusty-notepad\\src\\app"
 
-    invoke<string>("read_directory", { path }).then((paths: any) => {
-      console.log("This is response form file_explorer ", paths );
+    invoke<string>("read_directory", { path }).then((response:any) => {
+      console.log("Current Directories ", response);
+      
+      this.currentDirectories.set(response)
+      console.log("signal value is ", this.currentDirectories());
+      
     });
   }
 }
