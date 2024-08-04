@@ -27,8 +27,6 @@ export class TabsComponent implements OnInit {
   @Input("tabs") tabs!: Tab[] 
 
   ngOnInit(): void {
-    console.log("Current value of tabs is ", this.tabs);
-    
     this.triggerTabChangeEvent();
   }
 
