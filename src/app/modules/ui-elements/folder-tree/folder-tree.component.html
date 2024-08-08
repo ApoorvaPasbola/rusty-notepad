@@ -5,10 +5,12 @@
         <i class="pi pi-folder"></i> Home
       </span>
 
-      <ul class="pl-4 subFolders">
+      <ul class="pl-1 subFolders">
         <li class="my-1" *ngFor="let folder of workspace">
           <span class="flex items-center gap-1">
-            <i class="pi pi-folder"></i> {{ folder.name }}
+            <i *ngIf="folder.isDirectory" class="pi pi-folder"></i>
+            <i *ngIf="!folder.isDirectory" class="pi pi-file"></i>
+             {{ folder.name }}
           </span>
           <ul class="pl-4 subFolders">
                 <rusty-folder [folders]="folder.nodes"/>

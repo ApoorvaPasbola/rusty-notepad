@@ -1,7 +1,7 @@
 export interface Node {
     name:string,
     nodes?: Node[],
-    isDirectory?: boolean
+    isDirectory: boolean
 }
 
 export interface FileSystemItem {
