@@ -11,7 +11,7 @@ import { FolderComponent } from './folder/folder.component';
   styleUrl: './folder-tree.component.scss',
 })
 export class FolderTreeComponent {
-  @Input('directory') dir: Node[] = [
+  @Input('workspace') workspace: Node[] = [
     {
       name: 'Movies',
       nodes: [

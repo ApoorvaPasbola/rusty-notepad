@@ -1,24 +1,22 @@
 import { Injectable, signal } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
+import { FileSystemItem, Node } from '../../utilities/interfaces/Node';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExplorerService {
 
-  public currentDirectories = signal<string[]>([])
+  public currentDirectories = signal<Node[]>([])
 
   constructor() { }
 
-  listDirectory(){
-    let path = "D:\\OpenSourceSoftware\\rusty-notepad\\src\\app"
-
-    invoke<string>("read_directory", { path }).then((response:any) => {
-      console.log("Current Directories ", response);
+  listDirectory(path:string = "D:\\OpenSourceSoftware\\rusty-notepad\\src\\app"){
+    invoke<FileSystemItem[]>("read_directory", { path }).then((directory_items:FileSystemItem[]) => {
+      let nodes_list = directory_items.map(item=> { return {name: item.file_name, nodes:[], isDirectory: item.is_folder} as Node})
+      console.log("Retured object is ", directory_items, nodes_list);
       
-      this.currentDirectories.set(response)
-      console.log("signal value is ", this.currentDirectories());
-      
+      this.currentDirectories.set(nodes_list)
     });
   }
 }
