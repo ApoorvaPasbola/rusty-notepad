@@ -28,6 +28,8 @@ export class FolderTreeService {
   }
 
   openDirectory(workspace:Node[], index:number) {
+    if(workspace[index].isDirectory)
+      return;
     workspace[index].expanded = ! workspace[index].expanded
     if(workspace[index].expanded && !workspace[index].nodes?.length)
       this.expandDirectory(workspace[index]);
