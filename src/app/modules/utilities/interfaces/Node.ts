@@ -3,7 +3,7 @@ export interface Node {
   nodes?: Node[],
   isDirectory: boolean,
   expanded: boolean,
-  parentNodeName: string
+  path: string
 }
 
 export const DEFAULT_NODE: Node = {
@@ -11,11 +11,11 @@ export const DEFAULT_NODE: Node = {
   nodes: [],
   isDirectory: false,
   expanded: false,
-  parentNodeName: "."
+  path: "."
 }
 
-export function mapFileSystemItem2Node(fileSystemItem: FileSystemItem, parent_node?: string): Node {
-  return { ...DEFAULT_NODE, name: fileSystemItem.file_name, isDirectory: fileSystemItem.is_folder, parentNodeName: parent_node } as Node;
+export function mapFileSystemItem2Node(fileSystemItem: FileSystemItem, path?: string): Node {
+  return { ...DEFAULT_NODE, name: fileSystemItem.file_name, isDirectory: fileSystemItem.is_folder, path: path?.concat("\\",fileSystemItem.file_name) } as Node;
 }
 export function mapFileSystemItem2NodeList(fileSystemItem: FileSystemItem[], parent_node?: string): Node[] {
   return fileSystemItem

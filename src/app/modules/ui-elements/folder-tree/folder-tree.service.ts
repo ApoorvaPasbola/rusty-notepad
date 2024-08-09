@@ -19,35 +19,43 @@ export class FolderTreeService {
     invoke<FileSystemItem[]>("read_directory", { path }).then((directory_items: FileSystemItem[]) => {
       let last_node = directory_items.pop()
       if (last_node) {
-        let nodes_list = mapFileSystemItem2NodeList(directory_items, last_node.file_name);
+        let nodes_list = mapFileSystemItem2NodeList(directory_items, this.BASE_PATH);
         this.rootNode.next({ ...mapFileSystemItem2Node(last_node), expanded: true })
         this.workspace.next(nodes_list)
-        this.ROOT_NAME = last_node.file_name;
+        this.ROOT_NAME = last_node.file_name;       
       }
     });
   }
 
   openDirectory(workspace:Node[], index:number) {
-    if(workspace[index].isDirectory)
+    if(!workspace[index].isDirectory)
       return;
-    workspace[index].expanded = ! workspace[index].expanded
-    if(workspace[index].expanded && !workspace[index].nodes?.length)
+    
+    if(!workspace[index].expanded && !workspace[index].nodes?.length)
       this.expandDirectory(workspace[index]);
+    workspace[index].expanded = ! workspace[index].expanded
+
   }
 
   expandDirectory(folder: Node) {
-    let path;
-    if(folder.parentNodeName.includes("."))
-      path = this.BASE_PATH + "\\" + folder.parentNodeName.split(".").filter( value => value!=this.ROOT_NAME).join("\\") + "\\" + folder.name
-    else
-      path = this.BASE_PATH + "\\" + folder.name
-
-
+    console.log("We need to open this folder ", folder);
+    let path = folder.path;
     invoke<FileSystemItem[]>("read_directory", { path }).then((items: FileSystemItem[]) => {
       items.pop();
       folder.expanded = true;
-      folder.nodes = mapFileSystemItem2NodeList(items, folder.parentNodeName.concat(".",folder.name) )
+      folder.nodes = mapFileSystemItem2NodeList(items, folder.path )
+      console.log("Updated folder is ", folder);
+      
     })
   }
+
+  // buildFullPath(folder:Node){
+  //   let path;
+  //   if(folder.parentNodeName.includes("."))
+  //     path = this.BASE_PATH + "\\" + folder.parentNodeName.split(".").filter( value => value!=this.ROOT_NAME).join("\\") + "\\" + folder.name
+  //   else
+  //     path = this.BASE_PATH + "\\" + folder.name
+  //   return path;
+  // }
 
 }
