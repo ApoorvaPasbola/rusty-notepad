@@ -2,10 +2,10 @@
   <!--  Add a Folders option on left side  -->
   <app-splitter class="h-full">
     <div >
-      <rusty-folder-tree></rusty-folder-tree>
+      <rusty-folder-tree (openFileEvent)="tabs.newTab($event)"></rusty-folder-tree>
     </div>
-    <app-tabs panel2 (activeTabChangeEvent)="updateWorkpad($event)"  [tabs]="dummyData"></app-tabs>
-    <app-workpad panel2 [contentFromFile]="workfile"></app-workpad>
+    <app-tabs #tabs panel2 (activeTabChangeEvent)="updateWorkpad($event)"></app-tabs>
+    <app-workpad panel2 [contentFromFile]="workfile()"></app-workpad>
 
   </app-splitter>
 </div>

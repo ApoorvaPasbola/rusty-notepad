@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
 import { DEFAULT_NODE, FileSystemItem, mapFileSystemItem2Node, mapFileSystemItem2NodeList, Node } from '../../utilities/interfaces/Node';
 import { BehaviorSubject } from 'rxjs';
@@ -38,24 +38,12 @@ export class FolderTreeService {
   }
 
   expandDirectory(folder: Node) {
-    console.log("We need to open this folder ", folder);
     let path = folder.path;
     invoke<FileSystemItem[]>("read_directory", { path }).then((items: FileSystemItem[]) => {
       items.pop();
       folder.expanded = true;
-      folder.nodes = mapFileSystemItem2NodeList(items, folder.path )
-      console.log("Updated folder is ", folder);
-      
+      folder.nodes = mapFileSystemItem2NodeList(items, folder.path )      
     })
   }
-
-  // buildFullPath(folder:Node){
-  //   let path;
-  //   if(folder.parentNodeName.includes("."))
-  //     path = this.BASE_PATH + "\\" + folder.parentNodeName.split(".").filter( value => value!=this.ROOT_NAME).join("\\") + "\\" + folder.name
-  //   else
-  //     path = this.BASE_PATH + "\\" + folder.name
-  //   return path;
-  // }
 
 }

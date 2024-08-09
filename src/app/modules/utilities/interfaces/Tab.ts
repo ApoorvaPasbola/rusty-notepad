@@ -1,7 +1,7 @@
 export interface Tab{
-  id: number;
-  content: string;
-  title: string;
-  isClosable: boolean;
-  selected: boolean;
+  id: number,
+  title: string,
+  isClosable: boolean,
+  selected: boolean,
+  path: string
 }

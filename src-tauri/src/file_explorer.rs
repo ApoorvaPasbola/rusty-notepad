@@ -1,5 +1,9 @@
 use serde::{Deserialize, Serialize};
-use std::{fs, io, path::PathBuf};
+use std::{
+    fs::{self, File},
+    io::{self, BufReader, Read},
+    path::PathBuf,
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SystemObject {
@@ -8,7 +12,6 @@ pub struct SystemObject {
 }
 
 pub fn _list_files(vec: &mut Vec<SystemObject>, path: PathBuf) -> io::Result<()> {
-    print!("Received working directory as {:?}", path);
     if path.is_dir() {
         let paths = fs::read_dir(&path)?;
         for path_result in paths {
@@ -31,4 +34,11 @@ pub fn _list_files(vec: &mut Vec<SystemObject>, path: PathBuf) -> io::Result<()>
         });
     }
     Ok(())
+}
+
+pub fn _read_file(path: String) -> String {
+    let mut in_file = std::fs::File::open(path).unwrap();
+    let mut content = String::new();
+    in_file.read_to_string(&mut content);
+    return content;
 }

@@ -4,6 +4,7 @@ import { FolderComponent } from './folder/folder.component';
 import { FolderTreeService } from './folder-tree.service';
 import { Subscription } from 'rxjs';
 import { Node } from '../../utilities/interfaces/Node';
+import { OpenFileEvent } from '../../utilities/interfaces/Events';
 
 @Component({
   selector: 'rusty-folder-tree',
@@ -13,14 +14,7 @@ import { Node } from '../../utilities/interfaces/Node';
   styleUrl: './folder-tree.component.scss',
 })
 export class FolderTreeComponent implements OnDestroy {
-handleFileSystemClick(index: number) {
-  if(this.workspace[index].isDirectory)
-    this.fsService.openDirectory(this.workspace,index);
-  else
-    this.openFileEvent.emit({file:this.workspace[index].name,path:this.workspace[index].path})
-}
-
-  @Output() openFileEvent = new  EventEmitter<{file:string,path:string}>();
+  @Output() openFileEvent = new EventEmitter<OpenFileEvent>();
   workspace!: Node[];
   workspace$!: Subscription;
 
@@ -40,5 +34,15 @@ handleFileSystemClick(index: number) {
   ngOnDestroy(): void {
     this.workspace$.unsubscribe();
     this.root$.unsubscribe();
+  }
+
+  handleFileSystemClick(index: number) {
+    if (this.workspace[index].isDirectory)
+      this.fsService.openDirectory(this.workspace, index);
+    else
+      this.openFileEvent.emit({
+        file_name: this.workspace[index].name,
+        path: this.workspace[index].path,
+      });
   }
 }
