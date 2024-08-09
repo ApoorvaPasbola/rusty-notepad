@@ -1,6 +1,7 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Node } from '../../../utilities/interfaces/Node';
+import { FolderTreeService } from '../folder-tree.service';
 
 @Component({
   selector: 'rusty-folder',
@@ -14,6 +15,9 @@ import { Node } from '../../../utilities/interfaces/Node';
 })
 export class FolderComponent {
 
-  @Input() folders:Node[] | undefined;
+  @Input() folders!:Node[];
 
+  constructor(public fs:FolderTreeService){
+
+  }
 }

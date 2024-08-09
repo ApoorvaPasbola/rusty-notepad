@@ -20,7 +20,7 @@ export class FolderTreeComponent implements OnDestroy{
   root!: Node;
   root$!:Subscription;
 
-  constructor(private fsService: FolderTreeService){
+  constructor(public fsService: FolderTreeService){
     this.workspace$ = this.fsService.workspace.subscribe((ele:Node[])=>{
       this.workspace = ele;
     })
@@ -35,9 +35,5 @@ export class FolderTreeComponent implements OnDestroy{
       this.root$.unsubscribe();
   }
 
-  openDirectory(index:number) {
-    this.workspace[index].expanded = !this.workspace[index].expanded
-    if(this.workspace[index].expanded && !this.workspace[index].nodes?.length)
-      this.fsService.expandDirectory(this.workspace[index]);
-  }
+
 }

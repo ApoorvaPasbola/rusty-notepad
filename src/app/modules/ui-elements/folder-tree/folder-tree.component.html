@@ -8,7 +8,7 @@
 
     <ul *ngIf="root.expanded" style="padding-left: .7rem;">
       <li class="my-1" *ngFor="let fileSystemItem of workspace; index as i">
-        <span (click)="openDirectory(i)" class="flex items-center item"
+        <span (click)="this.fsService.openDirectory(workspace,i)" class="flex items-center item"
           [ngClass]="fileSystemItem.isDirectory ? '' : 'ml-2'">
           <i style="font-size: 12px; align-content: end; margin-right: 3px;" *ngIf="fileSystemItem.isDirectory" class="pi" [ngClass]="
               fileSystemItem.expanded ? 'pi-angle-down' : 'pi-angle-right'
@@ -16,7 +16,7 @@
           {{ fileSystemItem.name }}
         </span>
         <ul *ngIf="fileSystemItem.expanded" style="padding-left: .7rem;">
-          <rusty-folder [folders]="fileSystemItem.nodes" />
+          <rusty-folder *ngIf="fileSystemItem.nodes" [folders]="fileSystemItem.nodes" />
         </ul>
       </li>
     </ul>
