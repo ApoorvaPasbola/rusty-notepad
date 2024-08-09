@@ -1,8 +1,10 @@
 <li class="my-1" *ngFor="let folder of folders">
-  <span class="flex items-center gap-1">
-    <i class="pi pi-folder"></i> {{ folder.name }}
+  <span class="flex items-center">
+    <i style="font-size: 12px; align-content: end; margin-right: 3px;" *ngIf="folder.isDirectory" class="pi" [ngClass]="
+    folder.expanded ? 'pi-angle-down' : 'pi-angle-right'
+  "></i> {{folder.name}}
   </span>
-  <ul class="pl-4 subFolders">
+  <ul style="padding-left: .7rem;">
     <rusty-folder [folders]="folder.nodes" />
   </ul>
 </li>

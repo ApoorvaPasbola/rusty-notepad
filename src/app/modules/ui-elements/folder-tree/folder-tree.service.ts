@@ -1,26 +1,39 @@
 import { Injectable, signal } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
-import { DEFAULT_NODE, FileSystemItem, Node } from '../../utilities/interfaces/Node';
+import { DEFAULT_NODE, FileSystemItem, mapFileSystemItem2NodeList, Node } from '../../utilities/interfaces/Node';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FolderTreeService {
 
-  public currentDirectories = signal<Node[]>([])
-  public rootDir = signal<Node>(DEFAULT_NODE);
+  workspace = new BehaviorSubject<Node[]>([]);
+  rootNode = new BehaviorSubject<Node>(DEFAULT_NODE);
+
+  private BASE_PATH: string = 'D:\\Repo\\personal_repos\\rusty\\rusty-notepad'
 
   constructor() { }
 
-  listDirectory(path: string = 'D:\\Repo\\personal_repos\\rusty\\rusty-notepad') {
+  initialize_Explorer(path: string = this.BASE_PATH) {
     invoke<FileSystemItem[]>("read_directory", { path }).then((directory_items: FileSystemItem[]) => {
-      let nodes_list = directory_items.map(item => { return { ...DEFAULT_NODE, name: item.file_name, isDirectory: item.is_folder } as Node })
+      let nodes_list = mapFileSystemItem2NodeList(directory_items);
       let last_node = nodes_list.pop()
       if (last_node) {
-        this.rootDir.set({...last_node,expanded:true});
+        this.rootNode.next({ ...last_node, expanded: true })
       }
-      nodes_list.sort((a,b)=> a.name.localeCompare(b.name)).sort((a,b)=> Number(b.isDirectory) - Number(a.isDirectory)  );
-      this.currentDirectories.set(nodes_list)
+      this.workspace.next(nodes_list)
     });
   }
+
+  expandDirectory(folder: Node) {
+    let path = this.BASE_PATH + "\\" + folder.name
+    invoke<FileSystemItem[]>("read_directory", { path }).then((items: FileSystemItem[]) => {
+      folder.expanded = true;
+      folder.nodes = mapFileSystemItem2NodeList(items)
+    })
+  }
+
+
+
 }

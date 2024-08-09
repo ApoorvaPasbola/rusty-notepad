@@ -1,8 +1,9 @@
 import { NgClass, NgFor, NgIf, UpperCasePipe } from '@angular/common';
-import { Component, computed, Input } from '@angular/core';
-import { DEFAULT_NODE, Node } from '../../utilities/interfaces/Node';
+import { Component, OnDestroy } from '@angular/core';
 import { FolderComponent } from './folder/folder.component';
 import { FolderTreeService } from './folder-tree.service';
+import { Subscription } from 'rxjs';
+import { Node } from '../../utilities/interfaces/Node';
 
 @Component({
   selector: 'rusty-folder-tree',
@@ -11,22 +12,32 @@ import { FolderTreeService } from './folder-tree.service';
   templateUrl: './folder-tree.component.html',
   styleUrl: './folder-tree.component.scss',
 })
-export class FolderTreeComponent {
+export class FolderTreeComponent implements OnDestroy{
 
-  workspace = computed(() => {
-    return this.fsService.currentDirectories();
-  })
+  workspace!: Node[];
+  workspace$!: Subscription
 
-  root = computed(()=>{
-    return this.fsService.rootDir();
-  })
+  root!: Node;
+  root$!:Subscription;
 
   constructor(private fsService: FolderTreeService){
-    this.fsService.listDirectory();
+    this.workspace$ = this.fsService.workspace.subscribe((ele:Node[])=>{
+      this.workspace = ele;
+    })
+    this.root$ = this.fsService.rootNode.subscribe((ele:Node)=>{
+      this.root = ele;
+    })
+    this.fsService.initialize_Explorer();
+  }
+
+  ngOnDestroy(): void {
+      this.workspace$.unsubscribe();
+      this.root$.unsubscribe();
   }
 
   openDirectory(index:number) {
-    this.workspace()[index].expanded = !this.workspace()[index].expanded
-    console.log("Opening directory ", this.workspace()[index].name);
+    this.workspace[index].expanded = !this.workspace[index].expanded
+    if(this.workspace[index].expanded && !this.workspace[index].nodes?.length)
+      this.fsService.expandDirectory(this.workspace[index]);
   }
 }
