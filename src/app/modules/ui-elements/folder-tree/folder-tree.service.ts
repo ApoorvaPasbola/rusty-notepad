@@ -5,7 +5,7 @@ import { DEFAULT_NODE, FileSystemItem, Node } from '../../utilities/interfaces/N
 @Injectable({
   providedIn: 'root'
 })
-export class ExplorerService {
+export class FolderTreeService {
 
   public currentDirectories = signal<Node[]>([])
   public rootDir = signal<Node>(DEFAULT_NODE);
