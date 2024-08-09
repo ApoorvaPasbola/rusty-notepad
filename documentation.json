@@ -2,14 +2,56 @@
     "pipes": [],
     "interfaces": [
         {
-            "name": "Node",
-            "id": "interface-Node-9f4f886dcbd1794e25e0e1ac0682748177a67d3eea0f4b7754e8e3788c1b622eb3f49b4ec03348eeadc3753f654844ec3bc74244895134dc9382dd21ca574396",
+            "name": "FileSystemItem",
+            "id": "interface-FileSystemItem-24bbe8e68301694baf931db0c968e3bdb527d5d5449736a2029502ec8041669e02172f19390ef0c89950ede2978453a4826d3f894d8de9cdc15ead30d1570ad5",
             "file": "src/app/modules/utilities/interfaces/Node.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface Node {\r\n    name:string,\r\n    nodes?: Node[]\r\n}",
+            "sourceCode": "export interface Node {\r\n    name:string,\r\n    nodes?: Node[],\r\n    isDirectory: boolean\r\n}\r\n\r\nexport interface FileSystemItem {\r\n    file_name: string,\r\n    is_folder: boolean\r\n}",
             "properties": [
+                {
+                    "name": "file_name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "is_folder",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": []
+        },
+        {
+            "name": "Node",
+            "id": "interface-Node-24bbe8e68301694baf931db0c968e3bdb527d5d5449736a2029502ec8041669e02172f19390ef0c89950ede2978453a4826d3f894d8de9cdc15ead30d1570ad5",
+            "file": "src/app/modules/utilities/interfaces/Node.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface Node {\r\n    name:string,\r\n    nodes?: Node[],\r\n    isDirectory: boolean\r\n}\r\n\r\nexport interface FileSystemItem {\r\n    file_name: string,\r\n    is_folder: boolean\r\n}",
+            "properties": [
+                {
+                    "name": "isDirectory",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
                 {
                     "name": "name",
                     "deprecated": false,
@@ -98,18 +140,18 @@
     "injectables": [
         {
             "name": "ExplorerService",
-            "id": "injectable-ExplorerService-004b0b7cbf4ce0beb6d1a188397bc886944578146117469e54fa8963e36d177db3848bf30af4b26f3c49fd9df22cfd39acbdedf3795c966d66dc1fa3800cfa7c",
+            "id": "injectable-ExplorerService-f1c99f584e0125b592d2f685d10ff95659007792b9ce8bcdd1daf614a1ba821d164854a8d77c03d7f28781ff2081c7f592fd4b6a1bb73ad526638fe8f66e8516",
             "file": "src/app/modules/ui-elements/explorer/explorer.service.ts",
             "properties": [
                 {
                     "name": "currentDirectories",
-                    "defaultValue": "signal<string[]>([])",
+                    "defaultValue": "signal<Node[]>([])",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 9,
+                    "line": 10,
                     "modifierKind": [
                         125
                     ]
@@ -118,27 +160,47 @@
             "methods": [
                 {
                     "name": "listDirectory",
-                    "args": [],
+                    "args": [
+                        {
+                            "name": "path",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "\"D:\\\\OpenSourceSoftware\\\\rusty-notepad\\\\src\\\\app\""
+                        }
+                    ],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 13,
+                    "line": 14,
                     "deprecated": false,
-                    "deprecationMessage": ""
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "path",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "\"D:\\\\OpenSourceSoftware\\\\rusty-notepad\\\\src\\\\app\"",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
                 }
             ],
             "deprecated": false,
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable, signal } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class ExplorerService {\r\n\r\n  public currentDirectories = signal<string[]>([])\r\n\r\n  constructor() { }\r\n\r\n  listDirectory(){\r\n    let path = \"D:\\\\OpenSourceSoftware\\\\rusty-notepad\\\\src\\\\app\"\r\n\r\n    invoke<string>(\"read_directory\", { path }).then((response:any) => {\r\n      console.log(\"Current Directories \", response);\r\n      \r\n      this.currentDirectories.set(response)\r\n      console.log(\"signal value is \", this.currentDirectories());\r\n      \r\n    });\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Injectable, signal } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\nimport { FileSystemItem, Node } from '../../utilities/interfaces/Node';\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class ExplorerService {\r\n\r\n  public currentDirectories = signal<Node[]>([])\r\n\r\n  constructor() { }\r\n\r\n  listDirectory(path:string = \"D:\\\\OpenSourceSoftware\\\\rusty-notepad\\\\src\\\\app\"){\r\n    invoke<FileSystemItem[]>(\"read_directory\", { path }).then((directory_items:FileSystemItem[]) => {\r\n      let nodes_list = directory_items.map(item=> { return {name: item.file_name, nodes:[], isDirectory: item.is_folder} as Node})\r\n      console.log(\"Retured object is \", directory_items, nodes_list);\r\n      \r\n      this.currentDirectories.set(nodes_list)\r\n    });\r\n  }\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 9
+                "line": 10
             },
             "extends": [],
             "type": "injectable"
@@ -563,7 +625,7 @@
         },
         {
             "name": "ExplorerComponent",
-            "id": "component-ExplorerComponent-81a6691fe5f74308112fe7dc10acad1563408007093772872f0e78a826823db95f048586d1b32b2041dd42673012336726da86349e15fef22c2118ebd6d0b166",
+            "id": "component-ExplorerComponent-ab7c6ee0a5ad0f415cdb5ead43e5598e044cd41303baaf7ea59650dd36b92cafef954803c57600e317cb764b8f1231b3063995575ddfbfea6cecc2875c6307ea",
             "file": "src/app/modules/ui-elements/explorer/explorer.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -589,7 +651,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 15
                 }
             ],
             "methodsClass": [],
@@ -601,12 +663,16 @@
             "imports": [
                 {
                     "name": "NgFor"
+                },
+                {
+                    "name": "FolderTreeComponent",
+                    "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, computed } from '@angular/core';\r\nimport { ExplorerService } from './explorer.service';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\n\r\n@Component({\r\n  selector: 'rusty-explorer',\r\n  standalone: true,\r\n  imports: [NgFor],\r\n  templateUrl: './explorer.component.html',\r\n  styleUrl: './explorer.component.scss'\r\n})\r\nexport class ExplorerComponent {\r\n\r\n  paths = computed(() => {\r\n    return this.fs_service.currentDirectories();\r\n  })\r\n\r\n  constructor(private fs_service: ExplorerService ){\r\n    this.fs_service.listDirectory();\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import { Component, computed } from '@angular/core';\r\nimport { ExplorerService } from './explorer.service';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\nimport { FolderTreeComponent } from \"../folder-tree/folder-tree.component\";\r\n\r\n@Component({\r\n  selector: 'rusty-explorer',\r\n  standalone: true,\r\n  imports: [NgFor, FolderTreeComponent],\r\n  templateUrl: './explorer.component.html',\r\n  styleUrl: './explorer.component.scss'\r\n})\r\nexport class ExplorerComponent {\r\n\r\n  paths = computed(() => {\r\n    return this.fs_service.currentDirectories();\r\n  })\r\n\r\n  constructor(private fs_service: ExplorerService ){\r\n    this.fs_service.listDirectory();\r\n  }\r\n\r\n}\r\n",
             "styleUrl": "./explorer.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -624,7 +690,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 16,
+                "line": 17,
                 "jsdoctags": [
                     {
                         "name": "fs_service",
@@ -638,14 +704,15 @@
                 ]
             },
             "extends": [],
-            "templateData": "<div *ngFor=\"let node of paths()\">\r\n    <p>{{node}}</p>\r\n</div>\r\n"
+            "templateData": "<rusty-folder-tree [workspace]=\"paths()\"></rusty-folder-tree>"
         },
         {
             "name": "FolderComponent",
-            "id": "component-FolderComponent-d57552136e8fcd59089a17cf6bc06e81e5315caf83f9f5bf34f31110c71a84121dcbe01ca05eea173e70efd1d2250bd8aa5111f9b7ecbf3de5078f0966ad168f",
+            "id": "component-FolderComponent-cea5812903a6001f276bd594981bf0121b9048b312df6bd66d3ce6b13e11a5ef29404bae7929bd6c9bd904074c201b1a23180432e118e7efcbba6235a73f699f",
             "file": "src/app/modules/ui-elements/folder-tree/folder/folder.component.ts",
             "encapsulation": [],
             "entryComponents": [],
+            "host": {},
             "inputs": [],
             "outputs": [],
             "providers": [],
@@ -657,52 +724,13 @@
             ],
             "viewProviders": [],
             "hostDirectives": [],
-            "inputsClass": [],
-            "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "standalone": true,
-            "imports": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'rusty-folder',\r\n  standalone: true,\r\n  imports: [],\r\n  templateUrl: './folder.component.html',\r\n  styleUrl: './folder.component.scss'\r\n})\r\nexport class FolderComponent {\r\n\r\n}\r\n",
-            "styleUrl": "./folder.component.scss",
-            "assetsDirs": [],
-            "styleUrlsData": "",
-            "stylesData": "",
-            "extends": [],
-            "templateData": "<p>folder works!</p>\r\n"
-        },
-        {
-            "name": "FolderTreeComponent",
-            "id": "component-FolderTreeComponent-214633f52c681bb4842b8c5d61c90780935aa8b564c697e7a163df49a2c4fc4c60f29ce79396e0fb6a478df461d15847888be433562dc8d9882e5ea3b7cef8ff",
-            "file": "src/app/modules/ui-elements/folder-tree/folder-tree.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "rusty-folder-tree",
-            "styleUrls": [],
-            "styles": [],
-            "templateUrl": [
-                "./folder-tree.component.html"
-            ],
-            "viewProviders": [],
-            "hostDirectives": [],
             "inputsClass": [
                 {
-                    "name": "directory",
-                    "defaultValue": "[\r\n    { name: 'Movies', nodes: [{ name: 'Action' }, { name: 'Comedy' }] },\r\n    { name: 'Music', nodes: [{ name: 'Rock' }, { name: 'Classical' }] },\r\n    { name: 'Pictures' },\r\n    { name: 'Documents' },\r\n  ]",
+                    "name": "folders",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 13,
-                    "type": "Node[]",
+                    "line": 17,
+                    "type": "Node[] | undefined",
                     "decorators": []
                 }
             ],
@@ -722,13 +750,74 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { NgFor } from '@angular/common';\r\nimport { Component, Input } from '@angular/core';\r\nimport { Node } from '../../utilities/interfaces/Node';\r\n\r\n@Component({\r\n  selector: 'rusty-folder-tree',\r\n  standalone: true,\r\n  imports: [NgFor],\r\n  templateUrl: './folder-tree.component.html',\r\n  styleUrl: './folder-tree.component.scss',\r\n})\r\nexport class FolderTreeComponent {\r\n  @Input('directory') dir: Node[] = [\r\n    { name: 'Movies', nodes: [{ name: 'Action' }, { name: 'Comedy' }] },\r\n    { name: 'Music', nodes: [{ name: 'Rock' }, { name: 'Classical' }] },\r\n    { name: 'Pictures' },\r\n    { name: 'Documents' },\r\n  ];\r\n}\r\n",
+            "sourceCode": "import { NgFor } from '@angular/common';\r\nimport { Component, Input } from '@angular/core';\r\nimport { Node } from '../../../utilities/interfaces/Node';\r\n\r\n@Component({\r\n  selector: 'rusty-folder',\r\n  standalone: true,\r\n  imports: [NgFor],\r\n  host: {\r\n    '[style.list-style-type]': \"none\"\r\n  },\r\n  templateUrl: './folder.component.html',\r\n  styleUrl: './folder.component.scss'\r\n})\r\nexport class FolderComponent {\r\n\r\n  @Input() folders:Node[] | undefined;\r\n\r\n}\r\n",
+            "styleUrl": "./folder.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<li class=\"my-1\" *ngFor=\"let folder of folders\">\r\n  <span class=\"flex items-center gap-1\">\r\n    <i class=\"pi pi-folder\"></i> {{ folder.name }}\r\n  </span>\r\n  <ul class=\"pl-4 subFolders\">\r\n    <rusty-folder [folders]=\"folder.nodes\" />\r\n  </ul>\r\n</li>\r\n"
+        },
+        {
+            "name": "FolderTreeComponent",
+            "id": "component-FolderTreeComponent-961fda6bef543f82978d77b3427226677478dccf1f95676856ab7b7d4ac2789bc035d9aa434932978338ca3a8358051d401d5b7c8dde8f3a38fcd9492d43f67e",
+            "file": "src/app/modules/ui-elements/folder-tree/folder-tree.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "rusty-folder-tree",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./folder-tree.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "workspace",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 14,
+                    "type": "Node[]",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "NgIf"
+                },
+                {
+                    "name": "NgFor"
+                },
+                {
+                    "name": "NgClass"
+                },
+                {
+                    "name": "FolderComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { NgClass, NgFor, NgIf } from '@angular/common';\r\nimport { Component, Input } from '@angular/core';\r\nimport { Node } from '../../utilities/interfaces/Node';\r\nimport { FolderComponent } from './folder/folder.component';\r\n\r\n@Component({\r\n  selector: 'rusty-folder-tree',\r\n  standalone: true,\r\n  imports: [NgIf, NgFor, NgClass, FolderComponent],\r\n  templateUrl: './folder-tree.component.html',\r\n  styleUrl: './folder-tree.component.scss',\r\n})\r\nexport class FolderTreeComponent {\r\n  @Input('workspace') workspace!: Node[]\r\n}",
             "styleUrl": "./folder-tree.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"p-8 max-w-full mx-auto\">\r\n  <ul>\r\n    <li class=\"my-1\">\r\n      <span class=\"flex items-center gap-1\">\r\n        <i class=\"pi pi-folder\"></i> Home\r\n      </span>\r\n\r\n      <ul class=\"pl-4 subFolders\">\r\n        <li class=\"my-1\" *ngFor=\"let folder of dir\">\r\n          <span class=\"flex items-center gap-1\">\r\n            <i class=\"pi pi-folder\"></i> {{ folder.name }}\r\n          </span>\r\n          <ul class=\"pl-4 subFolders\">\r\n            <li class=\"my-1\" *ngFor=\"let folder of folder.nodes\">\r\n              <span class=\"flex items-center gap-1\">\r\n                <i class=\"pi pi-folder\"></i> {{ folder.name}}\r\n              </span>\r\n            </li>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </li>\r\n  </ul>\r\n</div>\r\n"
+            "templateData": "<div class=\"ml-1\">\r\n  <ul>\r\n    <li class=\"my-1\">\r\n      <span class=\"flex items-center gap-1\">\r\n        <i class=\"pi pi-folder\"></i> Home\r\n      </span>\r\n\r\n      <ul class=\"pl-1 subFolders\">\r\n        <li class=\"my-1\" *ngFor=\"let folder of workspace\">\r\n          <span class=\"flex items-center gap-1\">\r\n            <i *ngIf=\"folder.isDirectory\" class=\"pi pi-folder\"></i>\r\n            <i *ngIf=\"!folder.isDirectory\" class=\"pi pi-file\"></i>\r\n             {{ folder.name }}\r\n          </span>\r\n          <ul class=\"pl-4 subFolders\">\r\n                <rusty-folder [folders]=\"folder.nodes\"/>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </li>\r\n  </ul>\r\n</div>\r\n"
         },
         {
             "name": "HorizontalBarComponent",
@@ -1483,7 +1572,7 @@
                 "linktype": "component",
                 "name": "FolderComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/1",
+                "coverageCount": "0/2",
                 "status": "low"
             },
             {
@@ -1554,9 +1643,18 @@
                 "filePath": "src/app/modules/utilities/interfaces/Node.ts",
                 "type": "interface",
                 "linktype": "interface",
-                "name": "Node",
+                "name": "FileSystemItem",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/utilities/interfaces/Node.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Node",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {

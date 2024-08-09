@@ -5,6 +5,6 @@
   "></i> {{folder.name}}
   </span>
   <ul style="padding-left: .7rem;">
-    <rusty-folder *ngIf="folder.nodes" [folders]="folder.nodes" />
+    <rusty-folder *ngIf="folder.nodes && folder.expanded" [folders]="folder.nodes" />
   </ul>
 </li>

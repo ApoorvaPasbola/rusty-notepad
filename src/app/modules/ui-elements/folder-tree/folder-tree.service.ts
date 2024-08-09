@@ -11,7 +11,7 @@ export class FolderTreeService {
   workspace = new BehaviorSubject<Node[]>([]);
   rootNode = new BehaviorSubject<Node>(DEFAULT_NODE);
   ROOT_NAME:string = '';
-  private BASE_PATH: string = 'D:\\Repo\\personal_repos\\rusty\\rusty-notepad'
+  private BASE_PATH: string = 'D:\\OpenSourceSoftware\\rusty-notepad'
 
   constructor() { }
 
@@ -28,13 +28,12 @@ export class FolderTreeService {
   }
 
   openDirectory(workspace:Node[], index:number) {
-    workspace[index].expanded = true
+    workspace[index].expanded = ! workspace[index].expanded
     if(workspace[index].expanded && !workspace[index].nodes?.length)
       this.expandDirectory(workspace[index]);
   }
 
   expandDirectory(folder: Node) {
-    console.log("Folder to expand ", folder);
     let path;
     if(folder.parentNodeName.includes("."))
       path = this.BASE_PATH + "\\" + folder.parentNodeName.split(".").filter( value => value!=this.ROOT_NAME).join("\\") + "\\" + folder.name
