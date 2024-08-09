@@ -20,6 +20,8 @@
     var(--surface-light-primary),
     var(--surface-dark-primary)
   );
+  --accent-color: #60a5fa70;
+  --higlighter:
 
   // Typography
   --workpad-font-family: "Courier New";
@@ -35,7 +37,7 @@
 
   // Font - Size
   --font-size-primary: 1rem;
-  --font-size-secondary: 0.8rem;
+  --font-size-secondary: 0.7rem;
 
   // paddings and margins
   --padding-xs: 0.25rem;
@@ -73,9 +75,10 @@
     width: max(100px, 5%);
     .p-tabview-nav-link {
       padding: 0 var(--padding-xs) var(--padding-xs) var(--padding-xs);
-      font-weight: 200;
-      font-size: 12px;
+      font-weight: var(--font-weight-secondary);
+      font-size: var(--font-size-secondary);
     }
+
     .p-element.p-icon-wrapper {
       margin-left: auto;
       padding-right: 2px;
@@ -88,8 +91,9 @@
   // Splitter gutter css
   p-splitter > div{
     div.p-splitter-gutter:hover {
-      background: var(--cyan-900);
+      background: var(--accent-color);
       transition: background-color 0.5s ease;
+      width: .27rem;
     }
     div.p-splitter-gutter {
       width: 2.5px;

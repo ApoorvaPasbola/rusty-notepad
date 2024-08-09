@@ -12,8 +12,12 @@ import { FolderTreeComponent } from "../folder-tree/folder-tree.component";
 })
 export class ExplorerComponent {
 
-  paths = computed(() => {
+  systemFileItems = computed(() => {
     return this.fs_service.currentDirectories();
+  })
+
+  rootFile = computed(()=>{
+    return this.fs_service.rootDir();
   })
 
   constructor(private fs_service: ExplorerService ){

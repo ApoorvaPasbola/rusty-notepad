@@ -1,22 +1,24 @@
-<div class="ml-1">
-  <ul>
-    <li class="my-1">
-      <span class="flex items-center gap-1">
-        <i class="pi pi-folder"></i> Home
-      </span>
+<ul class="my-0">
+  <li class="my-1">
+    <span class="flex items-center item">
+      <i (click)="root.expanded = !root.expanded" style="font-size: small; align-content: end" class="pi"
+        [ngClass]="root.expanded ? 'pi-angle-down' : 'pi-angle-right'"></i>
+      {{ root.name }}
+    </span>
 
-      <ul class="pl-1 subFolders">
-        <li class="my-1" *ngFor="let folder of workspace">
-          <span class="flex items-center gap-1">
-            <i *ngIf="folder.isDirectory" class="pi pi-folder"></i>
-            <i *ngIf="!folder.isDirectory" class="pi pi-file"></i>
-             {{ folder.name }}
-          </span>
-          <ul class="pl-4 subFolders">
-                <rusty-folder [folders]="folder.nodes"/>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</div>
+    <ul *ngIf="root.expanded" class="pl-1 subFolders">
+      <li class="my-1" *ngFor="let fileSystemItem of workspace; index as i">
+        <span (click)="openDirectory(i)" class="flex items-center item"
+          [ngClass]="fileSystemItem.isDirectory ? '' : 'ml-2'">
+          <i style="font-size: small; align-content: end" *ngIf="fileSystemItem.isDirectory" class="pi" [ngClass]="
+              fileSystemItem.expanded ? 'pi-angle-down' : 'pi-angle-right'
+            "></i>
+          {{ fileSystemItem.name }}
+        </span>
+        <ul *ngIf="fileSystemItem.expanded" class="pl-4 subFolders">
+          <rusty-folder [folders]="fileSystemItem.nodes" />
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
