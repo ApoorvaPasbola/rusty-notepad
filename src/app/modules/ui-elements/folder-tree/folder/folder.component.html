@@ -1,0 +1,10 @@
+<li class="my-1" *ngFor="let folder of folders;index as i">
+  <span (click)="this.fs.openDirectory(folders,i)" class="flex items-center item">
+    <i style="font-size: 12px; align-content: end; margin-right: 3px;" *ngIf="folder.isDirectory" class="pi" [ngClass]="
+    folder.expanded ? 'pi-angle-down' : 'pi-angle-right'
+  "></i> {{folder.name}}
+  </span>
+  <ul style="padding-left: .7rem;">
+    <rusty-folder *ngIf="folder.nodes && folder.expanded" [folders]="folder.nodes" />
+  </ul>
+</li>

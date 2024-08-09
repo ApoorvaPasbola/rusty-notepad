@@ -13,49 +13,46 @@ import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
 })
 export class TabsComponent implements OnInit {
 
-
   @Output() activeTabChangeEvent = new  EventEmitter<Tab>();
 
   /**
-   * This is use to toggle active tab on Ctrl + Tab event 
+   * This is use to toggle active tab on Ctrl + Tab event
    */
   public activeIndex: number = 0;
 
   /**
-   * This takes a list of tabs from the service which reads all the files 
+   * This takes a list of tabs from the service which reads all the files
    */
-  @Input("tabs") tabs!: Tab[] 
+  @Input("tabs") tabs!: Tab[]
 
   ngOnInit(): void {
-    console.log("Current value of tabs is ", this.tabs);
-    
-    this.triggerTabChangeEvent();
+    this.triggerTabChangeEvent(0);
   }
 
   /**
-   * Switch to next Tab on control + tab event 
+   * Switch to next Tab on control + tab event
    */
   @HostListener("document:keydown.control.tab")
   changeTab() {
     this.activeIndex = (this.activeIndex + 1) % this.tabs.length;
-    this.triggerTabChangeEvent();
+    this.triggerTabChangeEvent(this.activeIndex);
   }
 
   /**
-   * New Tab on Ctrl + N 
+   * New Tab on Ctrl + N
    */
   @HostListener("document:keydown.control.N")
   newTab() {
     let newTab: Tab = {...NEW_TAB_DEFAULT , id: this.tabs.length }
     this.tabs.push(newTab)
-    this.tabs[this.activeIndex].selected = false 
+    this.tabs[this.activeIndex].selected = false
     this.activeIndex = newTab.id ;
-    this.triggerTabChangeEvent();
+    this.triggerTabChangeEvent(this.activeIndex);
   }
 
-  triggerTabChangeEvent(){
+  triggerTabChangeEvent(index:number){
     if(this.tabs?.length)
-      this.activeTabChangeEvent.emit(this.tabs[this.activeIndex]);
+      this.activeTabChangeEvent.emit(this.tabs[index]);
   }
 
 }

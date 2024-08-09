@@ -1,0 +1,24 @@
+<ul class="my-0" style="padding: 2px 0px 0px 3px;">
+  <li class="my-1">
+    <span class="flex items-center item" style="font-weight: 500;">
+      <i (click)="root.expanded = !root.expanded" style="font-size: 12px; align-content: end; margin-right: 3px;" class="pi"
+        [ngClass]="root.expanded ? 'pi-angle-down' : 'pi-angle-right'"></i>
+      {{ root.name | uppercase}}
+    </span>
+
+    <ul *ngIf="root.expanded" style="padding-left: .7rem;">
+      <li class="my-1" *ngFor="let fileSystemItem of workspace; index as i">
+        <span (click)="this.fsService.openDirectory(workspace,i)" class="flex items-center item"
+          [ngClass]="fileSystemItem.isDirectory ? '' : 'ml-2'">
+          <i style="font-size: 12px; align-content: end; margin-right: 3px;" *ngIf="fileSystemItem.isDirectory" class="pi" [ngClass]="
+              fileSystemItem.expanded ? 'pi-angle-down' : 'pi-angle-right'
+            "></i>
+          {{ fileSystemItem.name }}
+        </span>
+        <ul *ngIf="fileSystemItem.expanded" style="padding-left: .7rem;">
+          <rusty-folder *ngIf="fileSystemItem.nodes" [folders]="fileSystemItem.nodes" />
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
