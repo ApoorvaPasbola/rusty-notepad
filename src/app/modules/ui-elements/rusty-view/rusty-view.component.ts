@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class RustyViewComponent {
 
-workfile!: String;
+workfile!: string;
 workFileSubs: Subscription;
 
 

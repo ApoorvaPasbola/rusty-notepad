@@ -2,40 +2,48 @@ import {
   Component,
   HostListener,
   Input,
-  OnChanges,
-  OnInit,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgStyle } from '@angular/common';
 import { EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-workpad',
   standalone: true,
-  imports: [CommonModule, EditorModule, FormsModule],
+  imports: [CommonModule, EditorModule, FormsModule, NgStyle],
   templateUrl: './workpad.component.html',
   styleUrl: './workpad.component.scss',
 })
-export class WorkpadComponent implements OnInit, OnChanges {
-
+export class WorkpadComponent {
   /**
    * Takes input string from tabs . Which reads data from the file
    */
-  @Input('contentFromFile') contentFromFile: String | undefined;
-
+  @Input('contentFromFile') contentFromFile!: string;
 
   /**
    * Current draft work in progress
    */
-  work: String = '';
+  workpadContent: string = '';
+  draft!: string;
 
   showHeader: boolean = false;
 
   ngOnInit(): void {
-    if (this.contentFromFile) this.work = this.contentFromFile;
+    this.workpadContent = this.contentFromFile;
+    this.draft = this.contentFromFile;
   }
+
   ngOnChanges(changes: SimpleChanges): void {
-    this.work = changes['contentFromFile'].currentValue;
+    this.workpadContent = changes['contentFromFile'].currentValue;
+  }
+
+  handleChange(event: EditorTextChangeEvent) {
+    console.log('Event on text change ', event);
+    this.draft = event.textValue;
+  }
+
+  @HostListener('document:keydown.control.S')
+  printCurrentValue() {
+    console.log('Current value is ', this.draft);
   }
 }

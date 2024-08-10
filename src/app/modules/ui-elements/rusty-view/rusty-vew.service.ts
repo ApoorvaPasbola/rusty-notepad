@@ -7,21 +7,21 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ViewService {
 
-    workbook$ = new BehaviorSubject<String>('This is some default \n work from an file')
+    workbook$ = new BehaviorSubject<string>('This is some default \n work from an file')
 
   constructor() { }
 
-  readFile(pathStr: String) {
+  readFile(pathStr: string) {
     if(pathStr == ".") return;
-    invoke<String>("read_file", { pathStr }).then((data:String) => {
+    invoke<string>("read_file", { pathStr }).then((data:string) => {
            ;
            this.workbook$.next(this.convertFileLineEndings(data));
     })
   }
 
-  convertFileLineEndings(data: String){
-    let newdata = data.split("\n\r").map((line) => `<p> ${line}`).join(" ")
-    console.log("spliited data is ", newdata );
+  convertFileLineEndings(data: string){
+    let sanitizedData  = data.replaceAll("\r", '');
+    let newdata = sanitizedData.split("\n").map((line) => `<p> ${line}`).join(" ")
     return newdata;
   }
 
