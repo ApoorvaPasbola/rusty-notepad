@@ -4,6 +4,7 @@ import { WorkpadComponent } from '../workpad/workpad.component';
 import { SplitterComponent } from "../splitter/splitter.component";
 import { FolderTreeComponent } from "../folder-tree/folder-tree.component";
 import { ViewService } from './rusty-vew.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-rusty-view',
@@ -14,9 +15,14 @@ import { ViewService } from './rusty-vew.service';
 })
 export class RustyViewComponent {
 
-workfile = computed(()=>this.viewService.workbook())
+workfile!: String;
+workFileSubs: Subscription;
+
 
 constructor(private viewService:ViewService){
+  this.workFileSubs = this.viewService.workbook$.subscribe((data)=>{
+    this.workfile = data ;
+  })
 }
 
 updateWorkpad(path: string) {

@@ -5,7 +5,7 @@
       <rusty-folder-tree (openFileEvent)="tabs.newTab($event)"></rusty-folder-tree>
     </div>
     <app-tabs #tabs panel2 (activeTabChangeEvent)="updateWorkpad($event)"></app-tabs>
-    <app-workpad panel2 [contentFromFile]="workfile()"></app-workpad>
+    <app-workpad panel2 [contentFromFile]="workfile"></app-workpad>
 
   </app-splitter>
 </div>

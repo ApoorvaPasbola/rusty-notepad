@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   HostListener,
@@ -19,7 +20,7 @@ import { OpenFileEvent } from '../../utilities/interfaces/Events';
   standalone: true,
   imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],
 })
-export class TabsComponent {
+export class TabsComponent implements OnInit{
   @Output() activeTabChangeEvent = new EventEmitter<string>();
 
   /**
@@ -30,9 +31,15 @@ export class TabsComponent {
   /**
    * This takes a list of tabs from the service which reads all the files
    */
-  @Input('tabs') tabs: Tab[] = [NEW_TAB_DEFAULT];
+  @Input('tabs') tabs: Tab[] = []; 
 
-
+  ngOnInit(): void {
+    if(this.tabs.length == 0){
+      this.tabs.push({...NEW_TAB_DEFAULT, id:0})
+      this.activeIndex = 0;
+      this.tabs[0].selected = true
+    }
+  }
   /**
    * Switch to next Tab on control + tab event
    */

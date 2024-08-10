@@ -1,12 +1,14 @@
 import {
   Component,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EditorModule } from 'primeng/editor';
+import { EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-workpad',
@@ -16,15 +18,17 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './workpad.component.scss',
 })
 export class WorkpadComponent implements OnInit, OnChanges {
+
   /**
    * Takes input string from tabs . Which reads data from the file
    */
-  @Input('contentFromFile') contentFromFile: string | undefined;
+  @Input('contentFromFile') contentFromFile: String | undefined;
+
 
   /**
    * Current draft work in progress
    */
-  work: string = '';
+  work: String = '';
 
   showHeader: boolean = false;
 

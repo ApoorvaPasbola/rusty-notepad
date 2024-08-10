@@ -2,13 +2,37 @@
     "pipes": [],
     "interfaces": [
         {
-            "name": "FileSystemItem",
-            "id": "interface-FileSystemItem-24bbe8e68301694baf931db0c968e3bdb527d5d5449736a2029502ec8041669e02172f19390ef0c89950ede2978453a4826d3f894d8de9cdc15ead30d1570ad5",
+            "name": "File",
+            "id": "interface-File-5b4db469ba71151bbd079379b17288a0eda3e30918597c984532323dd982fe8624e11ba23e27f380ef8613bb27348e05c37f21795c32731d855c04fccb8b011f",
             "file": "src/app/modules/utilities/interfaces/Node.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface Node {\r\n    name:string,\r\n    nodes?: Node[],\r\n    isDirectory: boolean\r\n}\r\n\r\nexport interface FileSystemItem {\r\n    file_name: string,\r\n    is_folder: boolean\r\n}",
+            "sourceCode": "export interface Node {\r\n  name: string,\r\n  nodes?: Node[],\r\n  isDirectory: boolean,\r\n  expanded: boolean,\r\n  path: string\r\n}\r\n\r\nexport const DEFAULT_NODE: Node = {\r\n  name: \"notes\",\r\n  nodes: [],\r\n  isDirectory: false,\r\n  expanded: false,\r\n  path: \".\"\r\n}\r\n\r\nexport interface FileSystemItem {\r\n  file_name: string,\r\n  is_folder: boolean\r\n}\r\n\r\nexport interface File {\r\n  content: any\r\n}\r\n\r\nexport function mapFileSystemItem2Node(fileSystemItem: FileSystemItem, path?: string): Node {\r\n  return { ...DEFAULT_NODE, name: fileSystemItem.file_name, isDirectory: fileSystemItem.is_folder, path: path?.concat(\"\\\\\",fileSystemItem.file_name) } as Node;\r\n}\r\nexport function mapFileSystemItem2NodeList(fileSystemItem: FileSystemItem[], parent_node?: string): Node[] {\r\n  return fileSystemItem\r\n    .map((item) => mapFileSystemItem2Node(item, parent_node))\r\n    .sort((a, b) => a.name.localeCompare(b.name)).sort((a, b) => Number(b.isDirectory) - Number(a.isDirectory));;\r\n}\r\n\r\n\r\n",
+            "properties": [
+                {
+                    "name": "content",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 23
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": []
+        },
+        {
+            "name": "FileSystemItem",
+            "id": "interface-FileSystemItem-5b4db469ba71151bbd079379b17288a0eda3e30918597c984532323dd982fe8624e11ba23e27f380ef8613bb27348e05c37f21795c32731d855c04fccb8b011f",
+            "file": "src/app/modules/utilities/interfaces/Node.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface Node {\r\n  name: string,\r\n  nodes?: Node[],\r\n  isDirectory: boolean,\r\n  expanded: boolean,\r\n  path: string\r\n}\r\n\r\nexport const DEFAULT_NODE: Node = {\r\n  name: \"notes\",\r\n  nodes: [],\r\n  isDirectory: false,\r\n  expanded: false,\r\n  path: \".\"\r\n}\r\n\r\nexport interface FileSystemItem {\r\n  file_name: string,\r\n  is_folder: boolean\r\n}\r\n\r\nexport interface File {\r\n  content: any\r\n}\r\n\r\nexport function mapFileSystemItem2Node(fileSystemItem: FileSystemItem, path?: string): Node {\r\n  return { ...DEFAULT_NODE, name: fileSystemItem.file_name, isDirectory: fileSystemItem.is_folder, path: path?.concat(\"\\\\\",fileSystemItem.file_name) } as Node;\r\n}\r\nexport function mapFileSystemItem2NodeList(fileSystemItem: FileSystemItem[], parent_node?: string): Node[] {\r\n  return fileSystemItem\r\n    .map((item) => mapFileSystemItem2Node(item, parent_node))\r\n    .sort((a, b) => a.name.localeCompare(b.name)).sort((a, b) => Number(b.isDirectory) - Number(a.isDirectory));;\r\n}\r\n\r\n\r\n",
             "properties": [
                 {
                     "name": "file_name",
@@ -17,7 +41,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 8
+                    "line": 18
                 },
                 {
                     "name": "is_folder",
@@ -26,7 +50,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 9
+                    "line": 19
                 }
             ],
             "indexSignatures": [],
@@ -36,13 +60,22 @@
         },
         {
             "name": "Node",
-            "id": "interface-Node-24bbe8e68301694baf931db0c968e3bdb527d5d5449736a2029502ec8041669e02172f19390ef0c89950ede2978453a4826d3f894d8de9cdc15ead30d1570ad5",
+            "id": "interface-Node-5b4db469ba71151bbd079379b17288a0eda3e30918597c984532323dd982fe8624e11ba23e27f380ef8613bb27348e05c37f21795c32731d855c04fccb8b011f",
             "file": "src/app/modules/utilities/interfaces/Node.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface Node {\r\n    name:string,\r\n    nodes?: Node[],\r\n    isDirectory: boolean\r\n}\r\n\r\nexport interface FileSystemItem {\r\n    file_name: string,\r\n    is_folder: boolean\r\n}",
+            "sourceCode": "export interface Node {\r\n  name: string,\r\n  nodes?: Node[],\r\n  isDirectory: boolean,\r\n  expanded: boolean,\r\n  path: string\r\n}\r\n\r\nexport const DEFAULT_NODE: Node = {\r\n  name: \"notes\",\r\n  nodes: [],\r\n  isDirectory: false,\r\n  expanded: false,\r\n  path: \".\"\r\n}\r\n\r\nexport interface FileSystemItem {\r\n  file_name: string,\r\n  is_folder: boolean\r\n}\r\n\r\nexport interface File {\r\n  content: any\r\n}\r\n\r\nexport function mapFileSystemItem2Node(fileSystemItem: FileSystemItem, path?: string): Node {\r\n  return { ...DEFAULT_NODE, name: fileSystemItem.file_name, isDirectory: fileSystemItem.is_folder, path: path?.concat(\"\\\\\",fileSystemItem.file_name) } as Node;\r\n}\r\nexport function mapFileSystemItem2NodeList(fileSystemItem: FileSystemItem[], parent_node?: string): Node[] {\r\n  return fileSystemItem\r\n    .map((item) => mapFileSystemItem2Node(item, parent_node))\r\n    .sort((a, b) => a.name.localeCompare(b.name)).sort((a, b) => Number(b.isDirectory) - Number(a.isDirectory));;\r\n}\r\n\r\n\r\n",
             "properties": [
+                {
+                    "name": "expanded",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
                 {
                     "name": "isDirectory",
                     "deprecated": false,
@@ -69,6 +102,48 @@
                     "optional": true,
                     "description": "",
                     "line": 3
+                },
+                {
+                    "name": "path",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": []
+        },
+        {
+            "name": "OpenFileEvent",
+            "id": "interface-OpenFileEvent-b9b984d97f5e98f76e887466456fb0b0a97abb5888bcf5349c84fbfdd9207ce55ce39f421f037f26a2db47a53c27912a5b3fcd592cf11b3d21b600292946f2ec",
+            "file": "src/app/modules/utilities/interfaces/Events.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface OpenFileEvent \r\n{ file_name: string,\r\n     path: string \r\n    }",
+            "properties": [
+                {
+                    "name": "file_name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                },
+                {
+                    "name": "path",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 3
                 }
             ],
             "indexSignatures": [],
@@ -78,22 +153,13 @@
         },
         {
             "name": "Tab",
-            "id": "interface-Tab-13e7ffda712bbebb76e1f96901fac886c27ede00fa440da153f1c6bbdacdf95f61385bd25c532f475af1b2017852ebf439ca81835e44cdb6fe48b7c1ffbadf4d",
+            "id": "interface-Tab-c2daddeee09c309c904668d6fd71395d1e60f6f1f4674d2fc9c9d9e7e093c521556e52836f20758f3c74e52b768b581fb05dda7a6cee7193f74c522210b2965c",
             "file": "src/app/modules/utilities/interfaces/Tab.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface Tab{\r\n  id: number;\r\n  content: string;\r\n  title: string;\r\n  isClosable: boolean;\r\n  selected: boolean;\r\n}\r\n",
+            "sourceCode": "export interface Tab{\r\n  id: number,\r\n  title: string,\r\n  isClosable: boolean,\r\n  selected: boolean,\r\n  path: string\r\n}\r\n",
             "properties": [
-                {
-                    "name": "content",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "string",
-                    "optional": false,
-                    "description": "",
-                    "line": 3
-                },
                 {
                     "name": "id",
                     "deprecated": false,
@@ -110,7 +176,16 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 5
+                    "line": 4
+                },
+                {
+                    "name": "path",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
                 },
                 {
                     "name": "selected",
@@ -119,7 +194,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 6
+                    "line": 5
                 },
                 {
                     "name": "title",
@@ -128,7 +203,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 4
+                    "line": 3
                 }
             ],
             "indexSignatures": [],
@@ -139,40 +214,98 @@
     ],
     "injectables": [
         {
-            "name": "ExplorerService",
-            "id": "injectable-ExplorerService-f1c99f584e0125b592d2f685d10ff95659007792b9ce8bcdd1daf614a1ba821d164854a8d77c03d7f28781ff2081c7f592fd4b6a1bb73ad526638fe8f66e8516",
-            "file": "src/app/modules/ui-elements/explorer/explorer.service.ts",
+            "name": "FolderTreeService",
+            "id": "injectable-FolderTreeService-7d6a2de5f1804a610ebf34fd40d570806f48376756fdd4b7329f7a785f8e2c93d15c754552b3a7604b962908648729636e1e58ab925cc607c8fe29cb07bcf2cb",
+            "file": "src/app/modules/ui-elements/folder-tree/folder-tree.service.ts",
             "properties": [
                 {
-                    "name": "currentDirectories",
-                    "defaultValue": "signal<Node[]>([])",
+                    "name": "BASE_PATH",
+                    "defaultValue": "'D:\\\\OpenSourceSoftware\\\\rusty-notepad'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 14,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "ROOT_NAME",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "rootNode",
+                    "defaultValue": "new BehaviorSubject<Node>(DEFAULT_NODE)",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 10,
-                    "modifierKind": [
-                        125
-                    ]
+                    "line": 12
+                },
+                {
+                    "name": "workspace",
+                    "defaultValue": "new BehaviorSubject<Node[]>([])",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
                 }
             ],
             "methods": [
                 {
-                    "name": "listDirectory",
+                    "name": "expandDirectory",
+                    "args": [
+                        {
+                            "name": "folder",
+                            "type": "Node",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 40,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "folder",
+                            "type": "Node",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "initialize_Explorer",
                     "args": [
                         {
                             "name": "path",
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "defaultValue": "\"D:\\\\OpenSourceSoftware\\\\rusty-notepad\\\\src\\\\app\""
+                            "defaultValue": "this.BASE_PATH"
                         }
                     ],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 14,
+                    "line": 18,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -181,7 +314,50 @@
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "defaultValue": "\"D:\\\\OpenSourceSoftware\\\\rusty-notepad\\\\src\\\\app\"",
+                            "defaultValue": "this.BASE_PATH",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "openDirectory",
+                    "args": [
+                        {
+                            "name": "workspace",
+                            "type": "Node[]",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "index",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 30,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "workspace",
+                            "type": "Node[]",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "index",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": "",
                             "tagName": {
                                 "text": "param"
                             }
@@ -193,7 +369,97 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable, signal } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\nimport { FileSystemItem, Node } from '../../utilities/interfaces/Node';\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class ExplorerService {\r\n\r\n  public currentDirectories = signal<Node[]>([])\r\n\r\n  constructor() { }\r\n\r\n  listDirectory(path:string = \"D:\\\\OpenSourceSoftware\\\\rusty-notepad\\\\src\\\\app\"){\r\n    invoke<FileSystemItem[]>(\"read_directory\", { path }).then((directory_items:FileSystemItem[]) => {\r\n      let nodes_list = directory_items.map(item=> { return {name: item.file_name, nodes:[], isDirectory: item.is_folder} as Node})\r\n      console.log(\"Retured object is \", directory_items, nodes_list);\r\n      \r\n      this.currentDirectories.set(nodes_list)\r\n    });\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\nimport { DEFAULT_NODE, FileSystemItem, mapFileSystemItem2Node, mapFileSystemItem2NodeList, Node } from '../../utilities/interfaces/Node';\r\nimport { BehaviorSubject } from 'rxjs';\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class FolderTreeService {\r\n\r\n  workspace = new BehaviorSubject<Node[]>([]);\r\n  rootNode = new BehaviorSubject<Node>(DEFAULT_NODE);\r\n  ROOT_NAME:string = '';\r\n  private BASE_PATH: string = 'D:\\\\OpenSourceSoftware\\\\rusty-notepad'\r\n\r\n  constructor() { }\r\n\r\n  initialize_Explorer(path: string = this.BASE_PATH) {\r\n    invoke<FileSystemItem[]>(\"read_directory\", { path }).then((directory_items: FileSystemItem[]) => {\r\n      let last_node = directory_items.pop()\r\n      if (last_node) {\r\n        let nodes_list = mapFileSystemItem2NodeList(directory_items, this.BASE_PATH);\r\n        this.rootNode.next({ ...mapFileSystemItem2Node(last_node), expanded: true })\r\n        this.workspace.next(nodes_list)\r\n        this.ROOT_NAME = last_node.file_name;       \r\n      }\r\n    });\r\n  }\r\n\r\n  openDirectory(workspace:Node[], index:number) {\r\n    if(!workspace[index].isDirectory)\r\n      return;\r\n    \r\n    if(!workspace[index].expanded && !workspace[index].nodes?.length)\r\n      this.expandDirectory(workspace[index]);\r\n    workspace[index].expanded = ! workspace[index].expanded\r\n\r\n  }\r\n\r\n  expandDirectory(folder: Node) {\r\n    let path = folder.path;\r\n    invoke<FileSystemItem[]>(\"read_directory\", { path }).then((items: FileSystemItem[]) => {\r\n      items.pop();\r\n      folder.expanded = true;\r\n      folder.nodes = mapFileSystemItem2NodeList(items, folder.path )      \r\n    })\r\n  }\r\n\r\n}\r\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 14
+            },
+            "extends": [],
+            "type": "injectable"
+        },
+        {
+            "name": "ViewService",
+            "id": "injectable-ViewService-dcd754543cd696c1318f8ee1ac33a4346f79c802b563dfee83a9ee41ebbc1d03c49c5ac1389f1505519b40c7a88ba25d025cbbe23ad51eb5677fbb89072b19d3",
+            "file": "src/app/modules/ui-elements/rusty-view/rusty-vew.service.ts",
+            "properties": [
+                {
+                    "name": "workbook$",
+                    "defaultValue": "new BehaviorSubject<String>('This is some default \\n work from an file')",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "methods": [
+                {
+                    "name": "convertFileLineEndings",
+                    "args": [
+                        {
+                            "name": "data",
+                            "type": "String",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 22,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "data",
+                            "type": "String",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "readFile",
+                    "args": [
+                        {
+                            "name": "pathStr",
+                            "type": "String",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 14,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "pathStr",
+                            "type": "String",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Injectable, signal } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\nimport { BehaviorSubject } from 'rxjs';\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class ViewService {\r\n\r\n    workbook$ = new BehaviorSubject<String>('This is some default \\n work from an file')\r\n\r\n  constructor() { }\r\n\r\n  readFile(pathStr: String) {\r\n    if(pathStr == \".\") return;\r\n    invoke<String>(\"read_file\", { pathStr }).then((data:String) => {\r\n           ;\r\n           this.workbook$.next(this.convertFileLineEndings(data));\r\n    })\r\n  }\r\n\r\n  convertFileLineEndings(data: String){\r\n    let newdata = data.split(\"\\n\\r\").map((line) => `<p> ${line}`).join(\" \")\r\n    console.log(\"spliited data is \", newdata );\r\n    return newdata;\r\n  }\r\n\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -624,91 +890,8 @@
             "templateData": "<app-rusty-view ></app-rusty-view>\r\n"
         },
         {
-            "name": "ExplorerComponent",
-            "id": "component-ExplorerComponent-ab7c6ee0a5ad0f415cdb5ead43e5598e044cd41303baaf7ea59650dd36b92cafef954803c57600e317cb764b8f1231b3063995575ddfbfea6cecc2875c6307ea",
-            "file": "src/app/modules/ui-elements/explorer/explorer.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "rusty-explorer",
-            "styleUrls": [],
-            "styles": [],
-            "templateUrl": [
-                "./explorer.component.html"
-            ],
-            "viewProviders": [],
-            "hostDirectives": [],
-            "inputsClass": [],
-            "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "paths",
-                    "defaultValue": "computed(() => {\r\n    return this.fs_service.currentDirectories();\r\n  })",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 15
-                }
-            ],
-            "methodsClass": [],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "standalone": true,
-            "imports": [
-                {
-                    "name": "NgFor"
-                },
-                {
-                    "name": "FolderTreeComponent",
-                    "type": "component"
-                }
-            ],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { Component, computed } from '@angular/core';\r\nimport { ExplorerService } from './explorer.service';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\nimport { FolderTreeComponent } from \"../folder-tree/folder-tree.component\";\r\n\r\n@Component({\r\n  selector: 'rusty-explorer',\r\n  standalone: true,\r\n  imports: [NgFor, FolderTreeComponent],\r\n  templateUrl: './explorer.component.html',\r\n  styleUrl: './explorer.component.scss'\r\n})\r\nexport class ExplorerComponent {\r\n\r\n  paths = computed(() => {\r\n    return this.fs_service.currentDirectories();\r\n  })\r\n\r\n  constructor(private fs_service: ExplorerService ){\r\n    this.fs_service.listDirectory();\r\n  }\r\n\r\n}\r\n",
-            "styleUrl": "./explorer.component.scss",
-            "assetsDirs": [],
-            "styleUrlsData": "",
-            "stylesData": "",
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "args": [
-                    {
-                        "name": "fs_service",
-                        "type": "ExplorerService",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    }
-                ],
-                "line": 17,
-                "jsdoctags": [
-                    {
-                        "name": "fs_service",
-                        "type": "ExplorerService",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    }
-                ]
-            },
-            "extends": [],
-            "templateData": "<rusty-folder-tree [workspace]=\"paths()\"></rusty-folder-tree>"
-        },
-        {
             "name": "FolderComponent",
-            "id": "component-FolderComponent-cea5812903a6001f276bd594981bf0121b9048b312df6bd66d3ce6b13e11a5ef29404bae7929bd6c9bd904074c201b1a23180432e118e7efcbba6235a73f699f",
+            "id": "component-FolderComponent-27e6c06f8c9254c049fe4b27b5ae6fa0c5a70dee2fd56a3d3b4b92863fd6409f74278134b7106197648ba188248466ae926f90a3a4a00ecdf68b03ce895d4447",
             "file": "src/app/modules/ui-elements/folder-tree/folder/folder.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -729,13 +912,26 @@
                     "name": "folders",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 17,
-                    "type": "Node[] | undefined",
+                    "line": 18,
+                    "type": "Node[]",
                     "decorators": []
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [],
+            "propertiesClass": [
+                {
+                    "name": "fs",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "FolderTreeService",
+                    "optional": false,
+                    "description": "",
+                    "line": 20,
+                    "modifierKind": [
+                        125
+                    ]
+                }
+            ],
             "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
@@ -745,22 +941,54 @@
             "imports": [
                 {
                     "name": "NgFor"
+                },
+                {
+                    "name": "NgIf"
+                },
+                {
+                    "name": "NgClass"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { NgFor } from '@angular/common';\r\nimport { Component, Input } from '@angular/core';\r\nimport { Node } from '../../../utilities/interfaces/Node';\r\n\r\n@Component({\r\n  selector: 'rusty-folder',\r\n  standalone: true,\r\n  imports: [NgFor],\r\n  host: {\r\n    '[style.list-style-type]': \"none\"\r\n  },\r\n  templateUrl: './folder.component.html',\r\n  styleUrl: './folder.component.scss'\r\n})\r\nexport class FolderComponent {\r\n\r\n  @Input() folders:Node[] | undefined;\r\n\r\n}\r\n",
+            "sourceCode": "import { NgClass, NgFor, NgIf } from '@angular/common';\r\nimport { Component, Input } from '@angular/core';\r\nimport { Node } from '../../../utilities/interfaces/Node';\r\nimport { FolderTreeService } from '../folder-tree.service';\r\n\r\n@Component({\r\n  selector: 'rusty-folder',\r\n  standalone: true,\r\n  imports: [NgFor,NgIf,NgClass],\r\n  host: {\r\n    '[style.list-style-type]': \"none\"\r\n  },\r\n  templateUrl: './folder.component.html',\r\n  styleUrl: './folder.component.scss'\r\n})\r\nexport class FolderComponent {\r\n\r\n  @Input() folders!:Node[];\r\n\r\n  constructor(public fs:FolderTreeService){\r\n\r\n  }\r\n}\r\n",
             "styleUrl": "./folder.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "fs",
+                        "type": "FolderTreeService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 18,
+                "jsdoctags": [
+                    {
+                        "name": "fs",
+                        "type": "FolderTreeService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
             "extends": [],
-            "templateData": "<li class=\"my-1\" *ngFor=\"let folder of folders\">\r\n  <span class=\"flex items-center gap-1\">\r\n    <i class=\"pi pi-folder\"></i> {{ folder.name }}\r\n  </span>\r\n  <ul class=\"pl-4 subFolders\">\r\n    <rusty-folder [folders]=\"folder.nodes\" />\r\n  </ul>\r\n</li>\r\n"
+            "templateData": "<li class=\"my-1\" *ngFor=\"let folder of folders;index as i\">\r\n  <span (click)=\"this.fs.openDirectory(folders,i)\" class=\"flex items-center item\">\r\n    <i style=\"font-size: 12px; align-content: end; margin-right: 3px;\" *ngIf=\"folder.isDirectory\" class=\"pi\" [ngClass]=\"\r\n    folder.expanded ? 'pi-angle-down' : 'pi-angle-right'\r\n  \"></i> {{folder.name}}\r\n  </span>\r\n  <ul style=\"padding-left: .7rem;\">\r\n    <rusty-folder *ngIf=\"folder.nodes && folder.expanded\" [folders]=\"folder.nodes\" />\r\n  </ul>\r\n</li>\r\n"
         },
         {
             "name": "FolderTreeComponent",
-            "id": "component-FolderTreeComponent-961fda6bef543f82978d77b3427226677478dccf1f95676856ab7b7d4ac2789bc035d9aa434932978338ca3a8358051d401d5b7c8dde8f3a38fcd9492d43f67e",
+            "id": "component-FolderTreeComponent-9c6386f05cc342a5f8cd2453cb607559888d5ef81272873eeaba18acc7637cd0c37333763813558ea50d401f248417db8b97b956899e0a55eb546a7874cbd931",
             "file": "src/app/modules/ui-elements/folder-tree/folder-tree.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -775,19 +1003,107 @@
             ],
             "viewProviders": [],
             "hostDirectives": [],
-            "inputsClass": [
+            "inputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "openFileEvent",
+                    "defaultValue": "new EventEmitter<OpenFileEvent>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 17,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "fsService",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "FolderTreeService",
+                    "optional": false,
+                    "description": "",
+                    "line": 24,
+                    "modifierKind": [
+                        125
+                    ]
+                },
+                {
+                    "name": "root",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Node",
+                    "optional": false,
+                    "description": "",
+                    "line": 21
+                },
+                {
+                    "name": "root$",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Subscription",
+                    "optional": false,
+                    "description": "",
+                    "line": 22
+                },
                 {
                     "name": "workspace",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 14,
                     "type": "Node[]",
-                    "decorators": []
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
+                {
+                    "name": "workspace$",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Subscription",
+                    "optional": false,
+                    "description": "",
+                    "line": 19
                 }
             ],
-            "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [],
+            "methodsClass": [
+                {
+                    "name": "handleFileSystemClick",
+                    "args": [
+                        {
+                            "name": "index",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 39,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "index",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ngOnDestroy",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 34,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
@@ -806,18 +1122,51 @@
                 {
                     "name": "FolderComponent",
                     "type": "component"
+                },
+                {
+                    "name": "UpperCasePipe",
+                    "type": "pipe"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { NgClass, NgFor, NgIf } from '@angular/common';\r\nimport { Component, Input } from '@angular/core';\r\nimport { Node } from '../../utilities/interfaces/Node';\r\nimport { FolderComponent } from './folder/folder.component';\r\n\r\n@Component({\r\n  selector: 'rusty-folder-tree',\r\n  standalone: true,\r\n  imports: [NgIf, NgFor, NgClass, FolderComponent],\r\n  templateUrl: './folder-tree.component.html',\r\n  styleUrl: './folder-tree.component.scss',\r\n})\r\nexport class FolderTreeComponent {\r\n  @Input('workspace') workspace!: Node[]\r\n}",
+            "sourceCode": "import { NgClass, NgFor, NgIf, UpperCasePipe } from '@angular/common';\r\nimport { Component, EventEmitter, OnDestroy, Output } from '@angular/core';\r\nimport { FolderComponent } from './folder/folder.component';\r\nimport { FolderTreeService } from './folder-tree.service';\r\nimport { Subscription } from 'rxjs';\r\nimport { Node } from '../../utilities/interfaces/Node';\r\nimport { OpenFileEvent } from '../../utilities/interfaces/Events';\r\n\r\n@Component({\r\n  selector: 'rusty-folder-tree',\r\n  standalone: true,\r\n  imports: [NgIf, NgFor, NgClass, FolderComponent, UpperCasePipe],\r\n  templateUrl: './folder-tree.component.html',\r\n  styleUrl: './folder-tree.component.scss',\r\n})\r\nexport class FolderTreeComponent implements OnDestroy {\r\n  @Output() openFileEvent = new EventEmitter<OpenFileEvent>();\r\n  workspace!: Node[];\r\n  workspace$!: Subscription;\r\n\r\n  root!: Node;\r\n  root$!: Subscription;\r\n\r\n  constructor(public fsService: FolderTreeService) {\r\n    this.workspace$ = this.fsService.workspace.subscribe((ele: Node[]) => {\r\n      this.workspace = ele;\r\n    });\r\n    this.root$ = this.fsService.rootNode.subscribe((ele: Node) => {\r\n      this.root = ele;\r\n    });\r\n    this.fsService.initialize_Explorer();\r\n  }\r\n\r\n  ngOnDestroy(): void {\r\n    this.workspace$.unsubscribe();\r\n    this.root$.unsubscribe();\r\n  }\r\n\r\n  handleFileSystemClick(index: number) {\r\n    if (this.workspace[index].isDirectory)\r\n      this.fsService.openDirectory(this.workspace, index);\r\n    else\r\n      this.openFileEvent.emit({\r\n        file_name: this.workspace[index].name,\r\n        path: this.workspace[index].path,\r\n      });\r\n  }\r\n}\r\n",
             "styleUrl": "./folder-tree.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "fsService",
+                        "type": "FolderTreeService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 22,
+                "jsdoctags": [
+                    {
+                        "name": "fsService",
+                        "type": "FolderTreeService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
             "extends": [],
-            "templateData": "<div class=\"ml-1\">\r\n  <ul>\r\n    <li class=\"my-1\">\r\n      <span class=\"flex items-center gap-1\">\r\n        <i class=\"pi pi-folder\"></i> Home\r\n      </span>\r\n\r\n      <ul class=\"pl-1 subFolders\">\r\n        <li class=\"my-1\" *ngFor=\"let folder of workspace\">\r\n          <span class=\"flex items-center gap-1\">\r\n            <i *ngIf=\"folder.isDirectory\" class=\"pi pi-folder\"></i>\r\n            <i *ngIf=\"!folder.isDirectory\" class=\"pi pi-file\"></i>\r\n             {{ folder.name }}\r\n          </span>\r\n          <ul class=\"pl-4 subFolders\">\r\n                <rusty-folder [folders]=\"folder.nodes\"/>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </li>\r\n  </ul>\r\n</div>\r\n"
+            "implements": [
+                "OnDestroy"
+            ],
+            "templateData": "<ul class=\"my-0\" style=\"padding: 2px 0px 0px 3px;\">\r\n  <li class=\"my-1\">\r\n    <span (click)=\"root.expanded = !root.expanded\" class=\"flex items-center item\" style=\"font-weight: 500;\">\r\n      <i  style=\"font-size: 12px; align-content: end; margin-right: 3px;\" class=\"pi\"\r\n        [ngClass]=\"root.expanded ? 'pi-angle-down' : 'pi-angle-right'\"></i>\r\n      {{ root.name | uppercase}}\r\n    </span>\r\n\r\n    <ul *ngIf=\"root.expanded\" style=\"padding-left: .7rem;\">\r\n      <li class=\"my-1\" *ngFor=\"let fileSystemItem of workspace; index as i\">\r\n        <span (click)=\"this.handleFileSystemClick(i)\" class=\"flex items-center item\"\r\n          [ngClass]=\"fileSystemItem.isDirectory ? '' : 'ml-2'\">\r\n          <i style=\"font-size: 12px; align-content: end; margin-right: 3px;\" *ngIf=\"fileSystemItem.isDirectory\" class=\"pi\" [ngClass]=\"\r\n              fileSystemItem.expanded ? 'pi-angle-down' : 'pi-angle-right'\r\n            \"></i>\r\n          {{ fileSystemItem.name }}\r\n        </span>\r\n        <ul *ngIf=\"fileSystemItem.expanded\" style=\"padding-left: .7rem;\">\r\n          <rusty-folder *ngIf=\"fileSystemItem.nodes\" [folders]=\"fileSystemItem.nodes\" />\r\n        </ul>\r\n      </li>\r\n    </ul>\r\n  </li>\r\n</ul>\r\n"
         },
         {
             "name": "HorizontalBarComponent",
@@ -859,7 +1208,7 @@
         },
         {
             "name": "RustyViewComponent",
-            "id": "component-RustyViewComponent-cb86f09564daa026c6ba8bc369e51cc8b566f25f97e5295d68c071b50a6ec9a596204eaa04932168a3785c455ceff9125cc794b421f7b29f683b8505a7dcec19",
+            "id": "component-RustyViewComponent-26f500d960da0c6d044682056294d09b80d8439988e5f5301dda1ed354931ba3015cbb6a23925288669196d6d2520af9fc4725a3883af9b6b20ffe8ae96195d1",
             "file": "src/app/modules/ui-elements/rusty-view/rusty-view.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -878,24 +1227,22 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
-                    "name": "dummyData",
-                    "defaultValue": "[\r\n  {\r\n    id: 1,\r\n    selected: true,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 1',\r\n  },\r\n  {\r\n    id: 2,\r\n    selected: false,\r\n    isClosable: true,\r\n    content: 'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 2',\r\n  },\r\n  {\r\n    id: 3,\r\n    selected: false,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n    title: 'Tab 3',\r\n  },\r\n]",
+                    "name": "workfile",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "Tab[]",
+                    "type": "String",
                     "optional": false,
                     "description": "",
                     "line": 18
                 },
                 {
-                    "name": "workfile",
-                    "defaultValue": "\"This is some default work from an file\"",
+                    "name": "workFileSubs",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "string",
+                    "type": "Subscription",
                     "optional": false,
                     "description": "",
-                    "line": 50
+                    "line": 19
                 }
             ],
             "methodsClass": [
@@ -903,8 +1250,8 @@
                     "name": "updateWorkpad",
                     "args": [
                         {
-                            "name": "event",
-                            "type": "Tab",
+                            "name": "path",
+                            "type": "string",
                             "deprecated": false,
                             "deprecationMessage": ""
                         }
@@ -912,13 +1259,13 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 52,
+                    "line": 28,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "name": "event",
-                            "type": "Tab",
+                            "name": "path",
+                            "type": "string",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -947,24 +1294,50 @@
                     "type": "component"
                 },
                 {
-                    "name": "ExplorerComponent",
+                    "name": "FolderTreeComponent",
                     "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabsComponent } from \"../tabs/tabs.component\";\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { SplitterComponent } from \"../splitter/splitter.component\";\r\nimport { ExplorerComponent } from '../explorer/explorer.component';\r\n\r\n@Component({\r\n  selector: 'app-rusty-view',\r\n  templateUrl: './rusty-view.component.html',\r\n  styleUrl: './rusty-view.component.scss',\r\n  standalone: true,\r\n  imports: [TabsComponent, WorkpadComponent, SplitterComponent, ExplorerComponent]\r\n})\r\nexport class RustyViewComponent {\r\n\r\n\r\ndummyData: Tab[] =  [\r\n  {\r\n    id: 1,\r\n    selected: true,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 1',\r\n  },\r\n  {\r\n    id: 2,\r\n    selected: false,\r\n    isClosable: true,\r\n    content: 'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \\\r\n      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \\\r\n      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\r\n    title: 'Tab 2',\r\n  },\r\n  {\r\n    id: 3,\r\n    selected: false,\r\n    isClosable: true,\r\n    content:\r\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \\\r\n      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',\r\n    title: 'Tab 3',\r\n  },\r\n];\r\n\r\nworkfile: string = \"This is some default work from an file\";\r\n\r\nupdateWorkpad(event: Tab) {\r\n  this.workfile = event.content;\r\n}\r\n\r\n}\r\n",
+            "sourceCode": "import { Component, computed } from '@angular/core';\r\nimport { TabsComponent } from \"../tabs/tabs.component\";\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { SplitterComponent } from \"../splitter/splitter.component\";\r\nimport { FolderTreeComponent } from \"../folder-tree/folder-tree.component\";\r\nimport { ViewService } from './rusty-vew.service';\r\nimport { Subscription } from 'rxjs';\r\n\r\n@Component({\r\n  selector: 'app-rusty-view',\r\n  templateUrl: './rusty-view.component.html',\r\n  styleUrl: './rusty-view.component.scss',\r\n  standalone: true,\r\n  imports: [TabsComponent, WorkpadComponent, SplitterComponent, FolderTreeComponent]\r\n})\r\nexport class RustyViewComponent {\r\n\r\nworkfile!: String;\r\nworkFileSubs: Subscription;\r\n\r\n\r\nconstructor(private viewService:ViewService){\r\n  this.workFileSubs = this.viewService.workbook$.subscribe((data)=>{\r\n    this.workfile = data ;\r\n  })\r\n}\r\n\r\nupdateWorkpad(path: string) {\r\n  this.viewService.readFile(path);\r\n}\r\n\r\n}\r\n",
             "styleUrl": "./rusty-view.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "viewService",
+                        "type": "ViewService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 19,
+                "jsdoctags": [
+                    {
+                        "name": "viewService",
+                        "type": "ViewService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
             "extends": [],
-            "templateData": "<div class=\"layout h-full\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-splitter class=\"h-full\">\r\n    <div >\r\n      <rusty-explorer></rusty-explorer>\r\n    </div>\r\n    <app-tabs panel2 (activeTabChangeEvent)=\"updateWorkpad($event)\"  [tabs]=\"dummyData\"></app-tabs>\r\n    <app-workpad panel2 [contentFromFile]=\"workfile\"></app-workpad>\r\n\r\n  </app-splitter>\r\n</div>\r\n"
+            "templateData": "<div class=\"layout h-full\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-splitter class=\"h-full\">\r\n    <div >\r\n      <rusty-folder-tree (openFileEvent)=\"tabs.newTab($event)\"></rusty-folder-tree>\r\n    </div>\r\n    <app-tabs #tabs panel2 (activeTabChangeEvent)=\"updateWorkpad($event)\"></app-tabs>\r\n    <app-workpad panel2 [contentFromFile]=\"workfile\"></app-workpad>\r\n\r\n  </app-splitter>\r\n</div>\r\n"
         },
         {
             "name": "SplitterComponent",
-            "id": "component-SplitterComponent-221be0fca16fa2221fe4135779960f588de9a5c8a805b098a7580af51fc8862d6ba250cdf9d1b585419f3bb5476d66a451d8000c92f3cf01b7ea4d3a383f2a7e",
+            "id": "component-SplitterComponent-dc07d1d75893a3e814011a0bc891a1079bc4d76c9ac9ffac58d33d143098bad9d808bed00968a8824ba7fcfe33f7b11aa162579afa31d77bc859c34f25536afb",
             "file": "src/app/modules/ui-elements/splitter/splitter.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -992,22 +1365,26 @@
                 {
                     "name": "SplitterModule",
                     "type": "module"
+                },
+                {
+                    "name": "ScrollPanelModule",
+                    "type": "module"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { SplitterModule } from 'primeng/splitter';\r\n@Component({\r\n  selector: 'app-splitter',\r\n  templateUrl: './splitter.component.html',\r\n  styleUrl: './splitter.component.scss',\r\n  standalone: true,\r\n  imports: [SplitterModule]\r\n})\r\nexport class SplitterComponent {\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { SplitterModule } from 'primeng/splitter';\r\nimport { ScrollPanelModule } from 'primeng/scrollpanel';\r\n\r\n@Component({\r\n  selector: 'app-splitter',\r\n  templateUrl: './splitter.component.html',\r\n  styleUrl: './splitter.component.scss',\r\n  standalone: true,\r\n  imports: [SplitterModule, ScrollPanelModule]\r\n})\r\nexport class SplitterComponent {\r\n}\r\n",
             "styleUrl": "./splitter.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<p-splitter\r\n    [panelSizes]=\"[25, 75]\"\r\n    [minSizes]=\"[1, 20]\"\r\n    [style]=\"{ border: 'none', height: '100%' }\"\r\n    styleClass=\"mb-5\">\r\n    <ng-template pTemplate>\r\n        <div >\r\n           <ng-content ></ng-content>\r\n        </div>\r\n    </ng-template>\r\n    <ng-template pTemplate>\r\n        <div [style]=\"{padding:'var(--padding-xs)'}\" class=\"col \">\r\n           <ng-content select=\"[panel2]\"></ng-content>\r\n        </div>\r\n    </ng-template>\r\n</p-splitter>\r\n"
+            "templateData": "<p-splitter\r\n    [panelSizes]=\"[25, 75]\"\r\n    [minSizes]=\"[1, 20]\"\r\n    [style]=\"{ border: 'none', height: '100%' }\"\r\n    styleClass=\"mb-5\">\r\n    <ng-template pTemplate>\r\n      <p-scrollPanel class=\"w-full\" [style]=\"{ height: '100%', backgroundColor:'var(--surface-dark-secondary)' }\" styleClass=\"custombar1\">\r\n        <ng-content ></ng-content>\r\n      </p-scrollPanel>\r\n    </ng-template>\r\n\r\n    <ng-template pTemplate>\r\n        <div [style]=\"{padding:'var(--padding-xs)'}\" class=\"col \">\r\n           <ng-content select=\"[panel2]\"></ng-content>\r\n        </div>\r\n    </ng-template>\r\n</p-splitter>\r\n"
         },
         {
             "name": "TabsComponent",
-            "id": "component-TabsComponent-dc2772efc1d02a010225cad85faf39099109c3ee4fb40bed97db9a183df21f08d4acaacd937a083baf101dfd66d039a15920a696325144689890743c2ffc41ad",
+            "id": "component-TabsComponent-78b100cbc9fff694e788cf5bb47610a4b21b1e2d67c18ff959a860aab867c9f1a6ba0a5a302e81334047fc8bc98f7f3cb2496dda38f44825fbae5047e140ea6a",
             "file": "src/app/modules/ui-elements/tabs/tabs.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1025,11 +1402,12 @@
             "inputsClass": [
                 {
                     "name": "tabs",
+                    "defaultValue": "[]",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nThis takes a list of tabs from the service which reads all the files\n",
                     "description": "<p>This takes a list of tabs from the service which reads all the files</p>\n",
-                    "line": 27,
+                    "line": 34,
                     "type": "Tab[]",
                     "decorators": []
                 }
@@ -1037,10 +1415,10 @@
             "outputsClass": [
                 {
                     "name": "activeTabChangeEvent",
-                    "defaultValue": "new  EventEmitter<Tab>()",
+                    "defaultValue": "new EventEmitter<string>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 17,
+                    "line": 24,
                     "type": "EventEmitter"
                 }
             ],
@@ -1053,7 +1431,7 @@
                     "type": "number",
                     "optional": false,
                     "description": "<p>This is use to toggle active tab on Ctrl + Tab event</p>\n",
-                    "line": 22,
+                    "line": 29,
                     "rawdescription": "\n\nThis is use to toggle active tab on Ctrl + Tab event\n",
                     "modifierKind": [
                         125
@@ -1067,7 +1445,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 37,
+                    "line": 48,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
@@ -1083,16 +1461,14 @@
                     ]
                 },
                 {
-                    "name": "newTab",
+                    "name": "createBlankTab",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 46,
+                    "line": 74,
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nNew Tab on Ctrl + N\n",
-                    "description": "<p>New Tab on Ctrl + N</p>\n",
                     "decorators": [
                         {
                             "name": "HostListener",
@@ -1104,24 +1480,74 @@
                     ]
                 },
                 {
-                    "name": "ngOnInit",
+                    "name": "newTab",
+                    "args": [
+                        {
+                            "name": "tabEvent",
+                            "type": "OpenFileEvent",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 56,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nNew Tab on Ctrl + N\n",
+                    "description": "<p>New Tab on Ctrl + N</p>\n",
+                    "jsdoctags": [
+                        {
+                            "name": "tabEvent",
+                            "type": "OpenFileEvent",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ngAfterViewInit",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 29,
+                    "line": 36,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
                 {
                     "name": "triggerTabChangeEvent",
-                    "args": [],
+                    "args": [
+                        {
+                            "name": "index",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "0"
+                        }
+                    ],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 54,
+                    "line": 82,
                     "deprecated": false,
-                    "deprecationMessage": ""
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "index",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "0",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
                 }
             ],
             "deprecated": false,
@@ -1134,9 +1560,7 @@
                     "argsDecorator": [],
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nNew Tab on Ctrl + N\n",
-                    "description": "<p>New Tab on Ctrl + N</p>\n",
-                    "line": 46
+                    "line": 74
                 },
                 {
                     "name": "document:keydown.control.tab",
@@ -1146,7 +1570,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
                     "description": "<p>Switch to next Tab on control + tab event</p>\n",
-                    "line": 37
+                    "line": 48
                 }
             ],
             "standalone": true,
@@ -1170,16 +1594,16 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';\r\nimport { TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor} from '@angular/common';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { NEW_TAB_DEFAULT } from '../../utilities/Constants';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],\r\n})\r\nexport class TabsComponent implements OnInit {\r\n\r\n\r\n  @Output() activeTabChangeEvent = new  EventEmitter<Tab>();\r\n\r\n  /**\r\n   * This is use to toggle active tab on Ctrl + Tab event \r\n   */\r\n  public activeIndex: number = 0;\r\n\r\n  /**\r\n   * This takes a list of tabs from the service which reads all the files \r\n   */\r\n  @Input(\"tabs\") tabs!: Tab[] \r\n\r\n  ngOnInit(): void {\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * Switch to next Tab on control + tab event \r\n   */\r\n  @HostListener(\"document:keydown.control.tab\")\r\n  changeTab() {\r\n    this.activeIndex = (this.activeIndex + 1) % this.tabs.length;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  /**\r\n   * New Tab on Ctrl + N \r\n   */\r\n  @HostListener(\"document:keydown.control.N\")\r\n  newTab() {\r\n    let newTab: Tab = {...NEW_TAB_DEFAULT , id: this.tabs.length }\r\n    this.tabs.push(newTab)\r\n    this.tabs[this.activeIndex].selected = false \r\n    this.activeIndex = newTab.id ;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  triggerTabChangeEvent(){\r\n    if(this.tabs?.length)\r\n      this.activeTabChangeEvent.emit(this.tabs[this.activeIndex]);\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {\r\n  AfterViewInit,\r\n  Component,\r\n  EventEmitter,\r\n  HostListener,\r\n  Input,\r\n  OnInit,\r\n  Output,\r\n} from '@angular/core';\r\nimport { TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor } from '@angular/common';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { NEW_TAB_DEFAULT } from '../../utilities/Constants';\r\nimport { OpenFileEvent } from '../../utilities/interfaces/Events';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],\r\n})\r\nexport class TabsComponent implements AfterViewInit{\r\n  @Output() activeTabChangeEvent = new EventEmitter<string>();\r\n\r\n  /**\r\n   * This is use to toggle active tab on Ctrl + Tab event\r\n   */\r\n  public activeIndex: number = 0;\r\n\r\n  /**\r\n   * This takes a list of tabs from the service which reads all the files\r\n   */\r\n  @Input('tabs') tabs: Tab[] = []; \r\n\r\n  ngAfterViewInit(): void {\r\n    console.log(\"View init complete \", this.tabs.length);\r\n    if(this.tabs.length == 0){\r\n      this.tabs.push({...NEW_TAB_DEFAULT, id:0})\r\n      this.activeIndex = 0;\r\n      this.tabs[0].selected = true\r\n    }\r\n  }\r\n  /**\r\n   * Switch to next Tab on control + tab event\r\n   */\r\n  @HostListener('document:keydown.control.tab')\r\n  changeTab() {\r\n    this.activeIndex = (this.activeIndex + 1) % this.tabs.length;\r\n    this.triggerTabChangeEvent(this.activeIndex);\r\n  }\r\n\r\n  /**\r\n   * New Tab on Ctrl + N\r\n   */\r\n  newTab(tabEvent: OpenFileEvent) {\r\n    if (!tabEvent.file_name) this.createBlankTab();\r\n    if (!tabEvent.path) this.createBlankTab();\r\n\r\n    let newTab: Tab = {\r\n      ...NEW_TAB_DEFAULT,\r\n      id: this.tabs.length,\r\n      title: tabEvent.file_name,\r\n      path: tabEvent.path,\r\n    };\r\n\r\n    this.tabs.push(newTab);\r\n    this.tabs[this.activeIndex].selected = false;\r\n    this.activeIndex = newTab.id;\r\n    this.triggerTabChangeEvent(this.activeIndex);\r\n  }\r\n\r\n  @HostListener('document:keydown.control.N')\r\n  createBlankTab() {\r\n    let newTab: Tab = { ...NEW_TAB_DEFAULT, id: this.tabs.length };\r\n    this.tabs.push(newTab);\r\n    this.tabs[this.activeIndex].selected = false;\r\n    this.activeIndex = newTab.id;\r\n    this.triggerTabChangeEvent(this.activeIndex);\r\n  }\r\n\r\n  triggerTabChangeEvent(index: number = 0) {\r\n    if (this.tabs?.length)\r\n      this.activeTabChangeEvent.emit(this.tabs[index].path);\r\n  }\r\n}\r\n",
             "styleUrl": "./tabs.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
             "implements": [
-                "OnInit"
+                "AfterViewInit"
             ],
-            "templateData": "<div  class=\"tabs-container\">\r\n  <p-tabView  [(activeIndex)]=\"activeIndex\" id=\"closableTabView\" [scrollable]=\"true\">\r\n    <p-tabPanel  *ngFor=\"let tab of tabs\" [selected]=\"tab.selected\" [closable]=\"tab.isClosable\">\r\n        <!-- HEADER -->\r\n        <ng-template  pTemplate=\"header\">\r\n            <div  class=\"flex align-items-center gap-2\">\r\n                    {{tab.title}}\r\n            </div>\r\n        </ng-template>\r\n        <!-- Content  -->\r\n    </p-tabPanel>\r\n  </p-tabView>\r\n</div>\r\n"
+            "templateData": "<div  class=\"tabs-container\">\r\n  <p-tabView (activeIndexChange)=\"triggerTabChangeEvent($event)\"  [(activeIndex)]=\"activeIndex\" id=\"closableTabView\" [scrollable]=\"true\">\r\n    <p-tabPanel *ngFor=\"let tab of tabs\" [selected]=\"tab.selected\" [closable]=\"tab.isClosable\">\r\n        <!-- HEADER -->\r\n        <ng-template  pTemplate=\"header\">\r\n            <div  class=\"flex align-items-center gap-2\">\r\n                    {{tab.title}}\r\n            </div>\r\n        </ng-template>\r\n        <!-- Content  -->\r\n    </p-tabPanel>\r\n  </p-tabView>\r\n</div>\r\n"
         },
         {
             "name": "TooltipComponent",
@@ -1252,7 +1676,7 @@
         },
         {
             "name": "WorkpadComponent",
-            "id": "component-WorkpadComponent-381fceede8a91eda3374390b0e960a9bf5a998aab2efef06d7862d45eab6eaff85c721f1a4a94d05ad746c10dd10cf1d802d732b4bf4b776abff691c5a258e41",
+            "id": "component-WorkpadComponent-e770a6bd5ae8393da2b453f48fdc588cf1b74bafd7e272649fbcea8a31de55d420c5f7de21c46f7d273ea31cedb637ba33f58e49435ddbfbb05bf6070c186011",
             "file": "src/app/modules/ui-elements/workpad/workpad.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1274,8 +1698,8 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nTakes input string from tabs . Which reads data from the file\n",
                     "description": "<p>Takes input string from tabs . Which reads data from the file</p>\n",
-                    "line": 22,
-                    "type": "string | undefined",
+                    "line": 23,
+                    "type": "String | undefined",
                     "decorators": []
                 }
             ],
@@ -1289,17 +1713,17 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 29
+                    "line": 30
                 },
                 {
                     "name": "work",
                     "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "string",
+                    "type": "String",
                     "optional": false,
                     "description": "<p>Current draft work in progress</p>\n",
-                    "line": 27,
+                    "line": 28,
                     "rawdescription": "\n\nCurrent draft work in progress\n"
                 }
             ],
@@ -1317,7 +1741,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 34,
+                    "line": 35,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1338,15 +1762,43 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 31,
+                    "line": 32,
                     "deprecated": false,
                     "deprecationMessage": ""
+                },
+                {
+                    "name": "printCurrentValue",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 40,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "HostListener",
+                            "stringifiedArguments": "'document:keydown.control.P'"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
                 }
             ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
-            "hostListeners": [],
+            "hostListeners": [
+                {
+                    "name": "document:keydown.control.P",
+                    "args": [],
+                    "argsDecorator": [],
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 40
+                }
+            ],
             "standalone": true,
             "imports": [
                 {
@@ -1365,7 +1817,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\r\n  Component,\r\n  Input,\r\n  OnChanges,\r\n  OnInit,\r\n  SimpleChanges,\r\n} from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { EditorModule } from 'primeng/editor';\r\nimport { FormsModule } from '@angular/forms';\r\n@Component({\r\n  selector: 'app-workpad',\r\n  standalone: true,\r\n  imports: [CommonModule, EditorModule, FormsModule],\r\n  templateUrl: './workpad.component.html',\r\n  styleUrl: './workpad.component.scss',\r\n})\r\nexport class WorkpadComponent implements OnInit, OnChanges {\r\n  /**\r\n   * Takes input string from tabs . Which reads data from the file\r\n   */\r\n  @Input('contentFromFile') contentFromFile: string | undefined;\r\n\r\n  /**\r\n   * Current draft work in progress\r\n   */\r\n  work: string = '';\r\n\r\n  showHeader: boolean = false;\r\n\r\n  ngOnInit(): void {\r\n    if (this.contentFromFile) this.work = this.contentFromFile;\r\n  }\r\n  ngOnChanges(changes: SimpleChanges): void {\r\n    this.work = changes['contentFromFile'].currentValue;\r\n  }\r\n}\r\n",
+            "sourceCode": "import {\r\n  Component,\r\n  HostListener,\r\n  Input,\r\n  OnChanges,\r\n  OnInit,\r\n  SimpleChanges,\r\n} from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { EditorModule } from 'primeng/editor';\r\nimport { FormsModule } from '@angular/forms';\r\n@Component({\r\n  selector: 'app-workpad',\r\n  standalone: true,\r\n  imports: [CommonModule, EditorModule, FormsModule],\r\n  templateUrl: './workpad.component.html',\r\n  styleUrl: './workpad.component.scss',\r\n})\r\nexport class WorkpadComponent implements OnInit, OnChanges {\r\n  /**\r\n   * Takes input string from tabs . Which reads data from the file\r\n   */\r\n  @Input('contentFromFile') contentFromFile: String | undefined;\r\n\r\n  /**\r\n   * Current draft work in progress\r\n   */\r\n  work: String = '';\r\n\r\n  showHeader: boolean = false;\r\n\r\n  ngOnInit(): void {\r\n    if (this.contentFromFile) this.work = this.contentFromFile;\r\n  }\r\n  ngOnChanges(changes: SimpleChanges): void {\r\n    this.work = changes['contentFromFile'].currentValue;\r\n  }\r\n\r\n  @HostListener('document:keydown.control.P')\r\n  printCurrentValue() {\r\n    console.log('Current value is ', this.work);\r\n  }\r\n}\r\n",
             "styleUrl": "./workpad.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -1467,6 +1919,16 @@
     "miscellaneous": {
         "variables": [
             {
+                "name": "DEFAULT_NODE",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/utilities/interfaces/Node.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Node",
+                "defaultValue": "{\r\n  name: \"notes\",\r\n  nodes: [],\r\n  isDirectory: false,\r\n  expanded: false,\r\n  path: \".\"\r\n}"
+            },
+            {
                 "name": "NEW_TAB_DEFAULT",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1474,13 +1936,116 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Tab",
-                "defaultValue": "{\r\ncontent : \"Happy Taking notes\",\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\"\r\n}"
+                "defaultValue": "{\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\",\r\npath: \".\"\r\n}"
             }
         ],
-        "functions": [],
+        "functions": [
+            {
+                "name": "mapFileSystemItem2Node",
+                "file": "src/app/modules/utilities/interfaces/Node.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [
+                    {
+                        "name": "fileSystemItem",
+                        "type": "FileSystemItem",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "path",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "optional": true
+                    }
+                ],
+                "returnType": "Node",
+                "jsdoctags": [
+                    {
+                        "name": "fileSystemItem",
+                        "type": "FileSystemItem",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "path",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "optional": true,
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "mapFileSystemItem2NodeList",
+                "file": "src/app/modules/utilities/interfaces/Node.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [
+                    {
+                        "name": "fileSystemItem",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "parent_node",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "optional": true
+                    }
+                ],
+                "returnType": "Node[]",
+                "jsdoctags": [
+                    {
+                        "name": "fileSystemItem",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "parent_node",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "optional": true,
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        ],
         "typealiases": [],
         "enumerations": [],
         "groupedVariables": {
+            "src/app/modules/utilities/interfaces/Node.ts": [
+                {
+                    "name": "DEFAULT_NODE",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/utilities/interfaces/Node.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Node",
+                    "defaultValue": "{\r\n  name: \"notes\",\r\n  nodes: [],\r\n  isDirectory: false,\r\n  expanded: false,\r\n  path: \".\"\r\n}"
+                }
+            ],
             "src/app/modules/utilities/Constants.ts": [
                 {
                     "name": "NEW_TAB_DEFAULT",
@@ -1490,17 +2055,110 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Tab",
-                    "defaultValue": "{\r\ncontent : \"Happy Taking notes\",\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\"\r\n}"
+                    "defaultValue": "{\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\",\r\npath: \".\"\r\n}"
                 }
             ]
         },
-        "groupedFunctions": {},
+        "groupedFunctions": {
+            "src/app/modules/utilities/interfaces/Node.ts": [
+                {
+                    "name": "mapFileSystemItem2Node",
+                    "file": "src/app/modules/utilities/interfaces/Node.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "fileSystemItem",
+                            "type": "FileSystemItem",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "path",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "optional": true
+                        }
+                    ],
+                    "returnType": "Node",
+                    "jsdoctags": [
+                        {
+                            "name": "fileSystemItem",
+                            "type": "FileSystemItem",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "path",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "optional": true,
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mapFileSystemItem2NodeList",
+                    "file": "src/app/modules/utilities/interfaces/Node.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "fileSystemItem",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "parent_node",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "optional": true
+                        }
+                    ],
+                    "returnType": "Node[]",
+                    "jsdoctags": [
+                        {
+                            "name": "fileSystemItem",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "parent_node",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "optional": true,
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
         "groupedEnumerations": {},
         "groupedTypeAliases": {}
     },
     "routes": [],
     "coverage": {
-        "count": 5,
+        "count": 3,
         "status": "low",
         "files": [
             {
@@ -1540,30 +2198,21 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/modules/ui-elements/explorer/explorer.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "ExplorerComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/3",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/modules/ui-elements/explorer/explorer.service.ts",
-                "type": "injectable",
-                "linktype": "injectable",
-                "name": "ExplorerService",
-                "coveragePercent": 0,
-                "coverageCount": "0/4",
-                "status": "low"
-            },
-            {
                 "filePath": "src/app/modules/ui-elements/folder-tree/folder-tree.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "FolderTreeComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/2",
+                "coverageCount": "0/10",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ui-elements/folder-tree/folder-tree.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "FolderTreeService",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
                 "status": "low"
             },
             {
@@ -1572,7 +2221,7 @@
                 "linktype": "component",
                 "name": "FolderComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/2",
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {
@@ -1585,12 +2234,21 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/modules/ui-elements/rusty-view/rusty-vew.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "ViewService",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/modules/ui-elements/rusty-view/rusty-view.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "RustyViewComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
@@ -1607,9 +2265,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "TabsComponent",
-                "coveragePercent": 60,
-                "coverageCount": "6/10",
-                "status": "good"
+                "coveragePercent": 45,
+                "coverageCount": "5/11",
+                "status": "medium"
             },
             {
                 "filePath": "src/app/modules/ui-elements/tooltip/tooltip.component.ts",
@@ -1625,9 +2283,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "WorkpadComponent",
-                "coveragePercent": 33,
-                "coverageCount": "2/6",
-                "status": "medium"
+                "coveragePercent": 25,
+                "coverageCount": "2/8",
+                "status": "low"
             },
             {
                 "filePath": "src/app/modules/utilities/Constants.ts",
@@ -1637,6 +2295,24 @@
                 "name": "NEW_TAB_DEFAULT",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/utilities/interfaces/Events.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "OpenFileEvent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/utilities/interfaces/Node.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "File",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
                 "status": "low"
             },
             {
@@ -1654,7 +2330,37 @@
                 "linktype": "interface",
                 "name": "Node",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/utilities/interfaces/Node.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "mapFileSystemItem2Node",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/utilities/interfaces/Node.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "mapFileSystemItem2NodeList",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/utilities/interfaces/Node.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "DEFAULT_NODE",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
