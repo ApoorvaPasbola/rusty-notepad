@@ -62,9 +62,9 @@ export class WorkpadComponent implements OnChanges {
    * This is just for debugging purposes
    */
   @HostListener('document:keydown.control.S')
-  getCurrentDraf():string {
+  getCurrentDraf():string|undefined {
     if(this.quill)
       return this.quill.getText()
-    return "";
+    return undefined;
   }
 }
