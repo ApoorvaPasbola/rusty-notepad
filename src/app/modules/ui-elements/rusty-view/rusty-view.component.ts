@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { TabsComponent } from "../tabs/tabs.component";
 import { WorkpadComponent } from '../workpad/workpad.component';
-import { Tab } from '../../utilities/interfaces/Tab';
 import { SplitterComponent } from "../splitter/splitter.component";
 import { FolderTreeComponent } from "../folder-tree/folder-tree.component";
+import { ViewService } from './rusty-vew.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-rusty-view',
@@ -14,43 +15,18 @@ import { FolderTreeComponent } from "../folder-tree/folder-tree.component";
 })
 export class RustyViewComponent {
 
+workfile!: string;
+workFileSubs: Subscription;
 
-dummyData: Tab[] =  [
-  {
-    id: 1,
-    selected: true,
-    isClosable: true,
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \
-      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    title: 'Tab 1',
-  },
-  {
-    id: 2,
-    selected: false,
-    isClosable: true,
-    content: 'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat. \
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    title: 'Tab 2',
-  },
-  {
-    id: 3,
-    selected: false,
-    isClosable: true,
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim \
-      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commod consequat.',
-    title: 'Tab 3',
-  },
-];
 
-workfile: string = "This is some default work from an file";
+constructor(private viewService:ViewService){
+  this.workFileSubs = this.viewService.workbook$.subscribe((data)=>{
+    this.workfile = data ;
+  })
+}
 
-updateWorkpad(event: Tab) {
-  this.workfile = event.content;
+updateWorkpad(path: string) {
+  this.viewService.readFile(path);
 }
 
 }

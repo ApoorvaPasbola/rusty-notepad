@@ -15,9 +15,14 @@ fn read_directory(path: String) -> Vec<SystemObject>{
     vec
 }
 
+#[tauri::command]
+fn read_file(path_str:String) -> String {
+    file_explorer::_read_file(path_str)
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![read_directory])
+        .invoke_handler(tauri::generate_handler![read_directory, read_file])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

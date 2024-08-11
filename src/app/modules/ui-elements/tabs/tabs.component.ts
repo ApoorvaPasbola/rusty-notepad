@@ -1,9 +1,18 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { TabViewModule } from 'primeng/tabview';
-import { CommonModule, NgFor} from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { WorkpadComponent } from '../workpad/workpad.component';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
+import { OpenFileEvent } from '../../utilities/interfaces/Events';
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
@@ -11,9 +20,8 @@ import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
   standalone: true,
   imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],
 })
-export class TabsComponent implements OnInit {
-
-  @Output() activeTabChangeEvent = new  EventEmitter<Tab>();
+export class TabsComponent implements OnInit{
+  @Output() activeTabChangeEvent = new EventEmitter<string>();
 
   /**
    * This is use to toggle active tab on Ctrl + Tab event
@@ -23,16 +31,19 @@ export class TabsComponent implements OnInit {
   /**
    * This takes a list of tabs from the service which reads all the files
    */
-  @Input("tabs") tabs!: Tab[]
+  @Input('tabs') tabs: Tab[] = []; 
 
   ngOnInit(): void {
-    this.triggerTabChangeEvent(0);
+    if(this.tabs.length == 0){
+      this.tabs.push({...NEW_TAB_DEFAULT, id:0})
+      this.activeIndex = 0;
+      this.tabs[0].selected = true
+    }
   }
-
   /**
    * Switch to next Tab on control + tab event
    */
-  @HostListener("document:keydown.control.tab")
+  @HostListener('document:keydown.control.tab')
   changeTab() {
     this.activeIndex = (this.activeIndex + 1) % this.tabs.length;
     this.triggerTabChangeEvent(this.activeIndex);
@@ -41,18 +52,34 @@ export class TabsComponent implements OnInit {
   /**
    * New Tab on Ctrl + N
    */
-  @HostListener("document:keydown.control.N")
-  newTab() {
-    let newTab: Tab = {...NEW_TAB_DEFAULT , id: this.tabs.length }
-    this.tabs.push(newTab)
-    this.tabs[this.activeIndex].selected = false
-    this.activeIndex = newTab.id ;
+  newTab(tabEvent: OpenFileEvent) {
+    if (!tabEvent.file_name) this.createBlankTab();
+    if (!tabEvent.path) this.createBlankTab();
+
+    let newTab: Tab = {
+      ...NEW_TAB_DEFAULT,
+      id: this.tabs.length,
+      title: tabEvent.file_name,
+      path: tabEvent.path,
+    };
+
+    this.tabs.push(newTab);
+    this.tabs[this.activeIndex].selected = false;
+    this.activeIndex = newTab.id;
     this.triggerTabChangeEvent(this.activeIndex);
   }
 
-  triggerTabChangeEvent(index:number){
-    if(this.tabs?.length)
-      this.activeTabChangeEvent.emit(this.tabs[index]);
+  @HostListener('document:keydown.control.N')
+  createBlankTab() {
+    let newTab: Tab = { ...NEW_TAB_DEFAULT, id: this.tabs.length };
+    this.tabs.push(newTab);
+    this.tabs[this.activeIndex].selected = false;
+    this.activeIndex = newTab.id;
+    this.triggerTabChangeEvent(this.activeIndex);
   }
 
+  triggerTabChangeEvent(index: number = 0) {
+    if (this.tabs?.length)
+      this.activeTabChangeEvent.emit(this.tabs[index].path);
+  }
 }
