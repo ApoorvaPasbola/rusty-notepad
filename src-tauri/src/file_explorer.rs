@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::{
-    fs::{self},
-    io::{self, Read},
+    fs::{self, File},
+    io::{self, Read, Write},
     path::PathBuf,
 };
 
@@ -37,8 +37,14 @@ pub fn _list_files(vec: &mut Vec<SystemObject>, path: PathBuf) -> io::Result<()>
 }
 
 pub fn _read_file(path: String) -> String {
-    let mut in_file = std::fs::File::open(path).unwrap();
+    let mut in_file = File::open(path).unwrap();
     let mut content = String::new();
-    in_file.read_to_string(&mut content);
+    let _ = in_file.read_to_string(&mut content);
     return content;
+}
+
+pub fn save_file(path: String, data: String) -> std::io::Result<()> {
+    print!("Saving current file on path  {path} and {data}");
+    let mut file = fs::OpenOptions::new().write(true).open(path).unwrap();
+    file.write_all(data.as_bytes())
 }

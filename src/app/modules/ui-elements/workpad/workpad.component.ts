@@ -1,17 +1,18 @@
 import {
   Component,
+  EventEmitter,
   HostListener,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
-import {
-  EditorInitEvent,
-  EditorModule,
-} from 'primeng/editor';
+import { EditorInitEvent, EditorModule } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 import Quill from 'quill';
+import { SaveFileEvent } from '../../utilities/interfaces/Events';
+import { Delta } from 'quill/core';
 @Component({
   selector: 'app-workpad',
   standalone: true,
@@ -25,6 +26,8 @@ export class WorkpadComponent implements OnChanges {
    */
   @Input('contentFromFile') contentFromFile!: string;
 
+  @Output() saveFileEvent = new EventEmitter<SaveFileEvent>();
+
   /**
    * Quill Editor object to access the internal apis
    */
@@ -35,11 +38,8 @@ export class WorkpadComponent implements OnChanges {
    */
   showHeader: boolean = false;
 
-
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("Changes occured ", changes, this.contentFromFile);
     this.loadDataFromFile();
-    
   }
 
   /**
@@ -51,20 +51,38 @@ export class WorkpadComponent implements OnChanges {
   }
 
   /**
-   * Loads the data in the workpad form file 
+   * Loads the data in the workpad form file
    */
   loadDataFromFile() {
-    if(this.quill)
-      this.quill.setText(this.contentFromFile)
+    if (this.quill) {
+      let delta;
+      try {
+        delta = new Delta(JSON.parse(this.contentFromFile));
+        this.quill.setContents(delta);
+      } catch (error) {
+        this.quill.setText(this.contentFromFile);
+      }
+    }
   }
 
   /**
-   * This is just for debugging purposes
+   * To emit the current content to the rusty-view to save.
    */
   @HostListener('document:keydown.control.S')
-  getCurrentDraf():string|undefined {
-    if(this.quill)
-      return this.quill.getText()
-    return undefined;
+  getCurrentDraf() {
+    if (this.quill) this.saveFileEvent.emit({ data: this.quill.getText() });
+    return this.saveFileEvent.emit({ data: undefined });
+  }
+
+  /**
+   * To emit the current content to the rusty-view to save.
+   */
+  @HostListener('document:keydown.alt.S')
+  getCurrentDrafHtml() {
+    if (this.quill)
+      this.saveFileEvent.emit({
+        data: JSON.stringify(this.quill.getContents()),
+      });
+    return this.saveFileEvent.emit({ data: undefined });
   }
 }

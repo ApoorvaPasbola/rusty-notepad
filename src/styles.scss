@@ -23,8 +23,7 @@
   --accent-color: #60a5fa70;
   --higlighter:
 
-  /* Typography */
-  --workpad-font-family: "Courier New";
+  /* Typography */ --workpad-font-family: "Courier New";
   // Color
   --text-color-dark-base: white;
   --text-color-light-base: black;
@@ -62,19 +61,30 @@
       .ql-editor {
         padding: var(--padding-xs);
         // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          "Open Sans",
+          "Helvetica Neue",
+          sans-serif;
         font-size: 1.1em;
         font-weight: 300;
       }
     }
   }
 
-  // Paddings
+  /* Paddings */
   div.p-tabview-panels {
     padding: var(--padding-xs) 0;
   }
 
-  // Tabs Padding CSS
+  /* Tabs Padding CSS */
   .p-tabview .p-tabview-nav li {
     width: max(100px, 5%);
     .p-tabview-nav-link {
@@ -84,7 +94,6 @@
     }
 
     .p-element.p-icon-wrapper {
-      
       margin-left: auto;
       padding-right: 2px;
     }
@@ -93,18 +102,21 @@
       width: 9px;
     }
   }
-  // Splitter gutter css
-  p-splitter > div{
+
+  /* Splitter gutter css */
+  p-splitter > div {
     div.p-splitter-gutter:hover {
       background: var(--accent-color);
       transition: background-color 0.5s ease;
-      width: .27rem;
+      width: 0.27rem;
     }
     div.p-splitter-gutter {
       width: 2.5px;
     }
   }
 }
+
+/* Global Level Styles for background  */
 * {
   body {
     height: calc(100dvh);
@@ -113,7 +125,8 @@
   }
 }
 // Custom Background per component
-.p-splitter, .p-tabview  * , .p-editor-content * {
-    background-color: var(--workpad-background) !important;
+.p-splitter,
+.p-tabview *,
+.p-editor-content * {
+  background-color: var(--workpad-background) !important;
 }
-
