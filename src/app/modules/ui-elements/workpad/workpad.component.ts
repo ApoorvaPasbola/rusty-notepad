@@ -2,11 +2,16 @@ import {
   Component,
   HostListener,
   Input,
+  OnChanges,
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
-import { EditorModule, EditorTextChangeEvent } from 'primeng/editor';
+import {
+  EditorInitEvent,
+  EditorModule,
+} from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
+import Quill from 'quill';
 @Component({
   selector: 'app-workpad',
   standalone: true,
@@ -14,36 +19,52 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './workpad.component.html',
   styleUrl: './workpad.component.scss',
 })
-export class WorkpadComponent {
+export class WorkpadComponent implements OnChanges {
   /**
    * Takes input string from tabs . Which reads data from the file
    */
   @Input('contentFromFile') contentFromFile!: string;
 
   /**
-   * Current draft work in progress
+   * Quill Editor object to access the internal apis
    */
-  workpadContent: string = '';
-  draft!: string;
+  private quill!: Quill;
 
+  /**
+   * Toggle to enable/disable header toolbar
+   */
   showHeader: boolean = false;
 
-  ngOnInit(): void {
-    this.workpadContent = this.contentFromFile;
-    this.draft = this.contentFromFile;
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.workpadContent = changes['contentFromFile'].currentValue;
+    console.log("Changes occured ", changes, this.contentFromFile);
+    this.loadDataFromFile();
+    
   }
 
-  handleChange(event: EditorTextChangeEvent) {
-    console.log('Event on text change ', event);
-    this.draft = event.textValue;
+  /**
+   * Triggered when the Quill Editor is initialiezed
+   */
+  initializeEditor(event: EditorInitEvent) {
+    this.quill = event.editor;
+    this.loadDataFromFile();
   }
 
+  /**
+   * Loads the data in the workpad form file 
+   */
+  loadDataFromFile() {
+    if(this.quill)
+      this.quill.setText(this.contentFromFile)
+  }
+
+  /**
+   * This is just for debugging purposes
+   */
   @HostListener('document:keydown.control.S')
-  printCurrentValue() {
-    console.log('Current value is ', this.draft);
+  getCurrentDraf():string {
+    if(this.quill)
+      return this.quill.getText()
+    return "";
   }
 }

@@ -14,15 +14,10 @@ export class ViewService {
   readFile(pathStr: string) {
     if(pathStr == ".") return;
     invoke<string>("read_file", { pathStr }).then((data:string) => {
-           ;
-           this.workbook$.next(this.convertFileLineEndings(data));
+           this.workbook$.next(data);
     })
   }
 
-  convertFileLineEndings(data: string){
-    let sanitizedData  = data.replaceAll("\r", '');
-    let newdata = sanitizedData.split("\n").map((line) => `<p> ${line}`).join(" ")
-    return newdata;
-  }
+
 
 }
