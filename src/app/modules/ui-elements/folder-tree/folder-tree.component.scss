@@ -2,7 +2,7 @@
   font-size: var(--font-size-secondary);
   font-weight: var(--font-weight-secondary);
 }
-.item:hover {
+.item:hover:not(:has(.item:hover)) {
   background-color: var(--bluegray-900);
   border: 1px solid var(--accent-color);
   cursor: pointer;
