@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   HostListener,
@@ -12,7 +11,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { WorkpadComponent } from '../workpad/workpad.component';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
-import { OpenFileEvent } from '../../utilities/interfaces/Events';
+import { OpenFileEvent, TabChangeEvent } from '../../utilities/interfaces/Events';
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
@@ -21,7 +20,7 @@ import { OpenFileEvent } from '../../utilities/interfaces/Events';
   imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],
 })
 export class TabsComponent implements OnInit{
-  @Output() activeTabChangeEvent = new EventEmitter<string>();
+  @Output() activeTabChangeEvent = new EventEmitter<TabChangeEvent>();
 
   /**
    * This is use to toggle active tab on Ctrl + Tab event
@@ -80,6 +79,6 @@ export class TabsComponent implements OnInit{
 
   triggerTabChangeEvent(index: number = 0) {
     if (this.tabs?.length)
-      this.activeTabChangeEvent.emit(this.tabs[index].path);
+      this.activeTabChangeEvent.emit({ path: this.tabs[index].path, file: this.tabs[index].title});
   }
 }

@@ -48,3 +48,6 @@ dodo**
 venv
 
 *storybook.log
+
+# Dev Environments
+src/environments/environment.development.ts

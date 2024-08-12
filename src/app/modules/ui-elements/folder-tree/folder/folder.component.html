@@ -1,5 +1,5 @@
 <li class="py-1 item" *ngFor="let folder of folders;index as i">
-  <span (click)="this.fs.openDirectory(folders,i)" class="flex items-center">
+  <span (click)="this.handleFileSystemClick(folders, i)" class="flex items-center" [ngClass]="folder.isDirectory ? '' : 'ml-1 mt-1'">
     <i style="font-size: 12px; align-content: end; margin-right: 3px;" *ngIf="folder.isDirectory" class="pi" [ngClass]="
     folder.expanded ? 'pi-angle-down' : 'pi-angle-right'
   "></i> {{folder.name}}

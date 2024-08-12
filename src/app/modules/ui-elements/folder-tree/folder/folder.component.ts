@@ -1,7 +1,8 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Node } from '../../../utilities/interfaces/Node';
 import { FolderTreeService } from '../folder-tree.service';
+import { OpenFileEvent } from '../../../utilities/interfaces/Events';
 
 @Component({
   selector: 'rusty-folder',
@@ -17,7 +18,18 @@ export class FolderComponent {
 
   @Input() folders!:Node[];
 
-  constructor(public fs:FolderTreeService){
+  @Output() openFileEvent = new EventEmitter<OpenFileEvent>()
 
+  constructor(public fs:FolderTreeService){
+  }
+
+  handleFileSystemClick(folders: Node[], index: number) {
+    if (folders[index].isDirectory)
+      this.fs.openDirectory(folders, index);
+    else
+      this.openFileEvent.emit({
+        file_name: folders[index].name,
+        path: folders[index].path,
+      });
   }
 }

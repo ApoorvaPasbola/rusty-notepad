@@ -28,6 +28,8 @@ export class WorkpadComponent implements OnChanges {
 
   @Output() saveFileEvent = new EventEmitter<SaveFileEvent>();
 
+  supportsQuill: boolean = false;
+
   /**
    * Quill Editor object to access the internal apis
    */
@@ -58,9 +60,17 @@ export class WorkpadComponent implements OnChanges {
       let delta;
       try {
         delta = new Delta(JSON.parse(this.contentFromFile));
+        console.log("delta is ", delta, this.contentFromFile);
+        
+        if( !delta.ops.length ) {
+          throw new Error("Not a Quill Object ");
+        }
+        
+        this.supportsQuill = true;
         this.quill.setContents(delta);
       } catch (error) {
         this.quill.setText(this.contentFromFile);
+        this.supportsQuill = false;
       }
     }
   }
@@ -70,19 +80,14 @@ export class WorkpadComponent implements OnChanges {
    */
   @HostListener('document:keydown.control.S')
   getCurrentDraf() {
-    if (this.quill) this.saveFileEvent.emit({ data: this.quill.getText() });
+    if (this.quill) {
+      if (this.supportsQuill)
+        return this.saveFileEvent.emit({ data: JSON.stringify(this.quill.getContents()) });
+      else {
+        return this.saveFileEvent.emit({ data: this.quill.getText() });
+      }
+    }
     return this.saveFileEvent.emit({ data: undefined });
   }
 
-  /**
-   * To emit the current content to the rusty-view to save.
-   */
-  @HostListener('document:keydown.alt.S')
-  getCurrentDrafHtml() {
-    if (this.quill)
-      this.saveFileEvent.emit({
-        data: JSON.stringify(this.quill.getContents()),
-      });
-    return this.saveFileEvent.emit({ data: undefined });
-  }
 }

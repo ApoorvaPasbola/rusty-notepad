@@ -7,3 +7,8 @@ export interface SaveFileEvent {
      path?: string,
      data?: string
 }
+
+export interface TabChangeEvent {
+  path: string | undefined,
+  file: string
+}

@@ -16,7 +16,7 @@
           {{ fileSystemItem.name }}
         </span>
         <ul *ngIf="fileSystemItem.expanded" style="padding-left: .7rem;">
-          <rusty-folder *ngIf="fileSystemItem.nodes" [folders]="fileSystemItem.nodes" />
+          <rusty-folder (openFileEvent)="handleNestedFileOpenEvent($event)" *ngIf="fileSystemItem.nodes" [folders]="fileSystemItem.nodes" />
         </ul>
       </li>
     </ul>

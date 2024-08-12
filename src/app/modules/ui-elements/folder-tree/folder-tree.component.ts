@@ -14,6 +14,7 @@ import { OpenFileEvent } from '../../utilities/interfaces/Events';
   styleUrl: './folder-tree.component.scss',
 })
 export class FolderTreeComponent implements OnDestroy {
+
   @Output() openFileEvent = new EventEmitter<OpenFileEvent>();
   workspace!: Node[];
   workspace$!: Subscription;
@@ -44,5 +45,11 @@ export class FolderTreeComponent implements OnDestroy {
         file_name: this.workspace[index].name,
         path: this.workspace[index].path,
       });
+  }
+
+  handleNestedFileOpenEvent(event: OpenFileEvent) {
+    console.log("this got called ", event);
+    
+    this.openFileEvent.emit(event);
   }
 }
