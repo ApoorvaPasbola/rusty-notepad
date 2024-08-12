@@ -1,24 +1,24 @@
 use serde::{Deserialize, Serialize};
 use std::{
-    fs::{self, File},
-    io::{self, Read, Write},
-    path::PathBuf,
+    ffi::OsStr, fs::{self, File}, io::{self, Read, Write}, path::PathBuf
 };
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SystemObject {
-    file_name: String,
-    is_folder: bool,
+    pub file_name: String,
+    pub is_folder: bool,
+    pub err: Option<String>
 }
 
-pub fn _list_files(vec: &mut Vec<SystemObject>, path: PathBuf) -> io::Result<()> {
+pub fn _list_files(vec: &mut Vec<SystemObject>, path: &PathBuf) -> io::Result<()> {
     if path.is_dir() {
-        let paths = fs::read_dir(&path)?;
+        let paths = fs::read_dir(path)?;
         for path_result in paths {
             let entry = &path_result?;
             let node = SystemObject {
                 file_name: String::from(entry.file_name().into_string().unwrap()),
                 is_folder: entry.file_type()?.is_dir(),
+                err: None
             };
             vec.push(node);
         }
@@ -31,6 +31,7 @@ pub fn _list_files(vec: &mut Vec<SystemObject>, path: PathBuf) -> io::Result<()>
                 .unwrap_or(&String::from("workpad"))
                 .to_string(),
             is_folder: path.is_dir(),
+            err: None
         });
     }
     Ok(())

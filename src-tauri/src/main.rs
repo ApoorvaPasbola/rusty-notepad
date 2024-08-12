@@ -1,17 +1,28 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use std::path::PathBuf;
+use std::{env, path::{self, PathBuf}};
 
 use file_explorer::SystemObject;
 pub mod file_explorer;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-async fn read_directory(path: String) -> Vec<SystemObject>{
+async fn read_directory(path: String) -> Vec<SystemObject> {
     let mut vec = Vec::new();
-    let path = PathBuf::from(String::from(path));
-    let _ = file_explorer::_list_files(&mut vec, path);
+    let mut asb_path: PathBuf;
+
+    if (path.starts_with(".")) {
+      asb_path = match env::current_dir() {
+        Ok((p)) => p,
+        Err((err)) => PathBuf::from("undefined")
+      }
+    }
+    else{
+      asb_path = PathBuf::from(path);
+    }
+
+    let _ = file_explorer::_list_files(&mut vec, &asb_path);
     vec
 }
 
@@ -24,7 +35,7 @@ async fn read_file(path:String) -> String {
 async fn save_file(path:String, data:String) -> String {
   let save_file_result = file_explorer::save_file(path, data);
   let res = match save_file_result {
-      Ok(file) => String::from("Saved File successfully"),
+      Ok(()) => String::from("Saved File successfully"),
       Err(e) => e.to_string(),
   };
   return res;
