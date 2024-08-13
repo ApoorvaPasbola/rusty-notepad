@@ -1,24 +1,15 @@
-<ul class="my-0" style="padding: 2px 0px 0px 3px;">
+<ul class="my-0" style="padding: 2px 0px 0px 3px">
   <li class="py-1">
-    <span (click)="root.expanded = !root.expanded" class="flex items-center item" style="font-weight: 500;">
-      <i  style="font-size: 12px; align-content: end; margin-right: 3px;" class="pi"
+    <!-- Root Folder  -->
+    <span (click)="root.expanded = !root.expanded" class="flex items-center item" style="font-weight: 500">
+      <i style="font-size: 12px; align-content: end; margin-right: 3px" class="pi"
         [ngClass]="root.expanded ? 'pi-angle-down' : 'pi-angle-right'"></i>
-      {{ root.name | uppercase}}
+      {{ root.name | uppercase }}
     </span>
 
-    <ul *ngIf="root.expanded" style="padding-left: .7rem;">
-      <li class="py-1 item" *ngFor="let fileSystemItem of workspace; index as i">
-        <span (click)="this.handleFileSystemClick(i)" class="flex items-center "
-          [ngClass]="fileSystemItem.isDirectory ? '' : 'ml-2'">
-          <i style="font-size: 12px; align-content: end; margin-right: 3px;" *ngIf="fileSystemItem.isDirectory" class="pi" [ngClass]="
-              fileSystemItem.expanded ? 'pi-angle-down' : 'pi-angle-right'
-            "></i>
-          {{ fileSystemItem.name }}
-        </span>
-        <ul *ngIf="fileSystemItem.expanded" style="padding-left: .7rem;">
-          <rusty-folder (openFileEvent)="handleNestedFileOpenEvent($event)" *ngIf="fileSystemItem.nodes" [folders]="fileSystemItem.nodes" />
-        </ul>
-      </li>
+    <!-- Contents of the Opened Directory -->
+    <ul *ngIf="root.expanded" style="padding-left: 0.7rem">
+      <rusty-folder (openFileEvent)="this.handleFileSystemClick($event)" *ngIf="workspace.length" [folders]="workspace" />
     </ul>
   </li>
 </ul>

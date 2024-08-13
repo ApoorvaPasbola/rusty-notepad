@@ -4,7 +4,8 @@ import { FolderComponent } from './folder/folder.component';
 import { FolderTreeService } from './folder-tree.service';
 import { Subscription } from 'rxjs';
 import { Node } from '../../utilities/interfaces/Node';
-import { OpenFileEvent } from '../../utilities/interfaces/Events';
+import { FileEvents, FileEventType } from '../../utilities/interfaces/Events';
+import { ViewService } from '../rusty-view/rusty-vew.service';
 
 @Component({
   selector: 'rusty-folder-tree',
@@ -15,14 +16,14 @@ import { OpenFileEvent } from '../../utilities/interfaces/Events';
 })
 export class FolderTreeComponent implements OnDestroy {
 
-  @Output() openFileEvent = new EventEmitter<OpenFileEvent>();
+  @Output() openFileEvent = new EventEmitter<FileEvents>();
   workspace!: Node[];
   workspace$!: Subscription;
 
   root!: Node;
   root$!: Subscription;
 
-  constructor(public fsService: FolderTreeService) {
+  constructor(public fsService: FolderTreeService, private rustyViewService: ViewService) {
     this.workspace$ = this.fsService.workspace.subscribe((ele: Node[]) => {
       this.workspace = ele;
     });
@@ -37,19 +38,8 @@ export class FolderTreeComponent implements OnDestroy {
     this.root$.unsubscribe();
   }
 
-  handleFileSystemClick(index: number) {
-    if (this.workspace[index].isDirectory)
-      this.fsService.openDirectory(this.workspace, index);
-    else
-      this.openFileEvent.emit({
-        file_name: this.workspace[index].name,
-        path: this.workspace[index].path,
-      });
+  handleFileSystemClick(fileEvent: FileEvents) {
+    this.openFileEvent.emit(fileEvent);
   }
 
-  handleNestedFileOpenEvent(event: OpenFileEvent) {
-    console.log("this got called ", event);
-    
-    this.openFileEvent.emit(event);
-  }
 }

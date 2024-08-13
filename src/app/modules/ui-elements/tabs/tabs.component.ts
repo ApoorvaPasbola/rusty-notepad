@@ -11,7 +11,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { WorkpadComponent } from '../workpad/workpad.component';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
-import { OpenFileEvent, TabChangeEvent } from '../../utilities/interfaces/Events';
+import { FileEvents, FileEventType} from '../../utilities/interfaces/Events';
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
@@ -19,8 +19,8 @@ import { OpenFileEvent, TabChangeEvent } from '../../utilities/interfaces/Events
   standalone: true,
   imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor],
 })
-export class TabsComponent implements OnInit{
-  @Output() activeTabChangeEvent = new EventEmitter<TabChangeEvent>();
+export class TabsComponent implements OnInit {
+  @Output() activeTabChangeEvent = new EventEmitter<FileEvents>();
 
   /**
    * This is use to toggle active tab on Ctrl + Tab event
@@ -30,11 +30,11 @@ export class TabsComponent implements OnInit{
   /**
    * This takes a list of tabs from the service which reads all the files
    */
-  @Input('tabs') tabs: Tab[] = []; 
+  @Input('tabs') tabs: Tab[] = [];
 
   ngOnInit(): void {
-    if(this.tabs.length == 0){
-      this.tabs.push({...NEW_TAB_DEFAULT, id:0})
+    if (this.tabs.length == 0) {
+      this.tabs.push({ ...NEW_TAB_DEFAULT, id: 0 })
       this.activeIndex = 0;
       this.tabs[0].selected = true
     }
@@ -51,9 +51,11 @@ export class TabsComponent implements OnInit{
   /**
    * New Tab on Ctrl + N
    */
-  newTab(tabEvent: OpenFileEvent) {
-    if (!tabEvent.file_name) this.createBlankTab();
-    if (!tabEvent.path) this.createBlankTab();
+  newTab(tabEvent: FileEvents) {
+    if (!tabEvent.file_name || !tabEvent.path) {
+      this.createBlankTab();
+      return;
+    }
 
     let newTab: Tab = {
       ...NEW_TAB_DEFAULT,
@@ -79,6 +81,10 @@ export class TabsComponent implements OnInit{
 
   triggerTabChangeEvent(index: number = 0) {
     if (this.tabs?.length)
-      this.activeTabChangeEvent.emit({ path: this.tabs[index].path, file: this.tabs[index].title});
+      this.activeTabChangeEvent.emit({
+        path: this.tabs[index].path,
+        file_name: this.tabs[index].title,
+        type: FileEventType.TAB_CHANGE
+      });
   }
 }

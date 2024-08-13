@@ -11,7 +11,7 @@ import { CommonModule, NgStyle } from '@angular/common';
 import { EditorInitEvent, EditorModule } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 import Quill from 'quill';
-import { SaveFileEvent } from '../../utilities/interfaces/Events';
+import { FileEvents, FileEventType } from '../../utilities/interfaces/Events';
 import { Delta } from 'quill/core';
 @Component({
   selector: 'app-workpad',
@@ -26,7 +26,7 @@ export class WorkpadComponent implements OnChanges {
    */
   @Input('contentFromFile') contentFromFile!: string;
 
-  @Output() saveFileEvent = new EventEmitter<SaveFileEvent>();
+  @Output() saveFileEvent = new EventEmitter<FileEvents>();
 
   supportsQuill: boolean = false;
 
@@ -60,15 +60,16 @@ export class WorkpadComponent implements OnChanges {
       let delta;
       try {
         delta = new Delta(JSON.parse(this.contentFromFile));
-        console.log("delta is ", delta, this.contentFromFile);
-        
         if( !delta.ops.length ) {
           throw new Error("Not a Quill Object ");
         }
-        
+        console.debug("Loading Quill Object ");
+
         this.supportsQuill = true;
         this.quill.setContents(delta);
       } catch (error) {
+        console.debug("Loading normal text Object");
+
         this.quill.setText(this.contentFromFile);
         this.supportsQuill = false;
       }
@@ -82,12 +83,12 @@ export class WorkpadComponent implements OnChanges {
   getCurrentDraf() {
     if (this.quill) {
       if (this.supportsQuill)
-        return this.saveFileEvent.emit({ data: JSON.stringify(this.quill.getContents()) });
+        return this.saveFileEvent.emit({ data: JSON.stringify(this.quill.getContents()), type: FileEventType.SAVE });
       else {
-        return this.saveFileEvent.emit({ data: this.quill.getText() });
+        return this.saveFileEvent.emit({ data: this.quill.getText(), type: FileEventType.SAVE });
       }
     }
-    return this.saveFileEvent.emit({ data: undefined });
+    return this.saveFileEvent.emit({ data: undefined, type: FileEventType.SAVE});
   }
 
 }

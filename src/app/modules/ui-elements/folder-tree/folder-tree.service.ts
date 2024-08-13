@@ -27,13 +27,10 @@ export class FolderTreeService {
     });
   }
 
-  openDirectory(workspace: Node[], index: number) {
-    if (!workspace[index].isDirectory)
-      return;
-
-    if (!workspace[index].expanded && !workspace[index].nodes?.length)
-      this.expandDirectory(workspace[index]);
-    workspace[index].expanded = !workspace[index].expanded
+  openDirectory(workspace: Node) {
+    if (!workspace.expanded && !workspace.nodes?.length)
+      this.expandDirectory(workspace);
+    workspace.expanded = !workspace.expanded
 
   }
 

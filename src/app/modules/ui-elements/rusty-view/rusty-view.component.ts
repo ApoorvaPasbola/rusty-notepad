@@ -5,7 +5,7 @@ import { SplitterComponent } from '../splitter/splitter.component';
 import { FolderTreeComponent } from '../folder-tree/folder-tree.component';
 import { ViewService } from './rusty-vew.service';
 import { Subscription } from 'rxjs';
-import { SaveFileEvent, TabChangeEvent } from '../../utilities/interfaces/Events';
+import { FileEvents} from '../../utilities/interfaces/Events';
 import { save } from '@tauri-apps/api/dialog';
 import { environment } from '../../../../environments/environment';
 
@@ -26,7 +26,7 @@ export class RustyViewComponent {
   workFileSubs: Subscription;
   workfilePath: string | undefined = undefined;
   currentWorkingDirectory: string = environment.current_directory;
-  currentFileName:string = "";
+  currentFileName: string | undefined = "";
 
   constructor(private viewService: ViewService) {
     this.workFileSubs = this.viewService.workbook$.subscribe((data) => {
@@ -34,28 +34,28 @@ export class RustyViewComponent {
     });
   }
 
-  updateWorkpad(tabChangeEvent: TabChangeEvent) {
-    this.workfilePath = tabChangeEvent.path;
-    this.currentFileName = tabChangeEvent.file;
-    this.viewService.readFile(tabChangeEvent.path);
+  updateWorkpad(fileEvent: FileEvents) {
+    this.workfilePath = fileEvent.path;
+    this.currentFileName = fileEvent.file_name;
+    this.viewService.readFile$.next(fileEvent);
   }
 
-  saveCurrentFile(event: SaveFileEvent) {
+  saveCurrentFile(event: FileEvents) {
     /**
-     * If current workfile path is not present , then open save dialog on save event 
+     * If current workfile path is not present , then open save dialog on save event
      */
     if (!this.workfilePath) {
-      save({ defaultPath: this.currentWorkingDirectory, title: "Save As"})
+      save({ defaultPath: this.currentWorkingDirectory, title: "Save As" })
         .then((saveFilePath) => {
           console.log("save file path ", saveFilePath);
           if (saveFilePath) {
             this.workfilePath = saveFilePath;
-            this.viewService.saveFile({ ...event, path: saveFilePath as string } as SaveFileEvent);
+            this.viewService.saveFile({ ...event, path: saveFilePath as string } as FileEvents);
           }
         })
     }
     else {
-      this.viewService.saveFile({ ...event, path: this.workfilePath } as SaveFileEvent);
+      this.viewService.saveFile({ ...event, path: this.workfilePath } as FileEvents);
     }
   }
 }
