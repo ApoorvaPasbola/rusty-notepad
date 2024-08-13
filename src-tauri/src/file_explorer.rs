@@ -49,24 +49,13 @@ pub fn _read_file(path: String) -> String {
 }
 
 pub fn save_file(path: &String, data: String) -> std::io::Result<()> {
-  let mut file;
-  if check_file_existance(path) {
-        println!("Updating current file ");
-        file = fs::OpenOptions::new().write(true).open(path).unwrap();
-    } else {
-      println!("Creating a new file and writing contents in it ");
-        file = fs::OpenOptions::new()
-            .create_new(true)
-            .write(true)
-            .open(path)
-            .unwrap();
-    }
-    file.write_all(data.as_bytes())
-}
 
-fn check_file_existance(path: &String) -> bool {
-    match fs::metadata(path) {
-        Ok(_) => true,
-        Err(_) => false,
-    }
+  let mut file = fs::OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .open(path)?;
+    file.write_all(data.as_bytes())?;
+    file.flush()?;
+    Ok(())
 }
