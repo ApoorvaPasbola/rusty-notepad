@@ -1,10 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use std::{
-    env,
-    path::PathBuf,
-};
+use std::{env, path::PathBuf};
 
 use file_explorer::SystemObject;
 pub mod file_explorer;
@@ -36,11 +33,10 @@ async fn read_file(path: String) -> String {
 #[tauri::command]
 async fn save_file(path: String, data: String) -> String {
     let save_file_result = file_explorer::save_file(&path, data);
-    let res = match save_file_result {
+    match save_file_result {
         Ok(()) => String::from("Saved File successfully"),
-        Err(e) => e.to_string(),
-    };
-    return res;
+        Err(e) => String::from(e.to_string()),
+    }
 }
 
 fn main() {

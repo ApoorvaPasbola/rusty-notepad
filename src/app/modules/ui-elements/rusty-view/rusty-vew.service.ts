@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { FileEvents, FileEventType } from '../../utilities/interfaces/Events';
 import { environment } from '../../../../environments/environment';
 
@@ -15,7 +15,7 @@ export class ViewService {
   /**
    * Give the default path of the text file to be used when nothing is given
    */
-  readFile$ = new BehaviorSubject<FileEvents>({...environment.init_file, type: FileEventType.OPEN});
+  readFile$ = new Subject<FileEvents>();
 
   constructor() {
     this.readFile$.subscribe((event:FileEvents) => {
@@ -49,7 +49,7 @@ export class ViewService {
   saveFile(file: FileEvents) {
     if (file.data && file.path) {
       invoke<string>('save_file', { path: file.path, data: file.data }).then((res: string) => {
-        console.log("Response from the backend ", res);
+        console.log("Response from the backend \n", file.data , res);
       })
     }
   }
