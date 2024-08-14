@@ -5,5 +5,5 @@ id: -1,
 isClosable: true,
 selected: true,
 title: "New Tab",
-path: "."
+path: undefined
 }

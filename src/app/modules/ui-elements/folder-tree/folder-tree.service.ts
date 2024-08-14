@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
 import { DEFAULT_NODE, FileSystemItem, mapFileSystemItem2Node, mapFileSystemItem2NodeList, Node } from '../../utilities/interfaces/Node';
 import { BehaviorSubject } from 'rxjs';
-
+import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,8 +10,8 @@ export class FolderTreeService {
 
   workspace = new BehaviorSubject<Node[]>([]);
   rootNode = new BehaviorSubject<Node>(DEFAULT_NODE);
-  ROOT_NAME:string = '';
-  private BASE_PATH: string = 'D:\\OpenSourceSoftware\\rusty-notepad'
+  ROOT_NAME: string = '';
+  private BASE_PATH: string = environment.current_directory
 
   constructor() { }
 
@@ -22,18 +22,15 @@ export class FolderTreeService {
         let nodes_list = mapFileSystemItem2NodeList(directory_items, this.BASE_PATH);
         this.rootNode.next({ ...mapFileSystemItem2Node(last_node), expanded: true })
         this.workspace.next(nodes_list)
-        this.ROOT_NAME = last_node.file_name;       
+        this.ROOT_NAME = last_node.file_name;
       }
     });
   }
 
-  openDirectory(workspace:Node[], index:number) {
-    if(!workspace[index].isDirectory)
-      return;
-    
-    if(!workspace[index].expanded && !workspace[index].nodes?.length)
-      this.expandDirectory(workspace[index]);
-    workspace[index].expanded = ! workspace[index].expanded
+  openDirectory(workspace: Node) {
+    if (!workspace.expanded && !workspace.nodes?.length)
+      this.expandDirectory(workspace);
+    workspace.expanded = !workspace.expanded
 
   }
 
@@ -42,7 +39,7 @@ export class FolderTreeService {
     invoke<FileSystemItem[]>("read_directory", { path }).then((items: FileSystemItem[]) => {
       items.pop();
       folder.expanded = true;
-      folder.nodes = mapFileSystemItem2NodeList(items, folder.path )      
+      folder.nodes = mapFileSystemItem2NodeList(items, folder.path)
     })
   }
 

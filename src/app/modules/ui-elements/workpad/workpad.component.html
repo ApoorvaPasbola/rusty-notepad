@@ -1,4 +1,4 @@
-<p-editor (onInit)="initializeEditor($event)" [spellcheck]="false" class="workpad">
+<p-editor (onTextChange)="handleContentChange($event)" (onInit)="initializeEditor($event)" [spellcheck]="false" class="workpad">
     <ng-template  pTemplate="header">
         <span *ngIf="showHeader" class="ql-formats">
             <button type="button" class="ql-bold" aria-label="Bold"></button>

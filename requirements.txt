@@ -1,4 +1,1 @@
-cloudpickle==3.0.0
-doit==0.36.0
-importlib_metadata==8.0.0
-zipp==3.19.2
+{"ops":[{"insert":"cloudpickle==3.0.0\ndoit==0.36.0\nimportlib_metadata==8.0.0\nzipp==3.19.2\n\nthis point 1"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"this is point 2"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"this is point 3 "},{"attributes":{"list":"ordered"},"insert":"\n\n"}]}

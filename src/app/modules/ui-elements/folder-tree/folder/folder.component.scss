@@ -3,9 +3,9 @@
     padding: 0;
 }
 
-.item:hover {
+.item:hover:not(:has(.item:hover)) {
   background-color: var(--bluegray-900);
-  border-radius: 2px;
+  border: 1px solid var(--accent-color);
   cursor: pointer;
 }
 ul {
