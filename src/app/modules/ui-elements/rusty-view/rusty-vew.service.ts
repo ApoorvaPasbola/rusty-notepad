@@ -24,14 +24,14 @@ export class ViewService {
   }
 
   readFile(path: string | undefined ) {
+
+    // If path is undefined the log a debug message and return the default values
+    if( !path ) {
+      console.debug("Error while opening the file. Path undefined", path);
+      return this.workbook$.next('This is some default \n work from an file');
+    }
+
     console.debug("Reading file with path ", path);
-
-    // If path is undefined the return with error log
-    if( !path ) console.error("Error while opening the file. Path undefined", path);
-
-    // Some default values to be retured for current directory path . TODO Needs to verify if this is required or not :(
-    if (path == '.') return this.workbook$.next('This is some default \n work from an file');
-
     /**
      * Reads the content of the file from the given path
      */
@@ -49,7 +49,7 @@ export class ViewService {
   saveFile(file: FileEvents) {
     if (file.data && file.path) {
       invoke<string>('save_file', { path: file.path, data: file.data }).then((res: string) => {
-        console.log("Response from the backend \n", file.data , res);
+        console.debug(res);
       })
     }
   }

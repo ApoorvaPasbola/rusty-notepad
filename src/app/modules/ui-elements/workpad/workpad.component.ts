@@ -8,11 +8,12 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
-import { EditorInitEvent, EditorModule } from 'primeng/editor';
+import { EditorInitEvent, EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 import Quill from 'quill';
 import { FileEvents, FileEventType } from '../../utilities/interfaces/Events';
 import { Delta } from 'quill/core';
+import { debounceTime, Subject } from 'rxjs';
 @Component({
   selector: 'app-workpad',
   standalone: true,
@@ -21,6 +22,7 @@ import { Delta } from 'quill/core';
   styleUrl: './workpad.component.scss',
 })
 export class WorkpadComponent implements OnChanges {
+
   /**
    * Takes input string from tabs . Which reads data from the file
    */
@@ -30,10 +32,16 @@ export class WorkpadComponent implements OnChanges {
 
   supportsQuill: boolean = false;
 
+  contentChange$ = new Subject<string>();
+
   /**
    * Quill Editor object to access the internal apis
    */
   private quill!: Quill;
+
+  constructor(){
+    this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => this.isQuillDocument(event))
+  }
 
   /**
    * Toggle to enable/disable header toolbar
@@ -60,7 +68,7 @@ export class WorkpadComponent implements OnChanges {
       let delta;
       try {
         delta = new Delta(JSON.parse(this.contentFromFile));
-        if( !delta.ops.length ) {
+        if (!delta.ops.length) {
           throw new Error("Not a Quill Object ");
         }
         console.debug("Loading Quill Object ");
@@ -82,13 +90,29 @@ export class WorkpadComponent implements OnChanges {
   @HostListener('document:keydown.control.S')
   getCurrentDraf() {
     if (this.quill) {
-      if (this.supportsQuill)
+      if (this.supportsQuill) {
+        console.debug("Saving quill Supported Content ");
         return this.saveFileEvent.emit({ data: JSON.stringify(this.quill.getContents()), type: FileEventType.SAVE });
+      }
       else {
+        console.debug("Saving Normal Text Content");
         return this.saveFileEvent.emit({ data: this.quill.getText(), type: FileEventType.SAVE });
       }
     }
-    return this.saveFileEvent.emit({ data: undefined, type: FileEventType.SAVE});
+    return this.saveFileEvent.emit({ data: undefined, type: FileEventType.SAVE });
+  }
+
+  isQuillDocument(event: string) {
+    if (event.match(new RegExp('<(ol|em|strong|li|u)\\b[^>]*>.*?</\\1>'))) {
+      this.supportsQuill = true
+    }
+    else {
+      this.supportsQuill = false
+    }
+  }
+
+  handleContentChange(event:EditorTextChangeEvent){
+    this.contentChange$.next(event.htmlValue);
   }
 
 }
