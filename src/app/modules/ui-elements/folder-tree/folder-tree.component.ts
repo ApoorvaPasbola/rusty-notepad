@@ -1,11 +1,9 @@
 import { NgClass, NgFor, NgIf, UpperCasePipe } from '@angular/common';
-import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FolderComponent } from './folder/folder.component';
 import { FolderTreeService } from './folder-tree.service';
 import { Subscription } from 'rxjs';
 import { Node } from '../../utilities/interfaces/Node';
-import { FileEvents, FileEventType } from '../../utilities/interfaces/Events';
-import { ViewService } from '../rusty-view/rusty-vew.service';
 
 @Component({
   selector: 'rusty-folder-tree',
@@ -16,16 +14,15 @@ import { ViewService } from '../rusty-view/rusty-vew.service';
 })
 export class FolderTreeComponent implements OnDestroy {
 
-  @Output() openFileEvent = new EventEmitter<FileEvents>();
-  workspace!: Node[];
-  workspace$!: Subscription;
+  fileDirectories!: Node[];
+  fileDirectories$!: Subscription;
 
   root!: Node;
   root$!: Subscription;
 
-  constructor(public fsService: FolderTreeService, private rustyViewService: ViewService) {
-    this.workspace$ = this.fsService.workspace.subscribe((ele: Node[]) => {
-      this.workspace = ele;
+  constructor(private fsService: FolderTreeService) {
+    this.fileDirectories$ = this.fsService.fileDirectoryStructure.subscribe((ele: Node[]) => {
+      this.fileDirectories = ele;
     });
     this.root$ = this.fsService.rootNode.subscribe((ele: Node) => {
       this.root = ele;
@@ -34,12 +31,8 @@ export class FolderTreeComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.workspace$.unsubscribe();
+    this.fileDirectories$.unsubscribe();
     this.root$.unsubscribe();
-  }
-
-  handleFileSystemClick(fileEvent: FileEvents) {
-    this.openFileEvent.emit(fileEvent);
   }
 
 }

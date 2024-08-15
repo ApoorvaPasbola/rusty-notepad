@@ -9,7 +9,7 @@
 
     <!-- Contents of the Opened Directory -->
     <ul *ngIf="root.expanded" style="padding-left: 0.7rem">
-      <rusty-folder (openFileEvent)="this.handleFileSystemClick($event)" *ngIf="workspace.length" [folders]="workspace" />
+      <rusty-folder *ngIf="fileDirectories.length" [folders]="fileDirectories" />
     </ul>
   </li>
 </ul>

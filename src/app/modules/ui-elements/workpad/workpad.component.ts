@@ -1,19 +1,18 @@
 import {
   Component,
-  EventEmitter,
+  computed,
   HostListener,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
+  OnDestroy,
+  Signal,
 } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
 import { EditorInitEvent, EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 import Quill from 'quill';
-import { FileEvents, FileEventType } from '../../utilities/interfaces/Events';
 import { Delta } from 'quill/core';
-import { debounceTime, Subject } from 'rxjs';
+import { debounceTime, filter, Subject, Subscription } from 'rxjs';
+import { ViewService } from '../rusty-view/rusty-vew.service';
+import { AppEvents } from '../../utilities/interfaces/Events';
 @Component({
   selector: 'app-workpad',
   standalone: true,
@@ -21,26 +20,48 @@ import { debounceTime, Subject } from 'rxjs';
   templateUrl: './workpad.component.html',
   styleUrl: './workpad.component.scss',
 })
-export class WorkpadComponent implements OnChanges {
+export class WorkpadComponent implements OnDestroy {
 
   /**
    * Takes input string from tabs . Which reads data from the file
    */
-  @Input('contentFromFile') contentFromFile!: string;
-
-  @Output() saveFileEvent = new EventEmitter<FileEvents>();
+  workpadContent!: string;
+  workpadContent$: Subscription;
 
   supportsQuill: boolean = false;
 
   contentChange$ = new Subject<string>();
-
+  contentChangeSubscription!: Subscription;
+  notepadSubs: Subscription;
   /**
    * Quill Editor object to access the internal apis
    */
   private quill!: Quill;
 
-  constructor(){
-    this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => this.isQuillDocument(event))
+  constructor(private viewService: ViewService) {
+    this.workpadContent$ = this.viewService.currentWorkbookContent$.subscribe(value => this.workpadContent = value);
+    this.contentChangeSubscription = this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => this.isQuillDocument(event))
+    this.notepadSubs = this.viewService.notepadEvents$.pipe(
+      filter(event =>
+        event.type == AppEvents.WORKPAD_SAVE_REQUEST ||
+        event.type == AppEvents.WORKPAD_SAVE_RESPONSE ||
+        event.type == AppEvents.WORKPAD_UPDATE
+      )).subscribe((event) => {
+
+        if (event.type == AppEvents.WORKPAD_UPDATE) {
+          this.loadDataFromFile();
+        }
+        else if (event.type == AppEvents.WORKPAD_SAVE_RESPONSE) {
+          // TODO: This needs to handle UI pop with save successfull or failed. The data contains the response from the backend or service
+          console.debug("Event data ", event.data);
+        }
+      })
+  }
+
+  ngOnDestroy() {
+    this.contentChangeSubscription.unsubscribe();
+    this.notepadSubs.unsubscribe();
+    this.workpadContent$.unsubscribe();
   }
 
   /**
@@ -48,9 +69,6 @@ export class WorkpadComponent implements OnChanges {
    */
   showHeader: boolean = false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.loadDataFromFile();
-  }
 
   /**
    * Triggered when the Quill Editor is initialiezed
@@ -67,7 +85,7 @@ export class WorkpadComponent implements OnChanges {
     if (this.quill) {
       let delta;
       try {
-        delta = new Delta(JSON.parse(this.contentFromFile));
+        delta = new Delta(JSON.parse(this.workpadContent));
         if (!delta.ops.length) {
           throw new Error("Not a Quill Object ");
         }
@@ -78,7 +96,7 @@ export class WorkpadComponent implements OnChanges {
       } catch (error) {
         console.debug("Loading normal text Object");
 
-        this.quill.setText(this.contentFromFile);
+        this.quill.setText(this.workpadContent);
         this.supportsQuill = false;
       }
     }
@@ -92,16 +110,21 @@ export class WorkpadComponent implements OnChanges {
     if (this.quill) {
       if (this.supportsQuill) {
         console.debug("Saving quill Supported Content ");
-        return this.saveFileEvent.emit({ data: JSON.stringify(this.quill.getContents()), type: FileEventType.SAVE });
+        return this.viewService.notepadEvents$.next({ data: JSON.stringify(this.quill.getContents()), type: AppEvents.WORKPAD_SAVE_REQUEST });
       }
       else {
         console.debug("Saving Normal Text Content");
-        return this.saveFileEvent.emit({ data: this.quill.getText(), type: FileEventType.SAVE });
+        return this.viewService.notepadEvents$.next({ data: this.quill.getText(), type: AppEvents.WORKPAD_SAVE_REQUEST });
       }
     }
-    return this.saveFileEvent.emit({ data: undefined, type: FileEventType.SAVE });
+    return this.viewService.notepadEvents$.next({ data: undefined, type: AppEvents.WORKPAD_SAVE_REQUEST });
   }
 
+  /**
+   * This checks if we have used the quill features as in bullets , numbering , text formatting and all to toggle between
+   * a normal and a quill type file before saving.
+   * @param event HTML as string from the quill Docuemnt .
+   */
   isQuillDocument(event: string) {
     if (event.match(new RegExp('<(ol|em|strong|li|u)\\b[^>]*>.*?</\\1>'))) {
       this.supportsQuill = true
@@ -110,8 +133,11 @@ export class WorkpadComponent implements OnChanges {
       this.supportsQuill = false
     }
   }
-
-  handleContentChange(event:EditorTextChangeEvent){
+  /**
+   * This is a listner to the workpad changes and debounces the changes before finally calling isQuillDocument
+   * @param event takes in the Quill EditorTextChangeEvent
+   */
+  handleContentChange(event: EditorTextChangeEvent) {
     this.contentChange$.next(event.htmlValue);
   }
 

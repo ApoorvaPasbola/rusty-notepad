@@ -9,6 +9,6 @@
 
   <!-- Sub Folders - if any  -->
   <ul style="padding-left: .7rem;">
-    <rusty-folder (openFileEvent)="this.handleOpenFileEvent($event)" *ngIf="folder.nodes && folder.expanded" [folders]="folder.nodes" />
+    <rusty-folder *ngIf="folder.nodes && folder.expanded" [folders]="folder.nodes" />
   </ul>
 </li>
