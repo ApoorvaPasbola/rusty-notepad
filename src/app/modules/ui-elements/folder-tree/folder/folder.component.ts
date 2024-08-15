@@ -1,8 +1,9 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Node } from '../../../utilities/interfaces/Node';
 import { FolderTreeService } from '../folder-tree.service';
-import { FileEvents, FileEventType } from '../../../utilities/interfaces/Events';
+import { ViewService } from '../../rusty-view/rusty-vew.service';
+import { AppEvents } from '../../../utilities/interfaces/Events';
 
 @Component({
   selector: 'rusty-folder',
@@ -18,21 +19,17 @@ export class FolderComponent {
 
   @Input() folders!: Node[];
 
-  @Output() openFileEvent = new EventEmitter<FileEvents>()
-
-  constructor(public fs: FolderTreeService) {
+  constructor(public fs: FolderTreeService, private viewService:ViewService) {
   }
 
   readFile(file: Node) {
-    this.openFileEvent.emit({
+    console.log("Sending a read file event ", file.name);
+
+    this.viewService.notepadEvents$.next({
       file_name: file.name,
       path: file.path,
-      type: FileEventType.OPEN
+      type: AppEvents.FILE_SYSTEM_READ
     })
-  }
-  handleOpenFileEvent(event: FileEvents) {
-
-    this.openFileEvent.emit(event);
   }
 
   openDirectory(folders: Node) {

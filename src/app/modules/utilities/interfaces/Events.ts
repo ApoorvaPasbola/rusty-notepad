@@ -1,12 +1,17 @@
-export interface FileEvents {
+export interface NotepadEvents {
   file_name?:string,
   path?: string | undefined,
   data?: string
-  type: FileEventType
+  type: AppEvents
 }
 
-export enum FileEventType {
-  OPEN,
-  SAVE,
+export enum AppEvents {
   TAB_CHANGE,
+  TAB_CREATE,
+  TAB_DELETE,
+  WORKPAD_UPDATE,
+  WORKPAD_SAVE_REQUEST,
+  WORKPAD_SAVE_RESPONSE,
+  FILE_SYSTEM_OPEN,
+  FILE_SYSTEM_READ
 }
