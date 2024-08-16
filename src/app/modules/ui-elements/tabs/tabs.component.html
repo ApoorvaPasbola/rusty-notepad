@@ -1,8 +1,8 @@
-<div  class="tabs-container">
-  <p-tabView (activeIndexChange)="triggerTabChangeEvent($event)"  [(activeIndex)]="activeIndex" id="closableTabView" [scrollable]="true">
+<div *ngIf="tabs.length" >
+  <p-tabView (onClose)="handleTabClose($event)" (activeIndexChange)="handleTabIndexChange($event)" [(activeIndex)]="activeIndex" id="closableTabView" [scrollable]="true">
     <p-tabPanel *ngFor="let tab of tabs" [selected]="tab.selected" [closable]="tab.isClosable">
         <!-- HEADER -->
-        <ng-template  pTemplate="header">
+        <ng-template   pTemplate="header">
             <div  class="flex align-items-center gap-2">
                     {{tab.title}}
             </div>
