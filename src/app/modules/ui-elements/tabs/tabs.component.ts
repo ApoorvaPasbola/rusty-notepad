@@ -27,7 +27,7 @@ export class TabsComponent implements OnInit {
    * This is use to toggle active tab on Ctrl + Tab event
    */
   activeIndex: number = 0;
-  wasSynced: boolean = false;
+  wasTabClosed: boolean = false;
   activeTab: Tab | undefined;
 
 
@@ -68,8 +68,10 @@ export class TabsComponent implements OnInit {
    */
   @HostListener('document:keydown.control.tab')
   changeTab() {
+    this.tabsMap.set(this.activeTab!.path, { ...this.activeTab!, selected: false })
     this.activeIndex = (this.activeIndex + 1) % this.tabsMap.size;
-    this.activeTab = { ...this.tabsMap.get(this.getPathWithIndex(this.activeIndex))! }
+    this.activeTab = { ...this.tabsMap.get(this.getPathWithIndex(this.activeIndex))!, selected: true };
+    this.tabsMap.set(this.activeTab.path, { ...this.activeTab! })
     this.triggerTabChangeEvent();
   }
 
@@ -105,6 +107,7 @@ export class TabsComponent implements OnInit {
    * @param event TabViewCloseEvent
    */
   tabClose(event: TabViewCloseEvent) {
+    this.wasTabClosed = true;
     let close_tab_path = this.getPathWithIndex(event.index);
 
     /** This handles non-active tab close and last tab close ,
@@ -112,32 +115,36 @@ export class TabsComponent implements OnInit {
      * re-dender the workpad
      */
     this.tabsMap.delete(close_tab_path);
-    this.syncTabs();
+    if (event.index != this.tabsMap.size)
+      this.syncTabs();
     // Handle Current Active tab closed
     if (event.index == this.activeIndex) {
       // If there are no tabsMap is empty
       if (!this.tabsMap.size) {
         this.activeTab = undefined;
         this.activeIndex = -1;
+        this.wasTabClosed = false;
       }
       // Since the active tab is close we need to set a new active tab and trigger a Tab Change Event
       if (this.tabsMap.size) {
-        this.activeIndex = (event.index + 1) % this.tabsMap.size;
-        this.activeTab = this.tabsMap.get(this.getPathWithIndex(this.activeIndex))!;
+        // Need to handle the case where syncing the tabsMap changed the indexing
+        this.activeIndex = (event.index) % this.tabsMap.size;
+        let path = this.getPathWithIndex(this.activeIndex);
+        this.tabsMap.set(path, { ...this.tabsMap.get(path)!, selected: true })
+        this.activeTab = { ...this.tabsMap.get(path)! };
       }
-      this.triggerTabChangeEvent()
     }
+    console.log(`POST TabClosed activeTab_ID ${this.activeTab?.id}, activeIndex ${this.activeIndex}`);
+    this.tabsMap.forEach(tab => console.log(tab.id, tab.title, tab.selected))
+
+    this.triggerTabChangeEvent()
   }
 
   syncTabs() {
     let n = 0;
+    console.log("Syncing index, activeID", this.activeIndex, this.activeTab?.id);
     this.tabsMap.forEach(tab => {
       this.tabsMap.set(tab.path, { ...tab, id: n++ })
-      if (tab.id == this.activeIndex) {
-        this.activeTab = { ...this.tabsMap.get(tab.path)! }
-        this.activeIndex = this.activeTab!.id;
-        this.wasSynced = true;
-      }
     })
   }
 
@@ -146,27 +153,33 @@ export class TabsComponent implements OnInit {
    * @param index
    */
   handleTabIndexChange(index: number) {
-    if (this.wasSynced) {
-      this.wasSynced = false;
-      this.activeTab = { ...this.tabsMap.get(this.getPathWithIndex(this.activeIndex))! };
-      this.activeIndex = this.activeTab.id;
-    } else {
-      this.activeTab = { ...this.tabsMap.get(this.getPathWithIndex(index))! };
+    console.log("tab changed called ", index, this.wasTabClosed);
+
+    if (!this.wasTabClosed) {
+      let path = this.getPathWithIndex(index);
+      this.tabsMap.set(this.activeTab!.path, { ...this.activeTab!, selected: false })
+      this.activeTab = { ...this.tabsMap.get(path)!, selected: true };
+      this.activeIndex = index;
+      this.tabsMap.set(path, { ...this.activeTab, selected: true })
+      console.log(`POST:Tab Changed activeTab_ID ${this.activeTab?.id}, activeIndex ${this.activeIndex}`);
+      this.triggerTabChangeEvent();
     }
-    this.triggerTabChangeEvent();
+    this.wasTabClosed = false;
+
+
   }
 
   /**
  * All things needs to be done to create a new tab
  */
   newTabActions(id: number, new_path: string, file_name: string,) {
-    let tab: Tab = { ...NEW_TAB_DEFAULT, id: id, title: file_name, path: new_path };
+    let tab: Tab = { ...NEW_TAB_DEFAULT, id: id, title: file_name, path: new_path, };
     this.tabsMap.set(tab.path, tab);
-    this.activeTab = { ...tab };
     // This handles the scenario where we want to un-select the older tabs as well.
     if (this.activeTab) {
       this.tabsMap.set(this.activeTab.path, { ...this.activeTab, selected: false })
     }
+    this.activeTab = { ...tab };
     this.activeIndex = id;
     this.triggerTabChangeEvent();
   }
@@ -199,6 +212,12 @@ export class TabsComponent implements OnInit {
       });
     }
 
+  }
+
+  @HostListener('document:keydown.alt.Q')
+  getCurrentConfigs() {
+    console.log(`CurrentConfigs activeTab_ID ${this.activeTab?.id}, activeIndex ${this.activeIndex}, wasTabClosed: ${this.wasTabClosed}`);
+    this.tabsMap.forEach(tab => console.log(tab.id, tab.title, tab.selected))
   }
 
 }
