@@ -10,7 +10,6 @@ import { WorkpadComponent } from '../workpad/workpad.component';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
-import { environment } from '../../../../environments/environment';
 import { ViewService } from '../rusty-view/rusty-vew.service';
 import { filter } from 'rxjs';
 @Component({
@@ -20,7 +19,7 @@ import { filter } from 'rxjs';
   standalone: true,
   imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor, NgIf],
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent {
 
 
   /**
@@ -52,12 +51,6 @@ export class TabsComponent implements OnInit {
             break;
         }
       })
-  }
-
-  ngOnInit(): void {
-    if (!this.tabsMap.size) {
-      this.newTabActions(0, environment.init_file.path, environment.init_file.file_name)
-    }
   }
 
   getTabsArray() {

@@ -4,6 +4,7 @@ import { WorkpadComponent } from '../workpad/workpad.component';
 import { SplitterComponent } from '../splitter/splitter.component';
 import { FolderTreeComponent } from '../folder-tree/folder-tree.component';
 import { NgIf } from '@angular/common';
+import { LandingPageComponent } from "../landing-page/landing-page.component";
 
 @Component({
   selector: 'app-rusty-view',
@@ -15,8 +16,9 @@ import { NgIf } from '@angular/common';
     WorkpadComponent,
     SplitterComponent,
     FolderTreeComponent,
-    NgIf
-  ],
+    NgIf,
+    LandingPageComponent
+],
 })
 export class RustyViewComponent {
 
