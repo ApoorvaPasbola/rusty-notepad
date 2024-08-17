@@ -134,15 +134,11 @@ export class TabsComponent implements OnInit {
         this.activeTab = { ...this.tabsMap.get(path)! };
       }
     }
-    console.log(`POST TabClosed activeTab_ID ${this.activeTab?.id}, activeIndex ${this.activeIndex}`);
-    this.tabsMap.forEach(tab => console.log(tab.id, tab.title, tab.selected))
-
     this.triggerTabChangeEvent()
   }
 
   syncTabs() {
     let n = 0;
-    console.log("Syncing index, activeID", this.activeIndex, this.activeTab?.id);
     this.tabsMap.forEach(tab => {
       this.tabsMap.set(tab.path, { ...tab, id: n++ })
     })
@@ -153,7 +149,6 @@ export class TabsComponent implements OnInit {
    * @param index
    */
   handleTabIndexChange(index: number) {
-    console.log("tab changed called ", index, this.wasTabClosed);
 
     if (!this.wasTabClosed) {
       let path = this.getPathWithIndex(index);
@@ -161,7 +156,6 @@ export class TabsComponent implements OnInit {
       this.activeTab = { ...this.tabsMap.get(path)!, selected: true };
       this.activeIndex = index;
       this.tabsMap.set(path, { ...this.activeTab, selected: true })
-      console.log(`POST:Tab Changed activeTab_ID ${this.activeTab?.id}, activeIndex ${this.activeIndex}`);
       this.triggerTabChangeEvent();
     }
     this.wasTabClosed = false;
@@ -214,10 +208,5 @@ export class TabsComponent implements OnInit {
 
   }
 
-  @HostListener('document:keydown.alt.Q')
-  getCurrentConfigs() {
-    console.log(`CurrentConfigs activeTab_ID ${this.activeTab?.id}, activeIndex ${this.activeIndex}, wasTabClosed: ${this.wasTabClosed}`);
-    this.tabsMap.forEach(tab => console.log(tab.id, tab.title, tab.selected))
-  }
 
 }
