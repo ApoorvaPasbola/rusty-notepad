@@ -1,9 +1,7 @@
 import {
   Component,
-  computed,
   HostListener,
   OnDestroy,
-  Signal,
 } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
 import { EditorInitEvent, EditorModule, EditorTextChangeEvent } from 'primeng/editor';

@@ -3,5 +3,5 @@ export interface Tab{
   title: string,
   isClosable: boolean,
   selected: boolean,
-  path: string | undefined
+  path: string
 }
