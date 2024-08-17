@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   HostListener,
   OnInit,
@@ -25,19 +26,21 @@ export class TabsComponent implements OnInit {
   /**
    * This is use to toggle active tab on Ctrl + Tab event
    */
-  public activeIndex: number = 0;
+  activeIndex: number = 0;
+  wasSynced: boolean = false;
+  activeTab: Tab | undefined;
+
 
   /**
    * This takes a list of tabs from the service which reads all the files
    */
-  tabs: Tab[] = [];
+  tabsMap: Map<string, Tab> = new Map();
 
-  constructor(private viewService: ViewService) {
+  constructor(private viewService: ViewService, private cd: ChangeDetectorRef) {
     this.viewService.notepadEvents$.pipe(
       filter(event =>
         event.type === AppEvents.TAB_CREATE ||
         event.type === AppEvents.TAB_DELETE
-
       ))
       .subscribe((event) => {
         switch (event.type) {
@@ -52,22 +55,22 @@ export class TabsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.tabs.length == 0) {
-      this.tabs.push({ ...NEW_TAB_DEFAULT, id: 0, title: environment.init_file.file_name, path: environment.init_file.path })
-      this.activeIndex = 0;
-      this.tabs[0].selected = true
-      console.log("onInIt ", this.tabs);
-
-      this.triggerTabChangeEvent(0);
+    if (!this.tabsMap.size) {
+      this.newTabActions(0, environment.init_file.path, environment.init_file.file_name)
     }
+  }
+
+  getTabsArray() {
+    return this.tabsMap.values();
   }
   /**
    * Switch to next Tab on control + tab event
    */
   @HostListener('document:keydown.control.tab')
   changeTab() {
-    this.activeIndex = (this.activeIndex + 1) % this.tabs.length;
-    this.triggerTabChangeEvent(this.activeIndex);
+    this.activeIndex = (this.activeIndex + 1) % this.tabsMap.size;
+    this.activeTab = { ...this.tabsMap.get(this.getPathWithIndex(this.activeIndex))! }
+    this.triggerTabChangeEvent();
   }
 
 
@@ -76,68 +79,126 @@ export class TabsComponent implements OnInit {
       this.createBlankTab();
       return;
     }
-    console.log("Before new tabs push ", this.tabs, this.activeIndex);
-
-    let newTab: Tab = {
-      ...NEW_TAB_DEFAULT,
-      id: this.tabs.length,
-      title: tabEvent.file_name,
-      path: tabEvent.path,
-    };
-
-    this.tabs.push(newTab);
-    this.tabs[this.activeIndex].selected = false;
-    this.activeIndex = newTab.id;
-    this.tabs[this.activeIndex].selected = true;
-    console.log("new tab creation tabs, activeIndex, id ", this.tabs, this.activeIndex, newTab.id)
-
-    this.triggerTabChangeEvent(this.activeIndex);
+    if (!this.tabsMap.has(tabEvent.path))
+      this.newTabActions(this.tabsMap.size, tabEvent.path, tabEvent.file_name)
+    else {
+      this.activeTab = { ...this.tabsMap.get(tabEvent.path)! }
+      this.activeIndex = this.activeTab.id;
+    }
   }
+
 
   /**
    * New Tab on Ctrl + N
    */
   @HostListener('document:keydown.control.N')
   createBlankTab() {
-    console.log("Called blankTab");
-
-    let newTab: Tab = { ...NEW_TAB_DEFAULT, id: this.tabs.length };
-    this.tabs.push(newTab);
-    this.tabs[this.activeIndex].selected = false;
-    this.activeIndex = newTab.id;
-    this.triggerTabChangeEvent(this.activeIndex);
+    this.newTabActions(this.tabsMap.size, NEW_TAB_DEFAULT.path, NEW_TAB_DEFAULT.title)
   }
 
-  triggerTabChangeEvent(index: number = 0,) {
-    console.log("Current tabs ", this.tabs);
 
-    if (this.tabs?.length) {
+
+
+  /**
+   * This handles the tabs close event.
+   * Scenarios -> Current Active tabs is closed , non-active tab is closed , last tab is closed
+   * @param event TabViewCloseEvent
+   */
+  tabClose(event: TabViewCloseEvent) {
+    let close_tab_path = this.getPathWithIndex(event.index);
+
+    /** This handles non-active tab close and last tab close ,
+     * we do not need to trigger Tab change event since we dont wont to
+     * re-dender the workpad
+     */
+    this.tabsMap.delete(close_tab_path);
+    this.syncTabs();
+    // Handle Current Active tab closed
+    if (event.index == this.activeIndex) {
+      // If there are no tabsMap is empty
+      if (!this.tabsMap.size) {
+        this.activeTab = undefined;
+        this.activeIndex = -1;
+      }
+      // Since the active tab is close we need to set a new active tab and trigger a Tab Change Event
+      if (this.tabsMap.size) {
+        this.activeIndex = (event.index + 1) % this.tabsMap.size;
+        this.activeTab = this.tabsMap.get(this.getPathWithIndex(this.activeIndex))!;
+      }
+      this.triggerTabChangeEvent()
+    }
+  }
+
+  syncTabs() {
+    let n = 0;
+    this.tabsMap.forEach(tab => {
+      this.tabsMap.set(tab.path, { ...tab, id: n++ })
+      if (tab.id == this.activeIndex) {
+        this.activeTab = { ...this.tabsMap.get(tab.path)! }
+        this.activeIndex = this.activeTab!.id;
+        this.wasSynced = true;
+      }
+    })
+  }
+
+  /**
+   * Handles tabs change Event
+   * @param index
+   */
+  handleTabIndexChange(index: number) {
+    if (this.wasSynced) {
+      this.wasSynced = false;
+      this.activeTab = { ...this.tabsMap.get(this.getPathWithIndex(this.activeIndex))! };
+      this.activeIndex = this.activeTab.id;
+    } else {
+      this.activeTab = { ...this.tabsMap.get(this.getPathWithIndex(index))! };
+    }
+    this.triggerTabChangeEvent();
+  }
+
+  /**
+ * All things needs to be done to create a new tab
+ */
+  newTabActions(id: number, new_path: string, file_name: string,) {
+    let tab: Tab = { ...NEW_TAB_DEFAULT, id: id, title: file_name, path: new_path };
+    this.tabsMap.set(tab.path, tab);
+    this.activeTab = { ...tab };
+    // This handles the scenario where we want to un-select the older tabs as well.
+    if (this.activeTab) {
+      this.tabsMap.set(this.activeTab.path, { ...this.activeTab, selected: false })
+    }
+    this.activeIndex = id;
+    this.triggerTabChangeEvent();
+  }
+
+  getPathWithIndex(index: number): string {
+    let path = "";
+    this.tabsMap.forEach((tab) => {
+      if (tab.id == index) {
+        path = tab.path;
+      }
+    })
+    return path;
+  }
+  /**
+   * This triggers an Tab Change Event to inform other components to take respective actions
+   */
+
+  triggerTabChangeEvent() {
+    if (this.tabsMap.size) {
       this.viewService.notepadEvents$.next({
-        path: this.tabs[index].path,
-        file_name: this.tabs[index].title,
+        path: this.activeTab!.path,
+        file_name: this.activeTab!.title,
         type: AppEvents.TAB_CHANGE
       });
+    } else {
+      this.viewService.notepadEvents$.next({
+        path: undefined,
+        file_name: undefined,
+        type: AppEvents.TABS_EMPTY
+      });
     }
+
   }
-
-  handleTabClose(event: TabViewCloseEvent) {
-    if(event.index == 0){
-      this.tabs[event.index].selected = false
-      this.activeIndex = -1;
-      this.tabs = this.tabs.filter(tab => tab.id != event.index)
-     return;
-    }
-    this.activeIndex = event.index - 1
-    this.tabs[this.activeIndex].selected = true;
-    this.tabs[event.index].selected = false;
-    this.tabs = this.tabs.filter(tab => tab.id != event.index)
-    this.triggerTabChangeEvent(this.activeIndex);
-    }
-
-    handleTabIndexChange(index: number) {
-      console.log("Index, length , activeIndex", index, this.tabs.length, this.activeIndex);
-
-      this.triggerTabChangeEvent(this.activeIndex);
-    }
 
 }

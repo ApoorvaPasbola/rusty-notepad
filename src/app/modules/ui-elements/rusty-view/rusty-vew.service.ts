@@ -30,6 +30,7 @@ export class ViewService {
         case AppEvents.TAB_CHANGE:
         case AppEvents.TAB_CREATE:
         case AppEvents.TAB_DELETE:
+        case AppEvents.TABS_EMPTY:
           this.handleTabsEvent(event);
           break;
 
@@ -54,6 +55,7 @@ export class ViewService {
     switch (event.type) {
       // On Tab change we want to trigger Workpad Event
       case AppEvents.TAB_CHANGE:
+      case AppEvents.TABS_EMPTY:
         this.handleReadingFile(event, AppEvents.WORKPAD_UPDATE);
         break;
       default:
@@ -94,23 +96,30 @@ export class ViewService {
     this.readFile(event.path).
       then(
         (fullfilledData) => {
-          this.currentWorkbookContent$.next(fullfilledData)
-          this.currentWorkingFileName.set(event.file_name)
-          this.currentWorkpadFilePath.set(event.path)
-          this.notepadEvents$.next({
-            ...event,
-            type: eventType,
-          })
+          this.setWorkpadConfigs(event, eventType, fullfilledData);
         },
         (rejectResponse) => {
-          this.currentWorkbookContent$.next(rejectResponse)
-          this.currentWorkingFileName.set(undefined);
-          this.currentWorkpadFilePath.set(undefined);
-          this.notepadEvents$.next({
-            ...event,
-            type: eventType,
-          })
+          this.resetWorkpadConfig(event, eventType, rejectResponse);
         });
+  }
+
+  setWorkpadConfigs(event: NotepadEvents, eventType: AppEvents, data: string) {
+    this.currentWorkbookContent$.next(data)
+    this.currentWorkingFileName.set(event.file_name)
+    this.currentWorkpadFilePath.set(event.path)
+    this.notepadEvents$.next({
+      ...event,
+      type: eventType,
+    })
+  }
+  resetWorkpadConfig(event: NotepadEvents, eventType: AppEvents, data: string) {
+    this.currentWorkbookContent$.next(data)
+    this.currentWorkingFileName.set(undefined);
+    this.currentWorkpadFilePath.set(undefined);
+    this.notepadEvents$.next({
+      ...event,
+      type: eventType,
+    })
   }
 
   readFile(path: string | undefined): Promise<string> {
