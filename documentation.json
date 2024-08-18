@@ -120,12 +120,12 @@
         },
         {
             "name": "NotepadEvents",
-            "id": "interface-NotepadEvents-a1ff563372c848d19ea697d23b8ee17b56b4011e3939610818d233cfcd112cbc68840d82d9279b62fce3e15b07a299419d373be395686f9978fb9177238ba5db",
+            "id": "interface-NotepadEvents-1a1c0d86bb7fe14623d651cadfb9ec21488f2363208adc36fa60b14df07945e03c9348f6eead1b86e22d4ada1c411ea492db5761207bcfb8ca52ae04340faa3b",
             "file": "src/app/modules/utilities/interfaces/Events.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface NotepadEvents {\r\n  file_name?:string,\r\n  path?: string | undefined,\r\n  data?: string\r\n  type: AppEvents\r\n}\r\n\r\nexport enum AppEvents {\r\n  TAB_CHANGE,\r\n  TAB_CREATE,\r\n  TAB_DELETE,\r\n  WORKPAD_UPDATE,\r\n  WORKPAD_SAVE_REQUEST,\r\n  WORKPAD_SAVE_RESPONSE,\r\n  FILE_SYSTEM_OPEN,\r\n  FILE_SYSTEM_READ\r\n}\r\n",
+            "sourceCode": "export interface NotepadEvents {\r\n  file_name?:string,\r\n  path?: string | undefined,\r\n  data?: string\r\n  type: AppEvents\r\n}\r\n\r\nexport enum AppEvents {\r\n  TAB_CHANGE,\r\n  TAB_CREATE,\r\n  TAB_DELETE,\r\n  TABS_EMPTY,\r\n  WORKPAD_UPDATE,\r\n  WORKPAD_SAVE_REQUEST,\r\n  WORKPAD_SAVE_RESPONSE,\r\n  FILE_SYSTEM_OPEN,\r\n  FILE_SYSTEM_READ\r\n}\r\n",
             "properties": [
                 {
                     "name": "data",
@@ -171,12 +171,12 @@
         },
         {
             "name": "Tab",
-            "id": "interface-Tab-28c36d2fe860ebff683803ae245b3971ab919d21e535718c47c3ca3fdab6fc99908882e88cb201299b7e8c4260d9adf6c7a3407d2b3e2fef38c3e824b8840d41",
+            "id": "interface-Tab-c2daddeee09c309c904668d6fd71395d1e60f6f1f4674d2fc9c9d9e7e093c521556e52836f20758f3c74e52b768b581fb05dda7a6cee7193f74c522210b2965c",
             "file": "src/app/modules/utilities/interfaces/Tab.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface Tab{\r\n  id: number,\r\n  title: string,\r\n  isClosable: boolean,\r\n  selected: boolean,\r\n  path: string | undefined\r\n}\r\n",
+            "sourceCode": "export interface Tab{\r\n  id: number,\r\n  title: string,\r\n  isClosable: boolean,\r\n  selected: boolean,\r\n  path: string\r\n}\r\n",
             "properties": [
                 {
                     "name": "id",
@@ -200,7 +200,7 @@
                     "name": "path",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "string | undefined",
+                    "type": "string",
                     "optional": false,
                     "description": "",
                     "line": 6
@@ -437,7 +437,7 @@
         },
         {
             "name": "ViewService",
-            "id": "injectable-ViewService-e22357c09ce4031c25b985c82a7cac752d2b6be42353c93dd168dfbab4cf67b639779b5bbf41ad708aac606ac72b49bd84aa10091a394b6a875921482c403658",
+            "id": "injectable-ViewService-f28341eaac304e915ea62dc53950d416226b6194aec4a8bef08133a96fd8f7a619c895d03b7960a8c117f3c3f11fccdc1b275f610eb100bb069447fd6e058412",
             "file": "src/app/modules/ui-elements/rusty-view/rusty-vew.service.ts",
             "properties": [
                 {
@@ -506,7 +506,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 67,
+                    "line": 69,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nController to handle and control File Explorer related Events\n",
@@ -514,8 +514,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 2082,
-                                "end": 2087,
+                                "pos": 2152,
+                                "end": 2157,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -526,8 +526,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 2076,
-                                "end": 2081,
+                                "pos": 2146,
+                                "end": 2151,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -557,7 +557,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 93,
+                    "line": 95,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -600,7 +600,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 131,
+                    "line": 140,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -637,7 +637,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 53,
+                    "line": 54,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nController to handle and control tabs related functionalities\n",
@@ -645,8 +645,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1680,
-                                "end": 1685,
+                                "pos": 1716,
+                                "end": 1721,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -657,8 +657,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1674,
-                                "end": 1679,
+                                "pos": 1710,
+                                "end": 1715,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -682,7 +682,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 83,
+                    "line": 85,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nController to handle and control Workpad related Events\n",
@@ -690,8 +690,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 2585,
-                                "end": 2590,
+                                "pos": 2655,
+                                "end": 2660,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -702,8 +702,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 2579,
-                                "end": 2584,
+                                "pos": 2649,
+                                "end": 2654,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -727,13 +727,71 @@
                     "optional": false,
                     "returnType": "Promise<string>",
                     "typeParameters": [],
-                    "line": 116,
+                    "line": 125,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
                             "name": "path",
                             "type": "string | undefined",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "resetWorkpadConfig",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "NotepadEvents",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "eventType",
+                            "type": "AppEvents",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "data",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 115,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "NotepadEvents",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "eventType",
+                            "type": "AppEvents",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "data",
+                            "type": "string",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -755,7 +813,7 @@
                     "optional": false,
                     "returnType": "Promise<string>",
                     "typeParameters": [],
-                    "line": 157,
+                    "line": 166,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSaves the file contents on the choosen directory.\nIf the file is not present then creates the file with the specified name and then stores the content .\nIf the file is present it stores the content in the exsisting file\n",
@@ -763,8 +821,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 4805,
-                                "end": 4809,
+                                "pos": 5085,
+                                "end": 5089,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -775,8 +833,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 4799,
-                                "end": 4804,
+                                "pos": 5079,
+                                "end": 5084,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -786,13 +844,71 @@
                             "comment": ""
                         }
                     ]
+                },
+                {
+                    "name": "setWorkpadConfigs",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "NotepadEvents",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "eventType",
+                            "type": "AppEvents",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "data",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 106,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "NotepadEvents",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "eventType",
+                            "type": "AppEvents",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "data",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
                 }
             ],
             "deprecated": false,
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable, signal } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\nimport { BehaviorSubject, Subject } from 'rxjs';\r\nimport { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';\r\nimport { environment } from '../../../../environments/environment';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class ViewService {\r\n  currentWorkbookContent$ = new BehaviorSubject<string>(\r\n    'This is some default \\n work from an file',\r\n  );\r\n  currentWorkpadFilePath = signal<string | undefined>(undefined);\r\n  currentWorkingDirectory = signal<string | undefined>(environment.current_directory);\r\n  currentWorkingFileName = signal<string | undefined>(undefined);\r\n  /**\r\n   * Give the default path of the text file to be used when nothing is given\r\n   */\r\n  notepadEvents$ = new Subject<NotepadEvents>();\r\n\r\n  constructor() {\r\n    this.notepadEvents$.subscribe((event: NotepadEvents) => {\r\n      switch (event.type) {\r\n        case AppEvents.FILE_SYSTEM_OPEN:\r\n        case AppEvents.FILE_SYSTEM_READ:\r\n          this.handleFileSystemtEvents(event);\r\n          break;\r\n\r\n        case AppEvents.TAB_CHANGE:\r\n        case AppEvents.TAB_CREATE:\r\n        case AppEvents.TAB_DELETE:\r\n          this.handleTabsEvent(event);\r\n          break;\r\n\r\n        case AppEvents.WORKPAD_SAVE_REQUEST:\r\n        case AppEvents.WORKPAD_SAVE_RESPONSE:\r\n        case AppEvents.WORKPAD_UPDATE:\r\n          this.handleWorkpadEvents(event);\r\n          break;\r\n\r\n        default:\r\n          console.debug(\"Unknow Type of event \", event);\r\n          break;\r\n      }\r\n    });\r\n  }\r\n\r\n  /**\r\n   * Controller to handle and control tabs related functionalities\r\n   * @param event NotepadEvents\r\n   */\r\n  handleTabsEvent(event: NotepadEvents) {\r\n    switch (event.type) {\r\n      // On Tab change we want to trigger Workpad Event\r\n      case AppEvents.TAB_CHANGE:\r\n        this.handleReadingFile(event, AppEvents.WORKPAD_UPDATE);\r\n        break;\r\n      default:\r\n        break;\r\n    }\r\n  }\r\n  /**\r\n   * Controller to handle and control File Explorer related Events\r\n   * @param event NotepadEvents\r\n   */\r\n  handleFileSystemtEvents(event: NotepadEvents) {\r\n    switch (event.type) {\r\n      case AppEvents.FILE_SYSTEM_READ:\r\n        // Triggering a new Tab event to create a new tab when we receive a open File event\r\n        this.handleReadingFile(event, AppEvents.TAB_CREATE)\r\n        break;\r\n      default:\r\n        console.debug(\"Received Open File event \", event);\r\n        break;\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Controller to handle and control Workpad related Events\r\n   * @param event NotepadEvents\r\n   */\r\n  handleWorkpadEvents(event: NotepadEvents) {\r\n    switch (event.type) {\r\n      case AppEvents.WORKPAD_SAVE_REQUEST:\r\n        this.handleSaveFile(event, AppEvents.WORKPAD_SAVE_RESPONSE)\r\n        break\r\n      default:\r\n        break;\r\n    }\r\n  }\r\n\r\n  handleReadingFile(event: NotepadEvents, eventType: AppEvents) {\r\n    this.readFile(event.path).\r\n      then(\r\n        (fullfilledData) => {\r\n          this.currentWorkbookContent$.next(fullfilledData)\r\n          this.currentWorkingFileName.set(event.file_name)\r\n          this.currentWorkpadFilePath.set(event.path)\r\n          this.notepadEvents$.next({\r\n            ...event,\r\n            type: eventType,\r\n          })\r\n        },\r\n        (rejectResponse) => {\r\n          this.currentWorkbookContent$.next(rejectResponse)\r\n          this.currentWorkingFileName.set(undefined);\r\n          this.currentWorkpadFilePath.set(undefined);\r\n          this.notepadEvents$.next({\r\n            ...event,\r\n            type: eventType,\r\n          })\r\n        });\r\n  }\r\n\r\n  readFile(path: string | undefined): Promise<string> {\r\n    // If path is undefined the log a debug message and return the default values\r\n    if (!path) {\r\n      console.debug('Error while opening the file. Path undefined', path);\r\n      return new Promise((_, reject) => reject(\"Lets write an epic :(\"))\r\n    }\r\n\r\n    console.debug('Reading file with path ', path);\r\n    /**\r\n     * Reads the content of the file from the given path\r\n     */\r\n    return invoke<string>('read_file', { path })\r\n  }\r\n\r\n\r\n  handleSaveFile(event: NotepadEvents, eventType: AppEvents) {\r\n    this.saveFile(event).then(\r\n      (resolved) => {\r\n        this.notepadEvents$.next({\r\n          ...event,\r\n          type: eventType,\r\n          data: resolved\r\n        })\r\n      },\r\n      (reject) => {\r\n        this.notepadEvents$.next({\r\n          ...event,\r\n          type: eventType,\r\n          data: reject\r\n        })\r\n      }\r\n    )\r\n\r\n  }\r\n\r\n  /**\r\n   * Saves the file contents on the choosen directory.\r\n   * If the file is not present then creates the file with the specified name and then stores the content .\r\n   * If the file is present it stores the content in the exsisting file\r\n   * @param file\r\n   */\r\n  saveFile(file: NotepadEvents): Promise<string> {\r\n    if (!file.data && !file.path) {\r\n      return new Promise<string>((res, rej) => rej(\"Data or path not defined\"));\r\n    }\r\n    return invoke<string>('save_file', { path: file.path, data: file.data })\r\n  }\r\n\r\n\r\n}\r\n",
+            "sourceCode": "import { Injectable, signal } from '@angular/core';\r\nimport { invoke } from '@tauri-apps/api';\r\nimport { BehaviorSubject, Subject } from 'rxjs';\r\nimport { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';\r\nimport { environment } from '../../../../environments/environment';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class ViewService {\r\n  currentWorkbookContent$ = new BehaviorSubject<string>(\r\n    'This is some default \\n work from an file',\r\n  );\r\n  currentWorkpadFilePath = signal<string | undefined>(undefined);\r\n  currentWorkingDirectory = signal<string | undefined>(environment.current_directory);\r\n  currentWorkingFileName = signal<string | undefined>(undefined);\r\n  /**\r\n   * Give the default path of the text file to be used when nothing is given\r\n   */\r\n  notepadEvents$ = new Subject<NotepadEvents>();\r\n\r\n  constructor() {\r\n    this.notepadEvents$.subscribe((event: NotepadEvents) => {\r\n      switch (event.type) {\r\n        case AppEvents.FILE_SYSTEM_OPEN:\r\n        case AppEvents.FILE_SYSTEM_READ:\r\n          this.handleFileSystemtEvents(event);\r\n          break;\r\n\r\n        case AppEvents.TAB_CHANGE:\r\n        case AppEvents.TAB_CREATE:\r\n        case AppEvents.TAB_DELETE:\r\n        case AppEvents.TABS_EMPTY:\r\n          this.handleTabsEvent(event);\r\n          break;\r\n\r\n        case AppEvents.WORKPAD_SAVE_REQUEST:\r\n        case AppEvents.WORKPAD_SAVE_RESPONSE:\r\n        case AppEvents.WORKPAD_UPDATE:\r\n          this.handleWorkpadEvents(event);\r\n          break;\r\n\r\n        default:\r\n          console.debug(\"Unknow Type of event \", event);\r\n          break;\r\n      }\r\n    });\r\n  }\r\n\r\n  /**\r\n   * Controller to handle and control tabs related functionalities\r\n   * @param event NotepadEvents\r\n   */\r\n  handleTabsEvent(event: NotepadEvents) {\r\n    switch (event.type) {\r\n      // On Tab change we want to trigger Workpad Event\r\n      case AppEvents.TAB_CHANGE:\r\n      case AppEvents.TABS_EMPTY:\r\n        this.handleReadingFile(event, AppEvents.WORKPAD_UPDATE);\r\n        break;\r\n      default:\r\n        break;\r\n    }\r\n  }\r\n  /**\r\n   * Controller to handle and control File Explorer related Events\r\n   * @param event NotepadEvents\r\n   */\r\n  handleFileSystemtEvents(event: NotepadEvents) {\r\n    switch (event.type) {\r\n      case AppEvents.FILE_SYSTEM_READ:\r\n        // Triggering a new Tab event to create a new tab when we receive a open File event\r\n        this.handleReadingFile(event, AppEvents.TAB_CREATE)\r\n        break;\r\n      default:\r\n        console.debug(\"Received Open File event \", event);\r\n        break;\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Controller to handle and control Workpad related Events\r\n   * @param event NotepadEvents\r\n   */\r\n  handleWorkpadEvents(event: NotepadEvents) {\r\n    switch (event.type) {\r\n      case AppEvents.WORKPAD_SAVE_REQUEST:\r\n        this.handleSaveFile(event, AppEvents.WORKPAD_SAVE_RESPONSE)\r\n        break\r\n      default:\r\n        break;\r\n    }\r\n  }\r\n\r\n  handleReadingFile(event: NotepadEvents, eventType: AppEvents) {\r\n    this.readFile(event.path).\r\n      then(\r\n        (fullfilledData) => {\r\n          this.setWorkpadConfigs(event, eventType, fullfilledData);\r\n        },\r\n        (rejectResponse) => {\r\n          this.resetWorkpadConfig(event, eventType, rejectResponse);\r\n        });\r\n  }\r\n\r\n  setWorkpadConfigs(event: NotepadEvents, eventType: AppEvents, data: string) {\r\n    this.currentWorkbookContent$.next(data)\r\n    this.currentWorkingFileName.set(event.file_name)\r\n    this.currentWorkpadFilePath.set(event.path)\r\n    this.notepadEvents$.next({\r\n      ...event,\r\n      type: eventType,\r\n    })\r\n  }\r\n  resetWorkpadConfig(event: NotepadEvents, eventType: AppEvents, data: string) {\r\n    this.currentWorkbookContent$.next(data)\r\n    this.currentWorkingFileName.set(undefined);\r\n    this.currentWorkpadFilePath.set(undefined);\r\n    this.notepadEvents$.next({\r\n      ...event,\r\n      type: eventType,\r\n    })\r\n  }\r\n\r\n  readFile(path: string | undefined): Promise<string> {\r\n    // If path is undefined the log a debug message and return the default values\r\n    if (!path) {\r\n      console.debug('Error while opening the file. Path undefined', path);\r\n      return new Promise((_, reject) => reject(\"Lets write an epic :(\"))\r\n    }\r\n\r\n    console.debug('Reading file with path ', path);\r\n    /**\r\n     * Reads the content of the file from the given path\r\n     */\r\n    return invoke<string>('read_file', { path })\r\n  }\r\n\r\n\r\n  handleSaveFile(event: NotepadEvents, eventType: AppEvents) {\r\n    this.saveFile(event).then(\r\n      (resolved) => {\r\n        this.notepadEvents$.next({\r\n          ...event,\r\n          type: eventType,\r\n          data: resolved\r\n        })\r\n      },\r\n      (reject) => {\r\n        this.notepadEvents$.next({\r\n          ...event,\r\n          type: eventType,\r\n          data: reject\r\n        })\r\n      }\r\n    )\r\n\r\n  }\r\n\r\n  /**\r\n   * Saves the file contents on the choosen directory.\r\n   * If the file is not present then creates the file with the specified name and then stores the content .\r\n   * If the file is present it stores the content in the exsisting file\r\n   * @param file\r\n   */\r\n  saveFile(file: NotepadEvents): Promise<string> {\r\n    if (!file.data && !file.path) {\r\n      return new Promise<string>((res, rej) => rej(\"Data or path not defined\"));\r\n    }\r\n    return invoke<string>('save_file', { path: file.path, data: file.data })\r\n  }\r\n\r\n\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -1563,8 +1679,46 @@
             "templateData": "<div class=\"h-2rem w-full px-2\" role=\"toolbar\" aria-label=\"Toolbar with button groups\">\r\n  <div class=\"inline-flex\">\r\n    <ng-content></ng-content>\r\n  </div>\r\n  <p class=\"break-line\"></p>\r\n</div>\r\n"
         },
         {
+            "name": "LandingPageComponent",
+            "id": "component-LandingPageComponent-d42f45a45bf2f1e6b4d80a6b1fabca2bfc1caa8ada9df889052de4b3bb8e0061865660c475bb6d85887cf02ef8bfec9c73eba3f3ce95a5a012b0bab3b60fef07",
+            "file": "src/app/modules/ui-elements/landing-page/landing-page.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "rusty-landing-page",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./landing-page.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'rusty-landing-page',\r\n  standalone: true,\r\n  imports: [],\r\n  templateUrl: './landing-page.component.html',\r\n  styleUrl: './landing-page.component.scss'\r\n})\r\nexport class LandingPageComponent {\r\n\r\n}\r\n",
+            "styleUrl": "./landing-page.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div class=\"container flex flex-column justify-content-center h-full align-items-center \">\r\n  <div class=\"m-2 p-1\">\r\n    New Tab <span class=\"ml-2 mr-1 command\">Ctrl</span> + <span class=\"ml-1 command\">N</span>\r\n  </div>\r\n  <div class=\"m-2 p-1\">\r\n    Switch Tab <span class=\"ml-2 mr-1 command\">Ctrl</span> + <span class=\"ml-1 command\">T</span>\r\n  </div>\r\n</div>\r\n"
+        },
+        {
             "name": "RustyViewComponent",
-            "id": "component-RustyViewComponent-06ec0eb4e2fac2a587514f0d82bf41d14a3db877c28db63495526811ffe9ce7cd2fe8da28f7125cd5837e6ed839aa441bf287aa0e8308ba61913bbc15711556a",
+            "id": "component-RustyViewComponent-9f15f1c0a48f56c0596a00c7834e4497c751712ed6905db0252d1bfbe70fecdacf02e3db6e34af0c4e3752d4a3b086dea48eb3aab82acf807c829cef8cd9dd6f",
             "file": "src/app/modules/ui-elements/rusty-view/rusty-view.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1607,12 +1761,16 @@
                 },
                 {
                     "name": "NgIf"
+                },
+                {
+                    "name": "LandingPageComponent",
+                    "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabsComponent } from '../tabs/tabs.component';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { SplitterComponent } from '../splitter/splitter.component';\r\nimport { FolderTreeComponent } from '../folder-tree/folder-tree.component';\r\nimport { ViewService } from './rusty-vew.service';\r\nimport { NgIf } from '@angular/common';\r\n\r\n@Component({\r\n  selector: 'app-rusty-view',\r\n  templateUrl: './rusty-view.component.html',\r\n  styleUrl: './rusty-view.component.scss',\r\n  standalone: true,\r\n  imports: [\r\n    TabsComponent,\r\n    WorkpadComponent,\r\n    SplitterComponent,\r\n    FolderTreeComponent,\r\n    NgIf\r\n  ],\r\n})\r\nexport class RustyViewComponent {\r\n\r\n  constructor() {\r\n  }\r\n\r\n\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { TabsComponent } from '../tabs/tabs.component';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { SplitterComponent } from '../splitter/splitter.component';\r\nimport { FolderTreeComponent } from '../folder-tree/folder-tree.component';\r\nimport { NgIf } from '@angular/common';\r\nimport { LandingPageComponent } from \"../landing-page/landing-page.component\";\r\n\r\n@Component({\r\n  selector: 'app-rusty-view',\r\n  templateUrl: './rusty-view.component.html',\r\n  styleUrl: './rusty-view.component.scss',\r\n  standalone: true,\r\n  imports: [\r\n    TabsComponent,\r\n    WorkpadComponent,\r\n    SplitterComponent,\r\n    FolderTreeComponent,\r\n    NgIf,\r\n    LandingPageComponent\r\n],\r\n})\r\nexport class RustyViewComponent {\r\n\r\n  constructor() {\r\n  }\r\n\r\n\r\n}\r\n",
             "styleUrl": "./rusty-view.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -1623,10 +1781,10 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 22
+                "line": 23
             },
             "extends": [],
-            "templateData": "<div class=\"layout h-full\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-splitter class=\"h-full\">\r\n    <div >\r\n      <rusty-folder-tree></rusty-folder-tree>\r\n    </div>\r\n      <app-tabs #tabsRef #rustyTabs panel2></app-tabs>\r\n      <app-workpad panel2 ></app-workpad>\r\n  </app-splitter>\r\n</div>\r\n"
+            "templateData": "<div class=\"layout h-full\">\r\n  <!--  Add a Folders option on left side  -->\r\n  <app-splitter class=\"h-full\">\r\n    <div >\r\n      <rusty-folder-tree></rusty-folder-tree>\r\n    </div>\r\n      <app-tabs #rustyTabs panel2></app-tabs>\r\n      <app-workpad *ngIf=\"rustyTabs.tabsMap.size\" panel2 ></app-workpad>\r\n      <rusty-landing-page *ngIf=\"!rustyTabs.tabsMap.size\" panel2>Some text</rusty-landing-page>\r\n  </app-splitter>\r\n</div>\r\n"
         },
         {
             "name": "SplitterComponent",
@@ -1677,7 +1835,7 @@
         },
         {
             "name": "TabsComponent",
-            "id": "component-TabsComponent-fe479d7a6957f294177a663b520482a50cc6770b55b6264f7c3e3d69202c9f589d1d5758e0d1954f72b51717509671aedd2a4f0cdd140820ff5d5cedb7c701cf",
+            "id": "component-TabsComponent-84608eb8c7ef0328f54a078317f9f2005c03b62173d70f63cfde79574d9232c40224535b0f63f8cf403eb73e2b4df744e82a6a67c9024d1e79aa069ac543146a",
             "file": "src/app/modules/ui-elements/tabs/tabs.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1704,21 +1862,37 @@
                     "optional": false,
                     "description": "<p>This is use to toggle active tab on Ctrl + Tab event</p>\n",
                     "line": 28,
-                    "rawdescription": "\n\nThis is use to toggle active tab on Ctrl + Tab event\n",
-                    "modifierKind": [
-                        125
-                    ]
+                    "rawdescription": "\n\nThis is use to toggle active tab on Ctrl + Tab event\n"
                 },
                 {
-                    "name": "tabs",
-                    "defaultValue": "[]",
+                    "name": "activeTab",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "Tab[]",
+                    "type": "Tab | undefined",
+                    "optional": false,
+                    "description": "",
+                    "line": 30
+                },
+                {
+                    "name": "tabsMap",
+                    "defaultValue": "new Map()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Map<string | Tab>",
                     "optional": false,
                     "description": "<p>This takes a list of tabs from the service which reads all the files</p>\n",
-                    "line": 33,
+                    "line": 36,
                     "rawdescription": "\n\nThis takes a list of tabs from the service which reads all the files\n"
+                },
+                {
+                    "name": "wasTabClosed",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 29
                 }
             ],
             "methodsClass": [
@@ -1728,7 +1902,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 68,
+                    "line": 63,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
@@ -1749,7 +1923,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 101,
+                    "line": 90,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nNew Tab on Ctrl + N\n",
@@ -1765,25 +1939,25 @@
                     ]
                 },
                 {
-                    "name": "handleTabClose",
+                    "name": "getPathWithIndex",
                     "args": [
                         {
-                            "name": "event",
-                            "type": "TabViewCloseEvent",
+                            "name": "index",
+                            "type": "number",
                             "deprecated": false,
                             "deprecationMessage": ""
                         }
                     ],
                     "optional": false,
-                    "returnType": "void",
+                    "returnType": "string",
                     "typeParameters": [],
-                    "line": 123,
+                    "line": 174,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "name": "event",
-                            "type": "TabViewCloseEvent",
+                            "name": "index",
+                            "type": "number",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -1791,6 +1965,16 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "getTabsArray",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 56,
+                    "deprecated": false,
+                    "deprecationMessage": ""
                 },
                 {
                     "name": "handleTabIndexChange",
@@ -1805,18 +1989,35 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 137,
+                    "line": 144,
                     "deprecated": false,
                     "deprecationMessage": "",
+                    "rawdescription": "\n\nHandles tabs change Event\n",
+                    "description": "<p>Handles tabs change Event</p>\n",
                     "jsdoctags": [
                         {
-                            "name": "index",
+                            "name": {
+                                "pos": 4481,
+                                "end": 4486,
+                                "flags": 16842752,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 80,
+                                "escapedText": "index"
+                            },
                             "type": "number",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "text": "param"
-                            }
+                                "pos": 4475,
+                                "end": 4480,
+                                "flags": 16842752,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 80,
+                                "escapedText": "param"
+                            },
+                            "comment": ""
                         }
                     ]
                 },
@@ -1833,7 +2034,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 74,
+                    "line": 72,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1849,44 +2050,131 @@
                     ]
                 },
                 {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 54,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                },
-                {
-                    "name": "triggerTabChangeEvent",
+                    "name": "newTabActions",
                     "args": [
                         {
-                            "name": "index",
+                            "name": "id",
                             "type": "number",
                             "deprecated": false,
-                            "deprecationMessage": "",
-                            "defaultValue": "0"
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "new_path",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "file_name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
                         }
                     ],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 111,
+                    "line": 162,
                     "deprecated": false,
                     "deprecationMessage": "",
+                    "rawdescription": "\n\nAll things needs to be done to create a new tab\n",
+                    "description": "<p>All things needs to be done to create a new tab</p>\n",
                     "jsdoctags": [
                         {
-                            "name": "index",
+                            "name": "id",
                             "type": "number",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "defaultValue": "0",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "new_path",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "file_name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
                             "tagName": {
                                 "text": "param"
                             }
                         }
                     ]
+                },
+                {
+                    "name": "syncTabs",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 133,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "tabClose",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "TabViewCloseEvent",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 102,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nThis handles the tabs close event.\nScenarios -> Current Active tabs is closed , non-active tab is closed , last tab is closed\n",
+                    "description": "<p>This handles the tabs close event.\nScenarios -&gt; Current Active tabs is closed , non-active tab is closed , last tab is closed</p>\n",
+                    "jsdoctags": [
+                        {
+                            "name": {
+                                "pos": 3029,
+                                "end": 3034,
+                                "flags": 16842752,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 80,
+                                "escapedText": "event"
+                            },
+                            "type": "TabViewCloseEvent",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "pos": 3023,
+                                "end": 3028,
+                                "flags": 16842752,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 80,
+                                "escapedText": "param"
+                            },
+                            "comment": "<p>TabViewCloseEvent</p>\n"
+                        }
+                    ]
+                },
+                {
+                    "name": "triggerTabChangeEvent",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 187,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nThis triggers an Tab Change Event to inform other components to take respective actions\n",
+                    "description": "<p>This triggers an Tab Change Event to inform other components to take respective actions</p>\n"
                 }
             ],
             "deprecated": false,
@@ -1901,7 +2189,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nNew Tab on Ctrl + N\n",
                     "description": "<p>New Tab on Ctrl + N</p>\n",
-                    "line": 101
+                    "line": 90
                 },
                 {
                     "name": "document:keydown.control.tab",
@@ -1911,7 +2199,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSwitch to next Tab on control + tab event\n",
                     "description": "<p>Switch to next Tab on control + tab event</p>\n",
-                    "line": 68
+                    "line": 63
                 }
             ],
             "standalone": true,
@@ -1938,7 +2226,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\r\n  Component,\r\n  HostListener,\r\n  OnInit,\r\n} from '@angular/core';\r\nimport { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor, NgIf } from '@angular/common';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { NEW_TAB_DEFAULT } from '../../utilities/Constants';\r\nimport { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';\r\nimport { environment } from '../../../../environments/environment';\r\nimport { ViewService } from '../rusty-view/rusty-vew.service';\r\nimport { filter } from 'rxjs';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor, NgIf],\r\n})\r\nexport class TabsComponent implements OnInit {\r\n\r\n\r\n  /**\r\n   * This is use to toggle active tab on Ctrl + Tab event\r\n   */\r\n  public activeIndex: number = 0;\r\n\r\n  /**\r\n   * This takes a list of tabs from the service which reads all the files\r\n   */\r\n  tabs: Tab[] = [];\r\n\r\n  constructor(private viewService: ViewService) {\r\n    this.viewService.notepadEvents$.pipe(\r\n      filter(event =>\r\n        event.type === AppEvents.TAB_CREATE ||\r\n        event.type === AppEvents.TAB_DELETE\r\n\r\n      ))\r\n      .subscribe((event) => {\r\n        switch (event.type) {\r\n          case AppEvents.TAB_CREATE:\r\n            this.newTab(event);\r\n            break;\r\n          default:\r\n            console.debug(\"Some Unhandled Event recevied \", event, AppEvents[event.type]);\r\n            break;\r\n        }\r\n      })\r\n  }\r\n\r\n  ngOnInit(): void {\r\n    if (this.tabs.length == 0) {\r\n      this.tabs.push({ ...NEW_TAB_DEFAULT, id: 0, title: environment.init_file.file_name, path: environment.init_file.path })\r\n      this.activeIndex = 0;\r\n      this.tabs[0].selected = true\r\n      console.log(\"onInIt \", this.tabs);\r\n\r\n      this.triggerTabChangeEvent(0);\r\n    }\r\n  }\r\n  /**\r\n   * Switch to next Tab on control + tab event\r\n   */\r\n  @HostListener('document:keydown.control.tab')\r\n  changeTab() {\r\n    this.activeIndex = (this.activeIndex + 1) % this.tabs.length;\r\n    this.triggerTabChangeEvent(this.activeIndex);\r\n  }\r\n\r\n\r\n  newTab(tabEvent: NotepadEvents) {\r\n    if (!tabEvent.file_name || !tabEvent.path) {\r\n      this.createBlankTab();\r\n      return;\r\n    }\r\n    console.log(\"Before new tabs push \", this.tabs, this.activeIndex);\r\n\r\n    let newTab: Tab = {\r\n      ...NEW_TAB_DEFAULT,\r\n      id: this.tabs.length,\r\n      title: tabEvent.file_name,\r\n      path: tabEvent.path,\r\n    };\r\n\r\n    this.tabs.push(newTab);\r\n    this.tabs[this.activeIndex].selected = false;\r\n    this.activeIndex = newTab.id;\r\n    this.tabs[this.activeIndex].selected = true;\r\n    console.log(\"new tab creation tabs, activeIndex, id \", this.tabs, this.activeIndex, newTab.id)\r\n\r\n    this.triggerTabChangeEvent(this.activeIndex);\r\n  }\r\n\r\n  /**\r\n   * New Tab on Ctrl + N\r\n   */\r\n  @HostListener('document:keydown.control.N')\r\n  createBlankTab() {\r\n    console.log(\"Called blankTab\");\r\n\r\n    let newTab: Tab = { ...NEW_TAB_DEFAULT, id: this.tabs.length };\r\n    this.tabs.push(newTab);\r\n    this.tabs[this.activeIndex].selected = false;\r\n    this.activeIndex = newTab.id;\r\n    this.triggerTabChangeEvent(this.activeIndex);\r\n  }\r\n\r\n  triggerTabChangeEvent(index: number = 0,) {\r\n    console.log(\"Current tabs \", this.tabs);\r\n\r\n    if (this.tabs?.length) {\r\n      this.viewService.notepadEvents$.next({\r\n        path: this.tabs[index].path,\r\n        file_name: this.tabs[index].title,\r\n        type: AppEvents.TAB_CHANGE\r\n      });\r\n    }\r\n  }\r\n\r\n  handleTabClose(event: TabViewCloseEvent) {\r\n    if(event.index == 0){\r\n      this.tabs[event.index].selected = false\r\n      this.activeIndex = -1;\r\n      this.tabs = this.tabs.filter(tab => tab.id != event.index)\r\n     return;\r\n    }\r\n    this.activeIndex = event.index - 1\r\n    this.tabs[this.activeIndex].selected = true;\r\n    this.tabs[event.index].selected = false;\r\n    this.tabs = this.tabs.filter(tab => tab.id != event.index)\r\n    this.triggerTabChangeEvent(this.activeIndex);\r\n    }\r\n\r\n    handleTabIndexChange(index: number) {\r\n      console.log(\"Index, length , activeIndex\", index, this.tabs.length, this.activeIndex);\r\n\r\n      this.triggerTabChangeEvent(this.activeIndex);\r\n    }\r\n\r\n}\r\n",
+            "sourceCode": "import {\r\n  ChangeDetectorRef,\r\n  Component,\r\n  HostListener,\r\n  OnInit,\r\n} from '@angular/core';\r\nimport { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';\r\nimport { CommonModule, NgFor, NgIf } from '@angular/common';\r\nimport { WorkpadComponent } from '../workpad/workpad.component';\r\nimport { Tab } from '../../utilities/interfaces/Tab';\r\nimport { NEW_TAB_DEFAULT } from '../../utilities/Constants';\r\nimport { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';\r\nimport { ViewService } from '../rusty-view/rusty-vew.service';\r\nimport { filter } from 'rxjs';\r\n@Component({\r\n  selector: 'app-tabs',\r\n  templateUrl: './tabs.component.html',\r\n  styleUrl: './tabs.component.scss',\r\n  standalone: true,\r\n  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor, NgIf],\r\n})\r\nexport class TabsComponent {\r\n\r\n\r\n  /**\r\n   * This is use to toggle active tab on Ctrl + Tab event\r\n   */\r\n  activeIndex: number = 0;\r\n  wasTabClosed: boolean = false;\r\n  activeTab: Tab | undefined;\r\n\r\n\r\n  /**\r\n   * This takes a list of tabs from the service which reads all the files\r\n   */\r\n  tabsMap: Map<string, Tab> = new Map();\r\n\r\n  constructor(private viewService: ViewService, private cd: ChangeDetectorRef) {\r\n    this.viewService.notepadEvents$.pipe(\r\n      filter(event =>\r\n        event.type === AppEvents.TAB_CREATE ||\r\n        event.type === AppEvents.TAB_DELETE\r\n      ))\r\n      .subscribe((event) => {\r\n        switch (event.type) {\r\n          case AppEvents.TAB_CREATE:\r\n            this.newTab(event);\r\n            break;\r\n          default:\r\n            console.debug(\"Some Unhandled Event recevied \", event, AppEvents[event.type]);\r\n            break;\r\n        }\r\n      })\r\n  }\r\n\r\n  getTabsArray() {\r\n    return this.tabsMap.values();\r\n  }\r\n  /**\r\n   * Switch to next Tab on control + tab event\r\n   */\r\n  @HostListener('document:keydown.control.tab')\r\n  changeTab() {\r\n    this.tabsMap.set(this.activeTab!.path, { ...this.activeTab!, selected: false })\r\n    this.activeIndex = (this.activeIndex + 1) % this.tabsMap.size;\r\n    this.activeTab = { ...this.tabsMap.get(this.getPathWithIndex(this.activeIndex))!, selected: true };\r\n    this.tabsMap.set(this.activeTab.path, { ...this.activeTab! })\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n\r\n  newTab(tabEvent: NotepadEvents) {\r\n    if (!tabEvent.file_name || !tabEvent.path) {\r\n      this.createBlankTab();\r\n      return;\r\n    }\r\n    if (!this.tabsMap.has(tabEvent.path))\r\n      this.newTabActions(this.tabsMap.size, tabEvent.path, tabEvent.file_name)\r\n    else {\r\n      this.activeTab = { ...this.tabsMap.get(tabEvent.path)! }\r\n      this.activeIndex = this.activeTab.id;\r\n    }\r\n  }\r\n\r\n\r\n  /**\r\n   * New Tab on Ctrl + N\r\n   */\r\n  @HostListener('document:keydown.control.N')\r\n  createBlankTab() {\r\n    this.newTabActions(this.tabsMap.size, NEW_TAB_DEFAULT.path, NEW_TAB_DEFAULT.title)\r\n  }\r\n\r\n\r\n\r\n\r\n  /**\r\n   * This handles the tabs close event.\r\n   * Scenarios -> Current Active tabs is closed , non-active tab is closed , last tab is closed\r\n   * @param event TabViewCloseEvent\r\n   */\r\n  tabClose(event: TabViewCloseEvent) {\r\n    this.wasTabClosed = true;\r\n    let close_tab_path = this.getPathWithIndex(event.index);\r\n\r\n    /** This handles non-active tab close and last tab close ,\r\n     * we do not need to trigger Tab change event since we dont wont to\r\n     * re-dender the workpad\r\n     */\r\n    this.tabsMap.delete(close_tab_path);\r\n    if (event.index != this.tabsMap.size)\r\n      this.syncTabs();\r\n    // Handle Current Active tab closed\r\n    if (event.index == this.activeIndex) {\r\n      // If there are no tabsMap is empty\r\n      if (!this.tabsMap.size) {\r\n        this.activeTab = undefined;\r\n        this.activeIndex = -1;\r\n        this.wasTabClosed = false;\r\n      }\r\n      // Since the active tab is close we need to set a new active tab and trigger a Tab Change Event\r\n      if (this.tabsMap.size) {\r\n        // Need to handle the case where syncing the tabsMap changed the indexing\r\n        this.activeIndex = (event.index) % this.tabsMap.size;\r\n        let path = this.getPathWithIndex(this.activeIndex);\r\n        this.tabsMap.set(path, { ...this.tabsMap.get(path)!, selected: true })\r\n        this.activeTab = { ...this.tabsMap.get(path)! };\r\n      }\r\n    }\r\n    this.triggerTabChangeEvent()\r\n  }\r\n\r\n  syncTabs() {\r\n    let n = 0;\r\n    this.tabsMap.forEach(tab => {\r\n      this.tabsMap.set(tab.path, { ...tab, id: n++ })\r\n    })\r\n  }\r\n\r\n  /**\r\n   * Handles tabs change Event\r\n   * @param index\r\n   */\r\n  handleTabIndexChange(index: number) {\r\n\r\n    if (!this.wasTabClosed) {\r\n      let path = this.getPathWithIndex(index);\r\n      this.tabsMap.set(this.activeTab!.path, { ...this.activeTab!, selected: false })\r\n      this.activeTab = { ...this.tabsMap.get(path)!, selected: true };\r\n      this.activeIndex = index;\r\n      this.tabsMap.set(path, { ...this.activeTab, selected: true })\r\n      this.triggerTabChangeEvent();\r\n    }\r\n    this.wasTabClosed = false;\r\n\r\n\r\n  }\r\n\r\n  /**\r\n * All things needs to be done to create a new tab\r\n */\r\n  newTabActions(id: number, new_path: string, file_name: string,) {\r\n    let tab: Tab = { ...NEW_TAB_DEFAULT, id: id, title: file_name, path: new_path, };\r\n    this.tabsMap.set(tab.path, tab);\r\n    // This handles the scenario where we want to un-select the older tabs as well.\r\n    if (this.activeTab) {\r\n      this.tabsMap.set(this.activeTab.path, { ...this.activeTab, selected: false })\r\n    }\r\n    this.activeTab = { ...tab };\r\n    this.activeIndex = id;\r\n    this.triggerTabChangeEvent();\r\n  }\r\n\r\n  getPathWithIndex(index: number): string {\r\n    let path = \"\";\r\n    this.tabsMap.forEach((tab) => {\r\n      if (tab.id == index) {\r\n        path = tab.path;\r\n      }\r\n    })\r\n    return path;\r\n  }\r\n  /**\r\n   * This triggers an Tab Change Event to inform other components to take respective actions\r\n   */\r\n\r\n  triggerTabChangeEvent() {\r\n    if (this.tabsMap.size) {\r\n      this.viewService.notepadEvents$.next({\r\n        path: this.activeTab!.path,\r\n        file_name: this.activeTab!.title,\r\n        type: AppEvents.TAB_CHANGE\r\n      });\r\n    } else {\r\n      this.viewService.notepadEvents$.next({\r\n        path: undefined,\r\n        file_name: undefined,\r\n        type: AppEvents.TABS_EMPTY\r\n      });\r\n    }\r\n\r\n  }\r\n\r\n\r\n}\r\n",
             "styleUrl": "./tabs.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -1954,9 +2242,15 @@
                         "type": "ViewService",
                         "deprecated": false,
                         "deprecationMessage": ""
+                    },
+                    {
+                        "name": "cd",
+                        "type": "ChangeDetectorRef",
+                        "deprecated": false,
+                        "deprecationMessage": ""
                     }
                 ],
-                "line": 33,
+                "line": 36,
                 "jsdoctags": [
                     {
                         "name": "viewService",
@@ -1966,14 +2260,20 @@
                         "tagName": {
                             "text": "param"
                         }
+                    },
+                    {
+                        "name": "cd",
+                        "type": "ChangeDetectorRef",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
                     }
                 ]
             },
             "extends": [],
-            "implements": [
-                "OnInit"
-            ],
-            "templateData": "<div *ngIf=\"tabs.length\" >\r\n  <p-tabView (onClose)=\"handleTabClose($event)\" (activeIndexChange)=\"handleTabIndexChange($event)\" [(activeIndex)]=\"activeIndex\" id=\"closableTabView\" [scrollable]=\"true\">\r\n    <p-tabPanel *ngFor=\"let tab of tabs\" [selected]=\"tab.selected\" [closable]=\"tab.isClosable\">\r\n        <!-- HEADER -->\r\n        <ng-template   pTemplate=\"header\">\r\n            <div  class=\"flex align-items-center gap-2\">\r\n                    {{tab.title}}\r\n            </div>\r\n        </ng-template>\r\n        <!-- Content  -->\r\n    </p-tabPanel>\r\n  </p-tabView>\r\n</div>\r\n"
+            "templateData": "<div *ngIf=\"tabsMap.size\" >\r\n  <p-tabView (onClose)=\"tabClose($event)\" (activeIndexChange)=\"handleTabIndexChange($event)\" [activeIndex]=\"activeIndex\" id=\"closableTabView\" [scrollable]=\"true\">\r\n    <p-tabPanel *ngFor=\"let tab of tabsMap.entries()\" [selected]=\"tab[1].selected\" [closable]=\"tab[1].isClosable\">\r\n        <!-- HEADER -->\r\n        <ng-template   pTemplate=\"header\">\r\n            <div  class=\"flex align-items-center gap-2\">\r\n                    {{tab[1].title}}\r\n            </div>\r\n        </ng-template>\r\n        <!-- Content  -->\r\n    </p-tabPanel>\r\n  </p-tabView>\r\n</div>\r\n"
         },
         {
             "name": "TooltipComponent",
@@ -2046,7 +2346,7 @@
         },
         {
             "name": "WorkpadComponent",
-            "id": "component-WorkpadComponent-525fc39784a4e73217df98d4f53e7be19dd0b4259f5d99ad121b7e5d349e0874f9464f9efa68fdc5d7f0e502d118b0815741b32f2e042a60ca7b709ca460e998",
+            "id": "component-WorkpadComponent-e5f1ac1fa17c6aefb1eeb85153f3c59acd837bfc1e7606e67fbf252620236215a15fae4b9ef2eb41cddbe2a8898e357a29d01eddfca6d202631940ddd13bf0b3",
             "file": "src/app/modules/ui-elements/workpad/workpad.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2072,7 +2372,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 33
+                    "line": 31
                 },
                 {
                     "name": "contentChangeSubscription",
@@ -2081,7 +2381,7 @@
                     "type": "Subscription",
                     "optional": false,
                     "description": "",
-                    "line": 34
+                    "line": 32
                 },
                 {
                     "name": "notepadSubs",
@@ -2090,7 +2390,7 @@
                     "type": "Subscription",
                     "optional": false,
                     "description": "",
-                    "line": 35
+                    "line": 33
                 },
                 {
                     "name": "quill",
@@ -2099,7 +2399,7 @@
                     "type": "Quill",
                     "optional": false,
                     "description": "<p>Quill Editor object to access the internal apis</p>\n",
-                    "line": 39,
+                    "line": 37,
                     "rawdescription": "\n\nQuill Editor object to access the internal apis\n",
                     "modifierKind": [
                         123
@@ -2113,7 +2413,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "<p>Toggle to enable/disable header toolbar</p>\n",
-                    "line": 70,
+                    "line": 68,
                     "rawdescription": "\n\nToggle to enable/disable header toolbar\n"
                 },
                 {
@@ -2124,7 +2424,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 31
+                    "line": 29
                 },
                 {
                     "name": "workpadContent",
@@ -2133,7 +2433,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "<p>Takes input string from tabs . Which reads data from the file</p>\n",
-                    "line": 28,
+                    "line": 26,
                     "rawdescription": "\n\nTakes input string from tabs . Which reads data from the file\n"
                 },
                 {
@@ -2143,7 +2443,7 @@
                     "type": "Subscription",
                     "optional": false,
                     "description": "",
-                    "line": 29
+                    "line": 27
                 }
             ],
             "methodsClass": [
@@ -2153,7 +2453,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 109,
+                    "line": 107,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nTo emit the current content to the rusty-view to save.\n",
@@ -2181,7 +2481,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 140,
+                    "line": 138,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nThis is a listner to the workpad changes and debounces the changes before finally calling isQuillDocument\n",
@@ -2189,8 +2489,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 4578,
-                                "end": 4583,
+                                "pos": 4554,
+                                "end": 4559,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -2201,8 +2501,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 4572,
-                                "end": 4577,
+                                "pos": 4548,
+                                "end": 4553,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -2226,7 +2526,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 76,
+                    "line": 74,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nTriggered when the Quill Editor is initialiezed\n",
@@ -2256,7 +2556,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 128,
+                    "line": 126,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nThis checks if we have used the quill features as in bullets , numbering , text formatting and all to toggle between\na normal and a quill type file before saving.\n",
@@ -2264,8 +2564,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 4180,
-                                "end": 4185,
+                                "pos": 4156,
+                                "end": 4161,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -2276,8 +2576,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 4174,
-                                "end": 4179,
+                                "pos": 4150,
+                                "end": 4155,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -2294,7 +2594,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 84,
+                    "line": 82,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nLoads the data in the workpad form file\n",
@@ -2306,7 +2606,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 61,
+                    "line": 59,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2323,7 +2623,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nTo emit the current content to the rusty-view to save.\n",
                     "description": "<p>To emit the current content to the rusty-view to save.</p>\n",
-                    "line": 109
+                    "line": 107
                 }
             ],
             "standalone": true,
@@ -2347,7 +2647,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\r\n  Component,\r\n  computed,\r\n  HostListener,\r\n  OnDestroy,\r\n  Signal,\r\n} from '@angular/core';\r\nimport { CommonModule, NgStyle } from '@angular/common';\r\nimport { EditorInitEvent, EditorModule, EditorTextChangeEvent } from 'primeng/editor';\r\nimport { FormsModule } from '@angular/forms';\r\nimport Quill from 'quill';\r\nimport { Delta } from 'quill/core';\r\nimport { debounceTime, filter, Subject, Subscription } from 'rxjs';\r\nimport { ViewService } from '../rusty-view/rusty-vew.service';\r\nimport { AppEvents } from '../../utilities/interfaces/Events';\r\n@Component({\r\n  selector: 'app-workpad',\r\n  standalone: true,\r\n  imports: [CommonModule, EditorModule, FormsModule, NgStyle],\r\n  templateUrl: './workpad.component.html',\r\n  styleUrl: './workpad.component.scss',\r\n})\r\nexport class WorkpadComponent implements OnDestroy {\r\n\r\n  /**\r\n   * Takes input string from tabs . Which reads data from the file\r\n   */\r\n  workpadContent!: string;\r\n  workpadContent$: Subscription;\r\n\r\n  supportsQuill: boolean = false;\r\n\r\n  contentChange$ = new Subject<string>();\r\n  contentChangeSubscription!: Subscription;\r\n  notepadSubs: Subscription;\r\n  /**\r\n   * Quill Editor object to access the internal apis\r\n   */\r\n  private quill!: Quill;\r\n\r\n  constructor(private viewService: ViewService) {\r\n    this.workpadContent$ = this.viewService.currentWorkbookContent$.subscribe(value => this.workpadContent = value);\r\n    this.contentChangeSubscription = this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => this.isQuillDocument(event))\r\n    this.notepadSubs = this.viewService.notepadEvents$.pipe(\r\n      filter(event =>\r\n        event.type == AppEvents.WORKPAD_SAVE_REQUEST ||\r\n        event.type == AppEvents.WORKPAD_SAVE_RESPONSE ||\r\n        event.type == AppEvents.WORKPAD_UPDATE\r\n      )).subscribe((event) => {\r\n\r\n        if (event.type == AppEvents.WORKPAD_UPDATE) {\r\n          this.loadDataFromFile();\r\n        }\r\n        else if (event.type == AppEvents.WORKPAD_SAVE_RESPONSE) {\r\n          // TODO: This needs to handle UI pop with save successfull or failed. The data contains the response from the backend or service\r\n          console.debug(\"Event data \", event.data);\r\n        }\r\n      })\r\n  }\r\n\r\n  ngOnDestroy() {\r\n    this.contentChangeSubscription.unsubscribe();\r\n    this.notepadSubs.unsubscribe();\r\n    this.workpadContent$.unsubscribe();\r\n  }\r\n\r\n  /**\r\n   * Toggle to enable/disable header toolbar\r\n   */\r\n  showHeader: boolean = false;\r\n\r\n\r\n  /**\r\n   * Triggered when the Quill Editor is initialiezed\r\n   */\r\n  initializeEditor(event: EditorInitEvent) {\r\n    this.quill = event.editor;\r\n    this.loadDataFromFile();\r\n  }\r\n\r\n  /**\r\n   * Loads the data in the workpad form file\r\n   */\r\n  loadDataFromFile() {\r\n    if (this.quill) {\r\n      let delta;\r\n      try {\r\n        delta = new Delta(JSON.parse(this.workpadContent));\r\n        if (!delta.ops.length) {\r\n          throw new Error(\"Not a Quill Object \");\r\n        }\r\n        console.debug(\"Loading Quill Object \");\r\n\r\n        this.supportsQuill = true;\r\n        this.quill.setContents(delta);\r\n      } catch (error) {\r\n        console.debug(\"Loading normal text Object\");\r\n\r\n        this.quill.setText(this.workpadContent);\r\n        this.supportsQuill = false;\r\n      }\r\n    }\r\n  }\r\n\r\n  /**\r\n   * To emit the current content to the rusty-view to save.\r\n   */\r\n  @HostListener('document:keydown.control.S')\r\n  getCurrentDraf() {\r\n    if (this.quill) {\r\n      if (this.supportsQuill) {\r\n        console.debug(\"Saving quill Supported Content \");\r\n        return this.viewService.notepadEvents$.next({ data: JSON.stringify(this.quill.getContents()), type: AppEvents.WORKPAD_SAVE_REQUEST });\r\n      }\r\n      else {\r\n        console.debug(\"Saving Normal Text Content\");\r\n        return this.viewService.notepadEvents$.next({ data: this.quill.getText(), type: AppEvents.WORKPAD_SAVE_REQUEST });\r\n      }\r\n    }\r\n    return this.viewService.notepadEvents$.next({ data: undefined, type: AppEvents.WORKPAD_SAVE_REQUEST });\r\n  }\r\n\r\n  /**\r\n   * This checks if we have used the quill features as in bullets , numbering , text formatting and all to toggle between\r\n   * a normal and a quill type file before saving.\r\n   * @param event HTML as string from the quill Docuemnt .\r\n   */\r\n  isQuillDocument(event: string) {\r\n    if (event.match(new RegExp('<(ol|em|strong|li|u)\\\\b[^>]*>.*?</\\\\1>'))) {\r\n      this.supportsQuill = true\r\n    }\r\n    else {\r\n      this.supportsQuill = false\r\n    }\r\n  }\r\n  /**\r\n   * This is a listner to the workpad changes and debounces the changes before finally calling isQuillDocument\r\n   * @param event takes in the Quill EditorTextChangeEvent\r\n   */\r\n  handleContentChange(event: EditorTextChangeEvent) {\r\n    this.contentChange$.next(event.htmlValue);\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {\r\n  Component,\r\n  HostListener,\r\n  OnDestroy,\r\n} from '@angular/core';\r\nimport { CommonModule, NgStyle } from '@angular/common';\r\nimport { EditorInitEvent, EditorModule, EditorTextChangeEvent } from 'primeng/editor';\r\nimport { FormsModule } from '@angular/forms';\r\nimport Quill from 'quill';\r\nimport { Delta } from 'quill/core';\r\nimport { debounceTime, filter, Subject, Subscription } from 'rxjs';\r\nimport { ViewService } from '../rusty-view/rusty-vew.service';\r\nimport { AppEvents } from '../../utilities/interfaces/Events';\r\n@Component({\r\n  selector: 'app-workpad',\r\n  standalone: true,\r\n  imports: [CommonModule, EditorModule, FormsModule, NgStyle],\r\n  templateUrl: './workpad.component.html',\r\n  styleUrl: './workpad.component.scss',\r\n})\r\nexport class WorkpadComponent implements OnDestroy {\r\n\r\n  /**\r\n   * Takes input string from tabs . Which reads data from the file\r\n   */\r\n  workpadContent!: string;\r\n  workpadContent$: Subscription;\r\n\r\n  supportsQuill: boolean = false;\r\n\r\n  contentChange$ = new Subject<string>();\r\n  contentChangeSubscription!: Subscription;\r\n  notepadSubs: Subscription;\r\n  /**\r\n   * Quill Editor object to access the internal apis\r\n   */\r\n  private quill!: Quill;\r\n\r\n  constructor(private viewService: ViewService) {\r\n    this.workpadContent$ = this.viewService.currentWorkbookContent$.subscribe(value => this.workpadContent = value);\r\n    this.contentChangeSubscription = this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => this.isQuillDocument(event))\r\n    this.notepadSubs = this.viewService.notepadEvents$.pipe(\r\n      filter(event =>\r\n        event.type == AppEvents.WORKPAD_SAVE_REQUEST ||\r\n        event.type == AppEvents.WORKPAD_SAVE_RESPONSE ||\r\n        event.type == AppEvents.WORKPAD_UPDATE\r\n      )).subscribe((event) => {\r\n\r\n        if (event.type == AppEvents.WORKPAD_UPDATE) {\r\n          this.loadDataFromFile();\r\n        }\r\n        else if (event.type == AppEvents.WORKPAD_SAVE_RESPONSE) {\r\n          // TODO: This needs to handle UI pop with save successfull or failed. The data contains the response from the backend or service\r\n          console.debug(\"Event data \", event.data);\r\n        }\r\n      })\r\n  }\r\n\r\n  ngOnDestroy() {\r\n    this.contentChangeSubscription.unsubscribe();\r\n    this.notepadSubs.unsubscribe();\r\n    this.workpadContent$.unsubscribe();\r\n  }\r\n\r\n  /**\r\n   * Toggle to enable/disable header toolbar\r\n   */\r\n  showHeader: boolean = false;\r\n\r\n\r\n  /**\r\n   * Triggered when the Quill Editor is initialiezed\r\n   */\r\n  initializeEditor(event: EditorInitEvent) {\r\n    this.quill = event.editor;\r\n    this.loadDataFromFile();\r\n  }\r\n\r\n  /**\r\n   * Loads the data in the workpad form file\r\n   */\r\n  loadDataFromFile() {\r\n    if (this.quill) {\r\n      let delta;\r\n      try {\r\n        delta = new Delta(JSON.parse(this.workpadContent));\r\n        if (!delta.ops.length) {\r\n          throw new Error(\"Not a Quill Object \");\r\n        }\r\n        console.debug(\"Loading Quill Object \");\r\n\r\n        this.supportsQuill = true;\r\n        this.quill.setContents(delta);\r\n      } catch (error) {\r\n        console.debug(\"Loading normal text Object\");\r\n\r\n        this.quill.setText(this.workpadContent);\r\n        this.supportsQuill = false;\r\n      }\r\n    }\r\n  }\r\n\r\n  /**\r\n   * To emit the current content to the rusty-view to save.\r\n   */\r\n  @HostListener('document:keydown.control.S')\r\n  getCurrentDraf() {\r\n    if (this.quill) {\r\n      if (this.supportsQuill) {\r\n        console.debug(\"Saving quill Supported Content \");\r\n        return this.viewService.notepadEvents$.next({ data: JSON.stringify(this.quill.getContents()), type: AppEvents.WORKPAD_SAVE_REQUEST });\r\n      }\r\n      else {\r\n        console.debug(\"Saving Normal Text Content\");\r\n        return this.viewService.notepadEvents$.next({ data: this.quill.getText(), type: AppEvents.WORKPAD_SAVE_REQUEST });\r\n      }\r\n    }\r\n    return this.viewService.notepadEvents$.next({ data: undefined, type: AppEvents.WORKPAD_SAVE_REQUEST });\r\n  }\r\n\r\n  /**\r\n   * This checks if we have used the quill features as in bullets , numbering , text formatting and all to toggle between\r\n   * a normal and a quill type file before saving.\r\n   * @param event HTML as string from the quill Docuemnt .\r\n   */\r\n  isQuillDocument(event: string) {\r\n    if (event.match(new RegExp('<(ol|em|strong|li|u)\\\\b[^>]*>.*?</\\\\1>'))) {\r\n      this.supportsQuill = true\r\n    }\r\n    else {\r\n      this.supportsQuill = false\r\n    }\r\n  }\r\n  /**\r\n   * This is a listner to the workpad changes and debounces the changes before finally calling isQuillDocument\r\n   * @param event takes in the Quill EditorTextChangeEvent\r\n   */\r\n  handleContentChange(event: EditorTextChangeEvent) {\r\n    this.contentChange$.next(event.htmlValue);\r\n  }\r\n\r\n}\r\n",
             "styleUrl": "./workpad.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -2365,7 +2665,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 39,
+                "line": 37,
                 "jsdoctags": [
                     {
                         "name": "viewService",
@@ -2511,7 +2811,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Tab",
-                "defaultValue": "{\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\",\r\npath: undefined\r\n}"
+                "defaultValue": "{\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\",\r\npath: \"\"\r\n}"
             }
         ],
         "functions": [
@@ -2627,6 +2927,11 @@
                         "deprecationMessage": ""
                     },
                     {
+                        "name": "TABS_EMPTY",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
                         "name": "WORKPAD_UPDATE",
                         "deprecated": false,
                         "deprecationMessage": ""
@@ -2706,7 +3011,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Tab",
-                    "defaultValue": "{\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\",\r\npath: undefined\r\n}"
+                    "defaultValue": "{\r\nid: -1,\r\nisClosable: true,\r\nselected: true,\r\ntitle: \"New Tab\",\r\npath: \"\"\r\n}"
                 }
             ]
         },
@@ -2825,6 +3130,11 @@
                             "deprecationMessage": ""
                         },
                         {
+                            "name": "TABS_EMPTY",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
                             "name": "WORKPAD_UPDATE",
                             "deprecated": false,
                             "deprecationMessage": ""
@@ -2939,12 +3249,21 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/modules/ui-elements/landing-page/landing-page.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "LandingPageComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/modules/ui-elements/rusty-view/rusty-vew.service.ts",
                 "type": "injectable",
                 "linktype": "injectable",
                 "name": "ViewService",
-                "coveragePercent": 35,
-                "coverageCount": "5/14",
+                "coveragePercent": 31,
+                "coverageCount": "5/16",
                 "status": "medium"
             },
             {
@@ -2970,9 +3289,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "TabsComponent",
-                "coveragePercent": 46,
-                "coverageCount": "6/13",
-                "status": "medium"
+                "coveragePercent": 55,
+                "coverageCount": "10/18",
+                "status": "good"
             },
             {
                 "filePath": "src/app/modules/ui-elements/tooltip/tooltip.component.ts",
