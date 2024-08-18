@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
+  signal,
 } from '@angular/core';
 import { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
@@ -18,7 +19,7 @@ import { filter } from 'rxjs';
   standalone: true,
   imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor, NgIf],
 })
-export class TabsComponent {
+export class TabsComponent  {
 
 
   /**
@@ -27,6 +28,7 @@ export class TabsComponent {
   activeIndex: number = 0;
   wasTabClosed: boolean = false;
   activeTab: Tab | undefined;
+  openedTabsSize = signal(0);
 
 
   /**
@@ -127,6 +129,7 @@ export class TabsComponent {
         this.activeTab = { ...this.tabsMap.get(path)! };
       }
     }
+    this.openedTabsSize.set(this.tabsMap.size);
     this.triggerTabChangeEvent()
   }
 
@@ -168,6 +171,7 @@ export class TabsComponent {
     }
     this.activeTab = { ...tab };
     this.activeIndex = id;
+    this.openedTabsSize.set(this.tabsMap.size);
     this.triggerTabChangeEvent();
   }
 
