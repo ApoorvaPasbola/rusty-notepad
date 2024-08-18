@@ -2,7 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
-  OnInit,
+  signal,
 } from '@angular/core';
 import { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
@@ -10,7 +10,6 @@ import { WorkpadComponent } from '../workpad/workpad.component';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
-import { environment } from '../../../../environments/environment';
 import { ViewService } from '../rusty-view/rusty-vew.service';
 import { filter } from 'rxjs';
 @Component({
@@ -20,7 +19,7 @@ import { filter } from 'rxjs';
   standalone: true,
   imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor, NgIf],
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent  {
 
 
   /**
@@ -29,6 +28,7 @@ export class TabsComponent implements OnInit {
   activeIndex: number = 0;
   wasTabClosed: boolean = false;
   activeTab: Tab | undefined;
+  openedTabsSize = signal(0);
 
 
   /**
@@ -54,11 +54,6 @@ export class TabsComponent implements OnInit {
       })
   }
 
-  ngOnInit(): void {
-    if (!this.tabsMap.size) {
-      this.newTabActions(0, environment.init_file.path, environment.init_file.file_name)
-    }
-  }
 
   getTabsArray() {
     return this.tabsMap.values();
@@ -134,6 +129,7 @@ export class TabsComponent implements OnInit {
         this.activeTab = { ...this.tabsMap.get(path)! };
       }
     }
+    this.openedTabsSize.set(this.tabsMap.size);
     this.triggerTabChangeEvent()
   }
 
@@ -175,6 +171,7 @@ export class TabsComponent implements OnInit {
     }
     this.activeTab = { ...tab };
     this.activeIndex = id;
+    this.openedTabsSize.set(this.tabsMap.size);
     this.triggerTabChangeEvent();
   }
 

@@ -1,0 +1,14 @@
+.container {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  .command {
+    background-color: var(--surface-dark-tertiary) ;
+    border-bottom: 1px solid grey ;
+    padding: .15rem .4rem;
+    font-weight: 100;
+    border-radius: 3px;
+    color: var(--gray-400);
+  }
+}
+
