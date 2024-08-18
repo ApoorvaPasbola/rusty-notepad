@@ -5,6 +5,7 @@ import { SplitterComponent } from '../splitter/splitter.component';
 import { FolderTreeComponent } from '../folder-tree/folder-tree.component';
 import { NgIf } from '@angular/common';
 import { LandingPageComponent } from "../landing-page/landing-page.component";
+import { getMatches } from '@tauri-apps/api/cli';
 
 @Component({
   selector: 'app-rusty-view',
@@ -22,8 +23,16 @@ import { LandingPageComponent } from "../landing-page/landing-page.component";
 })
 export class RustyViewComponent {
 
-  constructor() {
-  }
+  base_path!:string ;
 
+  constructor() {
+    getMatches().then(matches => {
+      let path = matches.args['path'].value;
+      if(typeof path == "string"){
+        this.base_path = path;
+      }
+      console.log("Matches are ", this.base_path);
+    })
+  }
 
 }
