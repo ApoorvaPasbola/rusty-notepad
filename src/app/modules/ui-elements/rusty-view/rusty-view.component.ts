@@ -6,6 +6,8 @@ import { FolderTreeComponent } from '../folder-tree/folder-tree.component';
 import { NgIf } from '@angular/common';
 import { LandingPageComponent } from "../landing-page/landing-page.component";
 import { getMatches } from '@tauri-apps/api/cli';
+import { ViewService } from './rusty-vew.service';
+import { AppEvents } from '../../utilities/interfaces/Events';
 
 @Component({
   selector: 'app-rusty-view',
@@ -23,15 +25,18 @@ import { getMatches } from '@tauri-apps/api/cli';
 })
 export class RustyViewComponent {
 
-  base_path!:string ;
 
-  constructor() {
+  constructor(private viewService:ViewService) {
     getMatches().then(matches => {
       let path = matches.args['path'].value;
       if(typeof path == "string"){
-        this.base_path = path;
+        this.viewService.notepadEvents$.next({
+          path: path,
+          type: AppEvents.APP_OPEN_DIR
+        })
+        this.viewService.currentWorkingDirectory.set(path);
+        console.log("Matches are ", path);
       }
-      console.log("Matches are ", this.base_path);
     })
   }
 

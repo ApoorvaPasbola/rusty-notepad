@@ -39,7 +39,6 @@ export class ViewService {
         case AppEvents.WORKPAD_UPDATE:
           this.handleWorkpadEvents(event);
           break;
-
         default:
           console.debug("Unknow Type of event ", event);
           break;

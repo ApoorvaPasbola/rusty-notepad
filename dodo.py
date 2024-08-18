@@ -3,6 +3,12 @@ def task_start():
         'actions': ['npm run tauri dev -- -- -- D:\\sublime ']
     }
 
+def task_start_alt_path():
+    return {
+        'actions': ['npm run tauri dev -- -- -- D:\\Repo ']
+    }
+
+
 
 def task_build():
     return {
