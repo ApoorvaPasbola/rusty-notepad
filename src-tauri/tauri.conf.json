@@ -6,21 +6,26 @@
     "distDir": "../dist/rusty-notepad/browser"
   },
   "package": {
-    "productName": "rusty-notepad",
+    "productName": "rusty",
     "version": "0.1.3"
   },
   "tauri": {
+    "cli":{
+      "description": "Use Rusty cli to open up directories or files directory from terminal",
+      "beforeHelp": "Rusty CLI",
+      "args": [
+        {
+          "name": "path",
+          "index": 1,
+          "takesValue": true,
+          "multiple": false,
+          "multipleOccurrences": false
+        }
+      ]
+    },
     "allowlist": {
       "path": {
         "all": true
-      },
-      "dialog": {
-        "all": false,
-        "ask": false,
-        "confirm": false,
-        "message": false,
-        "open": false,
-        "save": true
       },
       "all": false,
       "shell": {
