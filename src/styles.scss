@@ -86,7 +86,7 @@
 
     div.p-tabview-panels {
       padding: 0 0;
-
+      display: none;
     }
     .p-tabview-nav-container * {
       background-color: var(--surface-dark-secondary) !important;
@@ -94,11 +94,15 @@
         background-color: var(--workpad-background) !important;
       }
     }
-
+    .p-tabview-nav-container {
+      overflow-x: auto !important;
+    }
     .p-tabview-nav-container * {
+
       /* Tabs Padding CSS */
       .p-tabview-nav li {
-        width: max(100px, 5%);
+        width: max(100px, fit-content);
+        white-space: nowrap;
         border-left: 1.5px solid var(--workpad-background);
         .p-tabview-nav-link {
           padding: var(--padding-xs);
@@ -107,14 +111,16 @@
           border-top-right-radius: 0px;
           border-top-left-radius: 0px;
         }
-
         .p-element.p-icon-wrapper {
           margin-left: auto;
           padding-right: 2px;
         }
-        timesicon > svg {
-          height: 9px;
-          width: 9px;
+        timesicon {
+          margin-right: 2px;
+          svg {
+            height: 9px;
+            width: 9px;
+          }
         }
       }
     }
