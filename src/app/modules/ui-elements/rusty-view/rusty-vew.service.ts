@@ -12,7 +12,7 @@ export class ViewService {
     'This is some default \n work from an file',
   );
   currentWorkpadFilePath = signal<string | undefined>(undefined);
-  currentWorkingDirectory = signal<string | undefined>(environment.current_directory);
+  currentWorkingDirectory = signal<string | undefined>(undefined);
   currentWorkingFileName = signal<string | undefined>(undefined);
   /**
    * Give the default path of the text file to be used when nothing is given

@@ -1,6 +1,6 @@
 def task_start():
     return {
-        'actions': ['npm run tauri dev -- -- -- D:\\sublime ']
+        'actions': ['npm run tauri dev']
     }
 
 def task_start_alt_path():

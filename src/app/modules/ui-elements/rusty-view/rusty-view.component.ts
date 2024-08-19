@@ -8,8 +8,7 @@ import { LandingPageComponent } from "../landing-page/landing-page.component";
 import { getMatches } from '@tauri-apps/api/cli';
 import { ViewService } from './rusty-vew.service';
 import { AppEvents } from '../../utilities/interfaces/Events';
-import { environment } from '../../../../environments/environment';
-
+import { resolve } from '@tauri-apps/api/path';
 @Component({
   selector: 'app-rusty-view',
   templateUrl: './rusty-view.component.html',
@@ -36,13 +35,21 @@ export class RustyViewComponent {
     getMatches().then(matches => {
       let path = matches.args['path'].value;
       if (typeof path != "string") {
-        path = environment.current_directory;
+        // If the path is not give open rusty in the called directory
+        resolve(".").then(p => {
+          this.viewService.notepadEvents$.next({
+            path: p,
+            type: AppEvents.APP_OPEN_DIR
+          })
+          this.viewService.currentWorkingDirectory.set(p);
+        });
+      } else {
+        this.viewService.notepadEvents$.next({
+          path: path,
+          type: AppEvents.APP_OPEN_DIR
+        })
+        this.viewService.currentWorkingDirectory.set(path);
       }
-      this.viewService.notepadEvents$.next({
-        path: path,
-        type: AppEvents.APP_OPEN_DIR
-      })
-      this.viewService.currentWorkingDirectory.set(path);
     })
   }
 
