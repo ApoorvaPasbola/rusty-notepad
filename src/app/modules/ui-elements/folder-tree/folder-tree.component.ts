@@ -21,22 +21,20 @@ export class FolderTreeComponent implements OnDestroy {
 
   root!: Node;
   root$!: Subscription;
-  appEvents$!:Subscription;
+  appEvents$!: Subscription;
 
-  constructor(private fsService: FolderTreeService, private viewService:ViewService) {
-    this.fileDirectories$ = this.fsService.fileDirectoryStructure.subscribe((ele: Node[]) => {
+  constructor(private fsService: FolderTreeService, private viewService: ViewService) {
+    this.fileDirectories$ = this.fsService.fileDirectoryStructure.pipe(filter(node=>node.length != 0)).subscribe((ele: Node[]) => {
       this.fileDirectories = ele;
     });
     this.root$ = this.fsService.rootNode.subscribe((ele: Node) => {
       this.root = ele;
     });
-    this.fsService.initialize_Explorer();
-
     this.appEvents$ = this.viewService.notepadEvents$
-    .pipe(
-      filter(event=> event.type == AppEvents.APP_OPEN_DIR))
+      .pipe(
+        filter(event => event.type == AppEvents.APP_OPEN_DIR))
       .subscribe((event) => {
-        this.fsService.initialize_Explorer(event.path);
+        this.fsService.initialize_Explorer(event.path!);
       })
 
   }
