@@ -1,8 +1,9 @@
 import {
   ChangeDetectorRef,
   Component,
+  computed,
   HostListener,
-  signal,
+  Signal,
 } from '@angular/core';
 import { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
@@ -25,10 +26,15 @@ export class TabsComponent {
   /**
    * This is use to toggle active tab on Ctrl + Tab event
    */
-  activeIndex: number = 0;
+  activeIndex = computed(() => {
+    if (this.viewService.currentTab())
+      return this.viewService.currentTab()?.id!;
+    else
+      return -1
+  });
+
   wasTabClosed: boolean = false;
-  activeTab: Tab | undefined;
-  openedTabsSize = signal(0);
+  openedTabsSize: number = 0;
 
 
   /**
@@ -63,9 +69,9 @@ export class TabsComponent {
    */
   @HostListener('document:keydown.control.tab')
   changeTab() {
-    let index  = (this.activeIndex + 1) % this.openedTabs.size;
-    let tab  = { ...this.openedTabs.get(this.getPathWithIndex(this.activeIndex))!, selected: true };
-    this.activeTabChangeActions(tab, index)
+    let index = (this.activeIndex()! + 1) % this.openedTabs.size;
+    let tab = { ...this.openedTabs.get(this.getPathWithIndex(this.activeIndex()!))!, selected: true };
+    this.activeTabChangeActions(tab)
   }
 
 
@@ -77,9 +83,7 @@ export class TabsComponent {
     if (!this.openedTabs.has(tabEvent.path))
       this.newTabActions(this.openedTabs.size, tabEvent.path, tabEvent.file_name, false);
     else {
-      this.activeTab = { ...this.openedTabs.get(tabEvent.path)! }
-      this.activeIndex = this.activeTab.id;
-      this.viewService.currentTab.set(this.activeTab);
+      this.viewService.currentTab.set({ ...this.openedTabs.get(tabEvent.path)! });
     }
   }
 
@@ -96,7 +100,7 @@ export class TabsComponent {
  */
   newTabActions(id: number, new_path: string, file_name: string, isNewTab: boolean) {
     let tab: Tab = { ...NEW_TAB_DEFAULT, id: id, title: file_name, path: new_path, isNewTab: isNewTab };
-    this.activeTabChangeActions(tab, id, true);
+    this.activeTabChangeActions(tab, true);
   }
   /**
    * Actions needs to be done while switching a tab
@@ -106,19 +110,18 @@ export class TabsComponent {
    * 3. Emit event for tab change. 
    * 4. update openedTabsize if changed 
    */
-  activeTabChangeActions(tab:Tab, id:number, updateOpenedMaps?:boolean){
-    if(updateOpenedMaps){
+  activeTabChangeActions(tab: Tab, updateOpenedMaps?: boolean) {
+    if (updateOpenedMaps) {
       this.openedTabs.set(tab.path, tab);
     }
     // This handles the scenario where we want to un-select the older tabs as well.
-    if (this.activeTab) {
-      this.openedTabs.set(this.activeTab.path, { ...this.activeTab, selected: false })
+    if (this.viewService.currentTab()) {
+      let tab = this.viewService.currentTab()!;
+      this.openedTabs.set(tab.path, { ...tab, selected: false })
     }
     // This is requried so that there is not a same copy of the same object 
-    this.activeTab = { ...tab };
-    this.activeIndex = id;
-    this.openedTabsSize.set(this.openedTabs.size);
-    this.viewService.currentTab.set(this.activeTab);
+    this.viewService.currentTab.set({ ...tab });
+    this.openedTabsSize = this.openedTabs.size
     this.triggerTabChangeEvent();
   }
 
@@ -141,23 +144,22 @@ export class TabsComponent {
     if (event.index != this.openedTabs.size)
       this.syncTabs();
     // Handle Current Active tab closed
-    if (event.index == this.activeIndex) {
+    if (event.index == this.viewService.currentTab()!.id) {
       // If there are no tabsMap is empty
       if (!this.openedTabs.size) {
-        this.activeTab = undefined;
-        this.activeIndex = -1;
+        this.viewService.currentTab.set(undefined);
         this.wasTabClosed = false;
       }
       // Since the active tab is close we need to set a new active tab and trigger a Tab Change Event
       if (this.openedTabs.size) {
         // Need to handle the case where syncing the tabsMap changed the indexing
-        this.activeIndex = (event.index) % this.openedTabs.size;
-        let path = this.getPathWithIndex(this.activeIndex);
-        this.openedTabs.set(path, { ...this.openedTabs.get(path)!, selected: true })
-        this.activeTab = { ...this.openedTabs.get(path)! };
+        let new_index = (event.index) % this.openedTabs.size;
+        let path = this.getPathWithIndex(new_index);
+        this.activeTabChangeActions({ ...this.openedTabs.get(path)!, selected: true }, true);
+        return;
       }
     }
-    this.openedTabsSize.set(this.openedTabs.size);
+    this.openedTabsSize = this.openedTabs.size;
     this.triggerTabChangeEvent()
   }
 
@@ -176,7 +178,7 @@ export class TabsComponent {
     if (!this.wasTabClosed) {
       let path = this.getPathWithIndex(index);
       let tab = { ...this.openedTabs.get(path)!, selected: true };
-      this.activeTabChangeActions(tab, index, true)
+      this.activeTabChangeActions(tab, true)
     }
     this.wasTabClosed = false;
   }
@@ -192,16 +194,16 @@ export class TabsComponent {
     })
     return path;
   }
-  
+
   /**
    * This triggers an Tab Change Event to inform other components to take respective actions
    */
   triggerTabChangeEvent() {
     if (this.openedTabs.size) {
       this.viewService.notepadEvents$.next({
-        path: this.activeTab!.path,
-        file_name: this.activeTab!.title,
-        type: AppEvents. 
+        path: this.viewService.currentTab()?.path,
+        file_name: this.viewService.currentTab()?.title,
+        type: AppEvents.TAB_CHANGE
       });
     } else {
       this.viewService.notepadEvents$.next({

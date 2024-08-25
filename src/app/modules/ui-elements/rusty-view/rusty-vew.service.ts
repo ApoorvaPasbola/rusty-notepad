@@ -1,8 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
-import { environment } from '../../../../environments/environment';
+import { Tab } from '../../utilities/interfaces/Tab';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +11,31 @@ export class ViewService {
   currentWorkbookContent$ = new BehaviorSubject<string>(
     'This is some default \n work from an file',
   );
+
+  /**
+   * Current Tab which have metadata which can be used in other components 
+   */
+  currentTab = signal<Tab | undefined>(undefined);
+  /**
+   * Current Workpad File Path which have metadata which can be used in other components 
+   */
   currentWorkpadFilePath = signal<string | undefined>(undefined);
+  /**
+   * Current Working Directory which have metadata which can be used in other components 
+   */
   currentWorkingDirectory = signal<string | undefined>(undefined);
+  /**
+   * Current Working File Name which have metadata which can be used in other components 
+   */
   currentWorkingFileName = signal<string | undefined>(undefined);
+
+
   /**
    * Give the default path of the text file to be used when nothing is given
    */
   notepadEvents$ = new Subject<NotepadEvents>();
+
+
 
   constructor() {
     this.notepadEvents$.subscribe((event: NotepadEvents) => {
@@ -163,10 +181,15 @@ export class ViewService {
    * @param file
    */
   saveFile(file: NotepadEvents): Promise<string> {
-    if (!file.data && !file.path) {
-      return new Promise<string>((res, rej) => rej("Data or path not defined"));
+    console.log("Saving the file at ", file, this.currentTab(), this.currentWorkingFileName(), this.currentWorkingDirectory());
+    if (file.data && file.path) {
+      return invoke<string>('save_file', { path: file.path, data: file.data })
     }
-    return invoke<string>('save_file', { path: file.path, data: file.data })
+    else if (file.data && this.currentWorkpadFilePath()) {
+      return invoke<string>('save_file', { path: this.currentWorkpadFilePath(), data: file.data })
+    }
+
+    return new Promise<string>((res, rej) => rej("Data or path not defined"));
   }
 
 
