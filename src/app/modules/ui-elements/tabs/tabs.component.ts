@@ -70,7 +70,7 @@ export class TabsComponent {
   @HostListener('document:keydown.control.tab')
   changeTab() {
     let index = (this.activeIndex()! + 1) % this.openedTabs.size;
-    let tab = { ...this.openedTabs.get(this.getPathWithIndex(this.activeIndex()!))!, selected: true };
+    let tab = { ...this.openedTabs.get(this.getPathWithIndex(index))!, selected: true };
     this.activeTabChangeActions(tab)
   }
 
@@ -95,6 +95,12 @@ export class TabsComponent {
     this.newTabActions(this.openedTabs.size, NEW_TAB_DEFAULT.path, NEW_TAB_DEFAULT.title, true)
   }
 
+  @HostListener('document:keydown.control.W')
+  closeTab() {
+    this.tabClose({index: this.activeIndex()} as TabViewCloseEvent);
+  }
+
+
   /**
  * All things needs to be done to create a new tab
  */
@@ -110,12 +116,12 @@ export class TabsComponent {
    * 3. Emit event for tab change. 
    * 4. update openedTabsize if changed 
    */
-  activeTabChangeActions(tab: Tab, updateOpenedMaps?: boolean) {
+  activeTabChangeActions(tab: Tab, updateOpenedMaps?: boolean, deleating:boolean = false) {
     if (updateOpenedMaps) {
       this.openedTabs.set(tab.path, tab);
     }
     // This handles the scenario where we want to un-select the older tabs as well.
-    if (this.viewService.currentTab()) {
+    if (this.viewService.currentTab() && !deleating) {
       let tab = this.viewService.currentTab()!;
       this.openedTabs.set(tab.path, { ...tab, selected: false })
     }
@@ -140,11 +146,13 @@ export class TabsComponent {
      * we do not need to trigger Tab change event since we dont wont to
      * re-dender the workpad
      */
-    this.openedTabs.delete(close_tab_path);
+     this.openedTabs.delete(close_tab_path);
+    
     if (event.index != this.openedTabs.size)
       this.syncTabs();
     // Handle Current Active tab closed
     if (event.index == this.viewService.currentTab()!.id) {
+      
       // If there are no tabsMap is empty
       if (!this.openedTabs.size) {
         this.viewService.currentTab.set(undefined);
@@ -155,7 +163,7 @@ export class TabsComponent {
         // Need to handle the case where syncing the tabsMap changed the indexing
         let new_index = (event.index) % this.openedTabs.size;
         let path = this.getPathWithIndex(new_index);
-        this.activeTabChangeActions({ ...this.openedTabs.get(path)!, selected: true }, true);
+        this.activeTabChangeActions({ ...this.openedTabs.get(path)!, selected: true }, true, true );
         return;
       }
     }
