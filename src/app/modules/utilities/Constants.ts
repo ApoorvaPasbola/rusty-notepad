@@ -5,5 +5,7 @@ id: -1,
 isClosable: true,
 selected: true,
 title: "New Tab",
-path: ""
+path: "",
+isNewTab: true,
+isSaved: false
 }

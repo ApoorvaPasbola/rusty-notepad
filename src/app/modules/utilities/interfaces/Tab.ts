@@ -3,5 +3,7 @@ export interface Tab{
   title: string,
   isClosable: boolean,
   selected: boolean,
-  path: string
+  path: string,
+  isSaved?: boolean,
+  isNewTab:boolean
 }
