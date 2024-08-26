@@ -35,12 +35,11 @@ export class RustyViewComponent {
     getMatches().then(matches => {
       let path = matches.args['path'].value;
       if (typeof path == "string") {
-
+        this.viewService.currentWorkingDirectory.set(path);
         this.viewService.notepadEvents$.next({
           path: path,
           type: AppEvents.APP_OPEN_DIR
         })
-        this.viewService.currentWorkingDirectory.set(path);
       } else {
         // If the path is not give open rusty in the called directory
         resolve(".").then(p => {
