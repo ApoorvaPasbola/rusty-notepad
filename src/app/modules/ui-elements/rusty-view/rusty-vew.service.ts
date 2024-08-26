@@ -58,7 +58,7 @@ export class ViewService {
           this.handleWorkpadEvents(event);
           break;
         default:
-          console.debug("Unknow Type of event ", event);
+          console.debug("Unhandled event ", event, AppEvents[event.type]);
           break;
       }
     });

@@ -108,11 +108,8 @@ export class WorkpadComponent implements OnDestroy {
   @HostListener('document:keydown.control.S')
   startSaveCurrentDraft() {
     let currentWorkpadPath: string | undefined = this.viewService.currentWorkpadFilePath();
-    console.log("Current workpadPath", currentWorkpadPath);
 
     if (!currentWorkpadPath || currentWorkpadPath.endsWith(".")) {
-      console.log('Inside save block');
-
       save({defaultPath: this.viewService.currentWorkingDirectory(), filters:[{name: "All Files (*)", extensions:["*"]}]}).then(
         (path) => {
           if (path) {
@@ -124,6 +121,8 @@ export class WorkpadComponent implements OnDestroy {
           console.error(_);
         },
       );
+    } else {
+      this.saveDraft();
     }
 
   }
