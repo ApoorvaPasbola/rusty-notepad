@@ -72,8 +72,9 @@ export class ViewService {
     switch (event.type) {
       // On Tab change we want to trigger Workpad Event
       case AppEvents.TAB_CHANGE:
-      case AppEvents.TABS_EMPTY:
         this.handleReadingFile(event, AppEvents.WORKPAD_UPDATE);
+        break;
+      case AppEvents.TABS_EMPTY:
         break;
       default:
         break;
@@ -129,6 +130,7 @@ export class ViewService {
       type: eventType,
     })
   }
+
   resetWorkpadConfig(event: NotepadEvents, eventType: AppEvents, data: string) {
     this.currentWorkbookContent$.next(data)
     this.currentWorkingFileName.set(undefined);
@@ -143,7 +145,7 @@ export class ViewService {
     // If path is undefined the log a debug message and return the default values
     if (!path) {
       console.debug('Error while opening the file. Path undefined', path);
-      return new Promise((_, reject) => reject("Lets write an epic :("))
+      return new Promise((_, reject) => reject("Lets write an epic :)"))
     }
 
     console.debug('Reading file with path ', path);

@@ -93,11 +93,14 @@ export class TabsComponent {
   @HostListener('document:keydown.control.N')
   createBlankTab() {
     this.newTabActions(this.openedTabs.size, NEW_TAB_DEFAULT.path, NEW_TAB_DEFAULT.title, true)
+    console.log("Current configs ", this.viewService.currentWorkingDirectory(), 
+      this.viewService.currentWorkingFileName(), this.viewService.currentWorkpadFilePath());
+
   }
 
   @HostListener('document:keydown.control.W')
   closeTab() {
-    this.tabClose({index: this.activeIndex()} as TabViewCloseEvent);
+    this.tabClose({ index: this.activeIndex() } as TabViewCloseEvent);
   }
 
 
@@ -106,6 +109,8 @@ export class TabsComponent {
  */
   newTabActions(id: number, new_path: string, file_name: string, isNewTab: boolean) {
     let tab: Tab = { ...NEW_TAB_DEFAULT, id: id, title: file_name, path: new_path, isNewTab: isNewTab };
+    console.log("New tab action ", tab);
+    
     this.activeTabChangeActions(tab, true);
   }
   /**
@@ -116,7 +121,7 @@ export class TabsComponent {
    * 3. Emit event for tab change. 
    * 4. update openedTabsize if changed 
    */
-  activeTabChangeActions(tab: Tab, updateOpenedMaps?: boolean, deleating:boolean = false) {
+  activeTabChangeActions(tab: Tab, updateOpenedMaps?: boolean, deleating: boolean = false, eventType?:AppEvents) {
     if (updateOpenedMaps) {
       this.openedTabs.set(tab.path, tab);
     }
@@ -127,8 +132,10 @@ export class TabsComponent {
     }
     // This is requried so that there is not a same copy of the same object 
     this.viewService.currentTab.set({ ...tab });
+    this.viewService.currentWorkingFileName.set(tab.title)
+    this.viewService.currentWorkpadFilePath.set(tab.path)
     this.openedTabsSize = this.openedTabs.size
-    this.triggerTabChangeEvent();
+    this.triggerTabChangeEvent(eventType);
   }
 
 
@@ -146,13 +153,13 @@ export class TabsComponent {
      * we do not need to trigger Tab change event since we dont wont to
      * re-dender the workpad
      */
-     this.openedTabs.delete(close_tab_path);
-    
+    this.openedTabs.delete(close_tab_path);
+
     if (event.index != this.openedTabs.size)
       this.syncTabs();
     // Handle Current Active tab closed
     if (event.index == this.viewService.currentTab()!.id) {
-      
+
       // If there are no tabsMap is empty
       if (!this.openedTabs.size) {
         this.viewService.currentTab.set(undefined);
@@ -163,7 +170,7 @@ export class TabsComponent {
         // Need to handle the case where syncing the tabsMap changed the indexing
         let new_index = (event.index) % this.openedTabs.size;
         let path = this.getPathWithIndex(new_index);
-        this.activeTabChangeActions({ ...this.openedTabs.get(path)!, selected: true }, true, true );
+        this.activeTabChangeActions({ ...this.openedTabs.get(path)!, selected: true }, true, true);
         return;
       }
     }
@@ -206,12 +213,12 @@ export class TabsComponent {
   /**
    * This triggers an Tab Change Event to inform other components to take respective actions
    */
-  triggerTabChangeEvent() {
+  triggerTabChangeEvent(eventType?:AppEvents) {
     if (this.openedTabs.size) {
       this.viewService.notepadEvents$.next({
         path: this.viewService.currentTab()?.path,
         file_name: this.viewService.currentTab()?.title,
-        type: AppEvents.TAB_CHANGE
+        type: eventType? eventType : AppEvents.TAB_CHANGE
       });
     } else {
       this.viewService.notepadEvents$.next({
@@ -221,6 +228,4 @@ export class TabsComponent {
       });
     }
   }
-
-
 }

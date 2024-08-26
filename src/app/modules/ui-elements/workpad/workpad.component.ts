@@ -106,18 +106,29 @@ export class WorkpadComponent implements OnDestroy {
    * To emit the current content to the rusty-view to save.
    */
   @HostListener('document:keydown.control.S')
-  getCurrentDraf() {
-    let currentWorkpadPath: string = this.viewService.currentWorkpadFilePath()!;
-    if (currentWorkpadPath || currentWorkpadPath.endsWith(".")) {
-      save().then((path) => {
-        if (path)
-          this.viewService.currentWorkpadFilePath.set(path);
-        else
-          console.info("Recevied Null path", path);
-      }, (reason) => {
-        console.error("Error while saving the file");
-      })
+  startSaveCurrentDraft() {
+    let currentWorkpadPath: string | undefined = this.viewService.currentWorkpadFilePath();
+    console.log("Current workpadPath", currentWorkpadPath);
+
+    if (!currentWorkpadPath || currentWorkpadPath.endsWith(".")) {
+      console.log('Inside save block');
+
+      save({defaultPath: this.viewService.currentWorkingDirectory(), filters:[{name: "All Files (*)", extensions:["*"]}]}).then(
+        (path) => {
+          if (path) {
+            this.viewService.currentWorkpadFilePath.set(path);
+            this.saveDraft();
+          } else console.info('Recevied Null path', path);
+        },
+        (_) => {
+          console.error(_);
+        },
+      );
     }
+
+  }
+
+  saveDraft() {
     if (this.quill) {
       if (this.supportsQuill) {
         console.debug("Saving quill Supported Content ");
