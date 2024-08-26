@@ -5,7 +5,7 @@
       <rusty-folder-tree></rusty-folder-tree>
     </div>
       <app-tabs #rustyTabs panel2></app-tabs>
-      <app-workpad *ngIf="rustyTabs.openedTabsSize()" panel2 ></app-workpad>
-      <rusty-landing-page *ngIf="!rustyTabs.openedTabsSize()" panel2>Some text</rusty-landing-page>
+      <app-workpad *ngIf="rustyTabs.openedTabsSize" panel2 ></app-workpad>
+      <rusty-landing-page *ngIf="!rustyTabs.openedTabsSize" panel2>Some text</rusty-landing-page>
   </app-splitter>
 </div>

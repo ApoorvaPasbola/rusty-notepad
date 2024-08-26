@@ -11,6 +11,7 @@ import { Delta } from 'quill/core';
 import { debounceTime, filter, Subject, Subscription } from 'rxjs';
 import { ViewService } from '../rusty-view/rusty-vew.service';
 import { AppEvents } from '../../utilities/interfaces/Events';
+import { save } from '@tauri-apps/api/dialog';
 @Component({
   selector: 'app-workpad',
   standalone: true,
@@ -31,6 +32,7 @@ export class WorkpadComponent implements OnDestroy {
   contentChange$ = new Subject<string>();
   contentChangeSubscription!: Subscription;
   notepadSubs: Subscription;
+
   /**
    * Quill Editor object to access the internal apis
    */
@@ -104,7 +106,28 @@ export class WorkpadComponent implements OnDestroy {
    * To emit the current content to the rusty-view to save.
    */
   @HostListener('document:keydown.control.S')
-  getCurrentDraf() {
+  startSaveCurrentDraft() {
+    let currentWorkpadPath: string | undefined = this.viewService.currentWorkpadFilePath();
+
+    if (!currentWorkpadPath || currentWorkpadPath.endsWith(".")) {
+      save({defaultPath: this.viewService.currentWorkingDirectory(), filters:[{name: "All Files (*)", extensions:["*"]}]}).then(
+        (path) => {
+          if (path) {
+            this.viewService.currentWorkpadFilePath.set(path);
+            this.saveDraft();
+          } else console.info('Recevied Null path', path);
+        },
+        (_) => {
+          console.error(_);
+        },
+      );
+    } else {
+      this.saveDraft();
+    }
+
+  }
+
+  saveDraft() {
     if (this.quill) {
       if (this.supportsQuill) {
         console.debug("Saving quill Supported Content ");
@@ -116,6 +139,11 @@ export class WorkpadComponent implements OnDestroy {
       }
     }
     return this.viewService.notepadEvents$.next({ data: undefined, type: AppEvents.WORKPAD_SAVE_REQUEST });
+  }
+
+  async getNewFilePathFromUser(): Promise<string | null> {
+    const path = await save();
+    return path;
   }
 
   /**

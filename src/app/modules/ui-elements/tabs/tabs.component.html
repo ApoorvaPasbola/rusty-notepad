@@ -1,6 +1,6 @@
-<div *ngIf="tabsMap.size" >
-  <p-tabView (onClose)="tabClose($event)" (activeIndexChange)="handleTabIndexChange($event)" [activeIndex]="activeIndex" id="closableTabView" [scrollable]="true">
-    <p-tabPanel *ngFor="let tab of tabsMap.entries()" [selected]="tab[1].selected" [closable]="tab[1].isClosable">
+<div *ngIf="openedTabs.size" >
+  <p-tabView (onClose)="tabClose($event)" (activeIndexChange)="handleTabIndexChange($event)" [activeIndex]="activeIndex()" id="closableTabView" [scrollable]="true">
+    <p-tabPanel *ngFor="let tab of openedTabs.entries()" [selected]="tab[1].selected" [closable]="tab[1].isClosable">
         <!-- HEADER -->
         <ng-template   pTemplate="header">
             <div  class="flex align-items-center gap-2">
