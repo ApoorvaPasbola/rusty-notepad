@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
