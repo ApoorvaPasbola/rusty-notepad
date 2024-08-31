@@ -3,14 +3,16 @@
     [minSizes]="[1, 20]"
     [style]="{ border: 'none', height: '100%' }"
     styleClass="mb-5">
+    <!-- Left Side Pannel - DEFAULT -->
     <ng-template pTemplate>
       <p-scrollPanel class="w-full" [style]="{ height: '100%', backgroundColor:'var(--surface-dark-secondary)' }" styleClass="custombar1">
         <ng-content ></ng-content>
       </p-scrollPanel>
     </ng-template>
 
+    <!-- Right Side Pannel -->
     <ng-template pTemplate>
-        <div [style]="{margin:'0px', padding: '0px'}" class="col ">
+        <div [style]="{width:'100%', margin:'0px', padding: '0px'}" class="col ">
            <ng-content select="[panel2]"></ng-content>
         </div>
     </ng-template>
