@@ -126,6 +126,16 @@
     }
     .p-tabview-nav-container {
       overflow-x: auto !important;
+      button.p-tabview-nav-btn{
+        border: 0;
+        height: 22px;
+        padding: 0;
+        opacity: 0.94;
+        width: 40px;
+        svg{
+          padding-top: 5px;
+        }
+      }
     }
     .p-tabview-nav-container * {
       /* Tabs Padding CSS */
