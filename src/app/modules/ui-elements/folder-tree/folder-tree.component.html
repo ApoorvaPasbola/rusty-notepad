@@ -1,15 +1,17 @@
-<ul class="my-0" style="padding: 2px 0px 0px 3px">
-  <li class="py-1">
-    <!-- Root Folder  -->
-    <span (click)="root.expanded = !root.expanded" class="flex items-center item py-1" style="font-weight: 500">
-      <i style="font-size: 12px; align-content: end; margin-right: 4px" class="pi"
-        [ngClass]="root.expanded ? 'pi-angle-down' : 'pi-angle-right'"></i>
-      {{ root.name | uppercase }}
-    </span>
+<ng-container *ngIf="root && fileDirectories">
+  <ul class="my-0" style="padding: 2px 0px 0px 3px">
+    <li>
+      <!-- Root Folder  -->
+      <span (click)="root.expanded = !root.expanded" class="flex items-center item py-1" style="font-weight: 500">
+        <i style="font-size: 12px; align-content: end; margin-right: 4px" class="pi"
+          [ngClass]="root.expanded ? 'pi-angle-down' : 'pi-angle-right'"></i>
+        {{ root.name | uppercase }}
+      </span>
 
-    <!-- Contents of the Opened Directory -->
-    <ul *ngIf="root.expanded" style="padding-left: 0.7rem">
-      <rusty-folder *ngIf="fileDirectories.length" [folders]="fileDirectories" />
-    </ul>
-  </li>
-</ul>
+      <!-- Contents of the Opened Directory -->
+      <ul *ngIf="root.expanded" style="padding-left: 0.7rem">
+        <rusty-folder *ngIf="fileDirectories.length" [folders]="fileDirectories" />
+      </ul>
+    </li>
+  </ul>
+</ng-container>

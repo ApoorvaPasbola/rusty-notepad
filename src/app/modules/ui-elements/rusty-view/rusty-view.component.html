@@ -1,14 +1,19 @@
 <div class="layout h-full">
-  <!--  Add a Folders option on left side  -->
+
   <app-splitter class="h-full">
-    <ng-container >
-      <rusty-folder-tree></rusty-folder-tree>
+    <!--  EXPLORER CONTIANER  -->
+    <ng-container>
+      <rusty-folder-tree #explorer></rusty-folder-tree>
+      <rusty-landing-page *ngIf="!explorer.fileDirectories" >
+          <p-button (onClick)="openWorkspace()" [style]="{'fontSize':'0.8rem', 'width':'130px','padding':'0.7rem'}" label="Open Directory" [text]="true" [raised]="true" />
+      </rusty-landing-page>
     </ng-container>
+
+    <!--  WORKPAD Container  -->
     <ng-container panel2 class="w-full">
-      <app-tabs class="w-full" #rustyTabs ></app-tabs>
-      <app-workpad *ngIf="rustyTabs.openedTabsSize"  ></app-workpad>
-      <rusty-landing-page *ngIf="!rustyTabs.openedTabsSize" >Some text</rusty-landing-page>
+      <app-tabs class="w-full" #rustyTabs></app-tabs>
+      <app-workpad *ngIf="rustyTabs.openedTabsSize"></app-workpad>
+      <rusty-landing-page *ngIf="!rustyTabs.openedTabsSize" [showIcon]="true" [commands]="appCommands"></rusty-landing-page>
     </ng-container>
-      
   </app-splitter>
 </div>

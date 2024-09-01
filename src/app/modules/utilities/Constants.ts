@@ -9,3 +9,18 @@ path: "",
 isNewTab: true,
 isSaved: false
 }
+
+export const APP_COMMANDS = [
+    {
+      discription: "New Tab",
+      keys: { key: 'Ctrl', alpha: 'N' }
+    },
+    {
+      discription: "Close Tab",
+      keys: { key: 'Ctrl', alpha: 'W' }
+    },
+    {
+      discription: "Open Directory",
+      keys: { key: 'Ctrl', alpha: 'O' }
+    }
+  ]

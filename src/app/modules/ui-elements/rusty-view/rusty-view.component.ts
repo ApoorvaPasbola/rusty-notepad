@@ -8,7 +8,10 @@ import { LandingPageComponent } from "../landing-page/landing-page.component";
 import { getMatches } from '@tauri-apps/api/cli';
 import { ViewService } from './rusty-vew.service';
 import { AppEvents } from '../../utilities/interfaces/Events';
-import { resolve } from '@tauri-apps/api/path';
+import { APP_COMMANDS } from '../../utilities/Constants';
+import { ButtonModule } from 'primeng/button';
+import { open } from '@tauri-apps/api/dialog';
+
 @Component({
   selector: 'app-rusty-view',
   templateUrl: './rusty-view.component.html',
@@ -20,10 +23,13 @@ import { resolve } from '@tauri-apps/api/path';
     SplitterComponent,
     FolderTreeComponent,
     NgIf,
-    LandingPageComponent
+    LandingPageComponent,
+    ButtonModule,
   ],
 })
 export class RustyViewComponent {
+
+  appCommands = APP_COMMANDS;
 
 
   constructor(private viewService: ViewService) {
@@ -35,22 +41,27 @@ export class RustyViewComponent {
     getMatches().then(matches => {
       let path = matches.args['path'].value;
       if (typeof path == "string") {
-        this.viewService.currentWorkingDirectory.set(path);
-        this.viewService.notepadEvents$.next({
-          path: path,
-          type: AppEvents.APP_OPEN_DIR
-        })
+        this.emitOpenDirectoryEvent(path);
       } else {
-        // If the path is not give open rusty in the called directory
-        resolve(".").then(p => {
-          this.viewService.notepadEvents$.next({
-            path: p,
-            type: AppEvents.APP_OPEN_DIR
-          })
-          this.viewService.currentWorkingDirectory.set(p);
-        });
+        this.emitOpenDirectoryEvent(undefined);
       }
     })
+  }
+
+  emitOpenDirectoryEvent(path: string | undefined) {
+    this.viewService.notepadEvents$.next({
+      path: path,
+      type: AppEvents.APP_OPEN_DIR
+    })
+    this.viewService.currentWorkingDirectory.set(path);
+
+  }
+
+  openWorkspace() {
+      open({multiple:false,directory:true,title: "Open Workspace"}).then(path=>{
+        if(typeof path == 'string')
+        this.emitOpenDirectoryEvent(path);
+      })
   }
 
 }

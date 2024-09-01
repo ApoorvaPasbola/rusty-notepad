@@ -7,8 +7,8 @@ import { Subject } from 'rxjs';
 })
 export class FolderTreeService {
 
-  fileDirectoryStructure = new Subject<Node[]>();
-  rootNode = new Subject<Node>();
+  fileDirectoryStructure = new Subject<Node[] | undefined>();
+  rootNode = new Subject<Node | undefined>();
   ROOT_NAME: string = '';
 
   constructor() { }
@@ -17,7 +17,14 @@ export class FolderTreeService {
    * The path to load on the file-explorer .TODO: Ideally this should come from the Input variable but as for now this works :p
    * @param path Absolute path of the directory to open.
    */
-  initialize_Explorer(path: string) {
+  initialize_Explorer(path: string | undefined) {
+    if (!path) {
+      this.fileDirectoryStructure.next(undefined);
+      this.rootNode.next(undefined);
+      return ;
+    }
+
+
     invoke<FileSystemItem[]>("read_directory", { path }).then((directory_items: FileSystemItem[]) => {
       let last_node = directory_items.pop()
       if (last_node) {
