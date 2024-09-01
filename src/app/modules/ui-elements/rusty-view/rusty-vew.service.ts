@@ -104,6 +104,11 @@ export class ViewService {
     switch (event.type) {
       case AppEvents.WORKPAD_SAVE_REQUEST:
         this.handleSaveFile(event, AppEvents.WORKPAD_SAVE_RESPONSE)
+        // Emit a tab change event only if the file path is different and title is New Tab 
+        if(this.currentTab()?.path != this.currentWorkpadFilePath() && this.currentTab()?.title == "New Tab"){
+          this.currentTab.set({...this.currentTab()!, title:this.currentWorkingFileName()!, path:this.currentWorkpadFilePath()!})
+          this.notepadEvents$.next({type: AppEvents.TAB_TITLE_CHANGE, file_name: this.currentWorkingFileName(), path: this.currentWorkpadFilePath()})
+        }
         break
       default:
         break;
@@ -183,7 +188,6 @@ export class ViewService {
    * @param file
    */
   saveFile(file: NotepadEvents): Promise<string> {
-    console.log("Saving the file at ", file, this.currentTab(), this.currentWorkingFileName(), this.currentWorkingDirectory());
     if (file.data && file.path) {
       return invoke<string>('save_file', { path: file.path, data: file.data })
     }

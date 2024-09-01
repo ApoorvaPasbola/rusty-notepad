@@ -12,6 +12,7 @@ import { debounceTime, filter, Subject, Subscription } from 'rxjs';
 import { ViewService } from '../rusty-view/rusty-vew.service';
 import { AppEvents } from '../../utilities/interfaces/Events';
 import { save } from '@tauri-apps/api/dialog';
+import { basename } from '@tauri-apps/api/path';
 @Component({
   selector: 'app-workpad',
   standalone: true,
@@ -108,13 +109,16 @@ export class WorkpadComponent implements OnDestroy {
   @HostListener('document:keydown.control.S')
   startSaveCurrentDraft() {
     let currentWorkpadPath: string | undefined = this.viewService.currentWorkpadFilePath();
-
     if (!currentWorkpadPath || currentWorkpadPath.endsWith(".")) {
       save({defaultPath: this.viewService.currentWorkingDirectory(), filters:[{name: "All Files (*)", extensions:["*"]}]}).then(
         (path) => {
           if (path) {
             this.viewService.currentWorkpadFilePath.set(path);
-            this.saveDraft();
+            basename(path).then(file_name=> {
+              this.viewService.currentWorkingFileName.set(file_name);
+              this.saveDraft();
+            });
+            
           } else console.info('Recevied Null path', path);
         },
         (_) => {
