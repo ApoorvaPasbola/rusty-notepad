@@ -48,7 +48,6 @@
 
   // line heights
   --workpad-line-height: 1.3;
-  
 
   // Quill Editor CSS
   // Border
@@ -58,59 +57,59 @@
     .p-editor-toolbar.ql-toolbar.ql-snow {
       border: none;
       padding: 0;
-    } 
-    .ql-container{
+    }
+    .ql-container {
       height: calc(100% - 24px);
     }
 
     .p-editor-content.ql-container.ql-snow {
-          border: none;
-          .ql-editor {
-            padding: var(--padding-xs);
-            h1 {
-              font-family: Consolas, monaco, monospace;
-              font-size: 24px;
-              font-style: normal;
-              font-variant: normal;
-              font-weight: 700;
-              line-height: 26.4px;
-            }
-            h3 {
-              font-family: Consolas, monaco, monospace;
-              font-size: 14px;
-              font-style: normal;
-              font-variant: normal;
-              font-weight: 700;
-              line-height: 15.4px;
-            }
-            p {
-              font-family: Consolas;
-              font-size: 14px;
-              font-style: normal;
-              font-variant: normal;
-              font-weight: 400;
-              line-height: 20px;
-            }
-            blockquote {
-              font-family: Consolas, monaco, monospace;
-              font-size: 21px;
-              font-style: normal;
-              font-variant: normal;
-              font-weight: 400;
-              line-height: 30px;
-            }
-            pre {
-              font-family: Consolas, monaco, monospace;
-              font-size: 13px;
-              font-style: normal;
-              font-variant: normal;
-              font-weight: 400;
-              line-height: 18.5667px;
-            }
-          }
-        } 
+      border: none;
+      .ql-editor {
+        padding: var(--padding-xs);
+        h1 {
+          font-family: Consolas, monaco, monospace;
+          font-size: 24px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: 700;
+          line-height: 26.4px;
+        }
+        h3 {
+          font-family: Consolas, monaco, monospace;
+          font-size: 14px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: 700;
+          line-height: 15.4px;
+        }
+        p {
+          font-family: Consolas;
+          font-size: 14px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: 400;
+          line-height: 20px;
+        }
+        blockquote {
+          font-family: Consolas, monaco, monospace;
+          font-size: 21px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: 400;
+          line-height: 30px;
+        }
+        pre {
+          font-family: Consolas, monaco, monospace;
+          font-size: 13px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: 400;
+          line-height: 18.5667px;
+        }
       }
-      
+    }
+  }
+
   /* Tabs Paddings */
   .p-tabview.p-component.p-tabview-scrollable {
     div.p-tabview-panels {
@@ -125,7 +124,17 @@
       }
     }
     .p-tabview-nav-container {
-      overflow-x: auto !important;
+      /* Tabs Scroller Css Changes */
+      button.p-tabview-nav-btn {
+        border: 0;
+        height: 22px;
+        padding: 0;
+        opacity: 0.94;
+        width: 40px;
+        svg {
+          padding-top: 5px;
+        }
+      }
     }
     .p-tabview-nav-container * {
       /* Tabs Padding CSS */
@@ -176,7 +185,8 @@
 /* Global Level Styles for background  */
 * {
   * {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   }
   body {
     height: calc(100dvh);

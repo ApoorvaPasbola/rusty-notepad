@@ -16,24 +16,26 @@ import { AppEvents } from '../../utilities/interfaces/Events';
 })
 export class FolderTreeComponent implements OnDestroy {
 
-  fileDirectories!: Node[];
+  fileDirectories!: Node[] | undefined;
   fileDirectories$!: Subscription;
 
-  root!: Node;
+  root!: Node | undefined;
   root$!: Subscription;
   appEvents$!: Subscription;
 
   constructor(private fsService: FolderTreeService, private viewService: ViewService) {
-    this.fileDirectories$ = this.fsService.fileDirectoryStructure.pipe(filter(node=>node.length != 0)).subscribe((ele: Node[]) => {
+    this.fileDirectories$ = this.fsService.fileDirectoryStructure.pipe(filter(node=>node?.length != 0)).subscribe((ele: Node[] | undefined) => {
       this.fileDirectories = ele;
     });
-    this.root$ = this.fsService.rootNode.subscribe((ele: Node) => {
+    this.root$ = this.fsService.rootNode.subscribe((ele: Node | undefined) => {
       this.root = ele;
     });
     this.appEvents$ = this.viewService.notepadEvents$
       .pipe(
         filter(event => event.type == AppEvents.APP_OPEN_DIR))
       .subscribe((event) => {
+        console.log("Recevied Path is ", event);
+        
         this.fsService.initialize_Explorer(event.path!);
       })
 

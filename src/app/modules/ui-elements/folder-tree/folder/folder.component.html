@@ -1,6 +1,6 @@
 <!-- Contents of the Opened Directory -->
-<li class="py-1 item" *ngFor="let folder of folders;index as i">
-  <span (click)="folder.isDirectory? this.openDirectory(folder): this.readFile(folder)" class="flex items-center"
+<li class="item" *ngFor="let folder of folders;index as i">
+  <span (click)="folder.isDirectory? this.openDirectory(folder): this.readFile(folder)" class="py-1 flex items-center"
     [ngClass]="folder.isDirectory ? '' : 'ml-1 mt-1'">
     <i style="font-size: 12px; align-content: end; margin-right: 3px;" *ngIf="folder.isDirectory" class="pi" [ngClass]="
     folder.expanded ? 'pi-angle-down' : 'pi-angle-right'
@@ -8,7 +8,7 @@
   </span>
 
   <!-- Sub Folders - if any  -->
-  <ul style="padding-left: .7rem;">
-    <rusty-folder *ngIf="folder.nodes && folder.expanded" [folders]="folder.nodes" />
+  <ul *ngIf="folder.nodes && folder.expanded" style="padding-left: .7rem;">
+    <rusty-folder [folders]="folder.nodes" />
   </ul>
 </li>

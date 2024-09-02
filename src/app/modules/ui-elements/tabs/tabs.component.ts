@@ -42,16 +42,19 @@ export class TabsComponent {
    */
   openedTabs: Map<string, Tab> = new Map();
 
-  constructor(private viewService: ViewService, private cd: ChangeDetectorRef) {
+  constructor(private viewService: ViewService) {
     this.viewService.notepadEvents$.pipe(
       filter(event =>
         event.type === AppEvents.TAB_CREATE ||
-        event.type === AppEvents.TAB_DELETE
+        event.type === AppEvents.TAB_TITLE_CHANGE
       ))
       .subscribe((event) => {
         switch (event.type) {
           case AppEvents.TAB_CREATE:
             this.newTab(event);
+            break;
+          case AppEvents.TAB_TITLE_CHANGE:
+            this.openedTabs.set("",this.viewService.currentTab()!);
             break;
           default:
             console.debug("Some Unhandled Event recevied ", event, AppEvents[event.type]);
@@ -93,8 +96,6 @@ export class TabsComponent {
   @HostListener('document:keydown.control.N')
   createBlankTab() {
     this.newTabActions(this.openedTabs.size, NEW_TAB_DEFAULT.path, NEW_TAB_DEFAULT.title, true)
-    console.log("Current configs ", this.viewService.currentWorkingDirectory(), 
-      this.viewService.currentWorkingFileName(), this.viewService.currentWorkpadFilePath());
 
   }
 
@@ -109,8 +110,6 @@ export class TabsComponent {
  */
   newTabActions(id: number, new_path: string, file_name: string, isNewTab: boolean) {
     let tab: Tab = { ...NEW_TAB_DEFAULT, id: id, title: file_name, path: new_path, isNewTab: isNewTab };
-    console.log("New tab action ", tab);
-    
     this.activeTabChangeActions(tab, true);
   }
   /**
