@@ -5,9 +5,9 @@
     styleClass="mb-5">
     <!-- Left Side Pannel - DEFAULT -->
     <ng-template pTemplate>
-      <p-scrollPanel class="w-full" [style]="{ height: '100%', backgroundColor:'var(--surface-dark-secondary)' }" styleClass="custombar1">
-        <ng-content ></ng-content>
-      </p-scrollPanel>
+        <div class="w-full container" [style]="{ height: '100%', backgroundColor:'var(--surface-dark-secondary)' }" >  
+          <ng-content></ng-content>
+        </div>
     </ng-template>
 
     <!-- Right Side Pannel -->
