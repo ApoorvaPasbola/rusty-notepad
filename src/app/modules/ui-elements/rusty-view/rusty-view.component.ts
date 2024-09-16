@@ -11,6 +11,7 @@ import { AppEvents } from '../../utilities/interfaces/Events';
 import { APP_COMMANDS } from '../../utilities/Constants';
 import { ButtonModule } from 'primeng/button';
 import { open } from '@tauri-apps/api/dialog';
+import { FsStateService } from '../../services/fs/fs-state.service';
 
 @Component({
   selector: 'app-rusty-view',
@@ -32,7 +33,7 @@ export class RustyViewComponent {
   appCommands = APP_COMMANDS;
 
 
-  constructor(private viewService: ViewService) {
+  constructor(private viewService: ViewService, private fs: FsStateService) {
 
     /**
      * Initializes the Notepad with the starting directory . If nothing is passed in cli variable
@@ -53,7 +54,7 @@ export class RustyViewComponent {
       path: path,
       type: AppEvents.APP_OPEN_DIR
     })
-    this.viewService.currentWorkingDirectory.set(path);
+    this.fs.currentWorkingDirectory.set(path);
 
   }
 

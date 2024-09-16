@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { open } from '@tauri-apps/api/dialog';
 import { ViewService } from './modules/ui-elements/rusty-view/rusty-vew.service';
 import { AppEvents } from './modules/utilities/interfaces/Events';
+import { FsStateService } from './modules/services/fs/fs-state.service';
 
 @Component({
   selector: 'app-root',
@@ -10,20 +11,19 @@ import { AppEvents } from './modules/utilities/interfaces/Events';
 })
 export class AppComponent {
 
-  constructor(private viewService: ViewService) { }
+  constructor(private viewService: ViewService, private fs:FsStateService) { }
 
   @HostListener('document:keydown.control.O')
   openDirectory() {
-    console.log("This got called ");
     open({
-      defaultPath: this.viewService.currentWorkingDirectory(),
+      defaultPath: this.fs.currentWorkingDirectory(),
       multiple: false,
       directory: true,
     }).then(
       (path) => {
         console.debug('Opening Path ', path)
         if (typeof path == 'string') {
-          this.viewService.currentWorkingDirectory.set(path);
+          this.fs.currentWorkingDirectory.set(path);
           this.viewService.notepadEvents$.next({
             path: path,
             type: AppEvents.APP_OPEN_DIR

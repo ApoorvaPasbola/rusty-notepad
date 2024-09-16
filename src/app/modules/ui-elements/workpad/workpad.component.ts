@@ -13,6 +13,8 @@ import { ViewService } from '../rusty-view/rusty-vew.service';
 import { AppEvents } from '../../utilities/interfaces/Events';
 import { save } from '@tauri-apps/api/dialog';
 import { basename } from '@tauri-apps/api/path';
+import { WorkpadStateService } from '../../services/workpad/workpad-state.service';
+import { FsStateService } from '../../services/fs/fs-state.service';
 @Component({
   selector: 'app-workpad',
   standalone: true,
@@ -39,8 +41,8 @@ export class WorkpadComponent implements OnDestroy {
    */
   private quill!: Quill;
 
-  constructor(private viewService: ViewService) {
-    this.workpadContent$ = this.viewService.currentWorkbookContent$.subscribe(value => this.workpadContent = value);
+  constructor(private viewService: ViewService, private state:WorkpadStateService, private fs:FsStateService) {
+    this.workpadContent$ = this.state.currentWorkbookContent$.subscribe(value => this.workpadContent = value);
     this.contentChangeSubscription = this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => this.isQuillDocument(event))
     this.notepadSubs = this.viewService.notepadEvents$.pipe(
       filter(event =>
@@ -108,14 +110,14 @@ export class WorkpadComponent implements OnDestroy {
    */
   @HostListener('document:keydown.control.S')
   startSaveCurrentDraft() {
-    let currentWorkpadPath: string | undefined = this.viewService.currentWorkpadFilePath();
+    let currentWorkpadPath: string | undefined = this.state.currentWorkpadFilePath();
     if (!currentWorkpadPath || currentWorkpadPath.endsWith(".")) {
-      save({defaultPath: this.viewService.currentWorkingDirectory(), filters:[{name: "All Files (*)", extensions:["*"]}]}).then(
+      save({defaultPath: this.fs.currentWorkingDirectory(), filters:[{name: "All Files (*)", extensions:["*"]}]}).then(
         (path) => {
           if (path) {
-            this.viewService.currentWorkpadFilePath.set(path);
+            this.state.currentWorkpadFilePath.set(path);
             basename(path).then(file_name=> {
-              this.viewService.currentWorkingFileName.set(file_name);
+              this.state.currentWorkingFileName.set(file_name);
               this.saveDraft();
             });
             

@@ -19,12 +19,10 @@ export class FolderComponent {
 
   @Input() folders!: Node[];
 
-  constructor(public fs: FolderTreeService, private viewService:ViewService) {
+  constructor(private fs: FolderTreeService, private viewService:ViewService) {
   }
 
   readFile(file: Node) {
-    console.log("Sending a read file event ", file.name);
-
     this.viewService.notepadEvents$.next({
       file_name: file.name,
       path: file.path,

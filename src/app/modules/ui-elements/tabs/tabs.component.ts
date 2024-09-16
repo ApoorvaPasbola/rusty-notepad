@@ -1,9 +1,7 @@
 import {
-  ChangeDetectorRef,
   Component,
   computed,
   HostListener,
-  Signal,
 } from '@angular/core';
 import { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
@@ -13,6 +11,8 @@ import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { ViewService } from '../rusty-view/rusty-vew.service';
 import { filter } from 'rxjs';
+import { FsStateService } from '../../services/fs/fs-state.service';
+import { WorkpadStateService } from '../../services/workpad/workpad-state.service';
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
@@ -22,13 +22,12 @@ import { filter } from 'rxjs';
 })
 export class TabsComponent {
 
-
   /**
    * This is use to toggle active tab on Ctrl + Tab event
    */
   activeIndex = computed(() => {
-    if (this.viewService.currentTab())
-      return this.viewService.currentTab()?.id!;
+    if (this.fsState.currentTab())
+      return this.fsState.currentTab()?.id!;
     else
       return -1
   });
@@ -42,7 +41,7 @@ export class TabsComponent {
    */
   openedTabs: Map<string, Tab> = new Map();
 
-  constructor(private viewService: ViewService) {
+  constructor(private viewService: ViewService, private fsState: FsStateService, private workpadState:WorkpadStateService) {
     this.viewService.notepadEvents$.pipe(
       filter(event =>
         event.type === AppEvents.TAB_CREATE ||
@@ -54,7 +53,7 @@ export class TabsComponent {
             this.newTab(event);
             break;
           case AppEvents.TAB_TITLE_CHANGE:
-            this.openedTabs.set("",this.viewService.currentTab()!);
+            this.openedTabs.set("",this.fsState.currentTab()!);
             break;
           default:
             console.debug("Some Unhandled Event recevied ", event, AppEvents[event.type]);
@@ -86,7 +85,7 @@ export class TabsComponent {
     if (!this.openedTabs.has(tabEvent.path))
       this.newTabActions(this.openedTabs.size, tabEvent.path, tabEvent.file_name, false);
     else {
-      this.viewService.currentTab.set({ ...this.openedTabs.get(tabEvent.path)! });
+      this.fsState.currentTab.set({ ...this.openedTabs.get(tabEvent.path)! });
     }
   }
 
@@ -96,7 +95,6 @@ export class TabsComponent {
   @HostListener('document:keydown.control.N')
   createBlankTab() {
     this.newTabActions(this.openedTabs.size, NEW_TAB_DEFAULT.path, NEW_TAB_DEFAULT.title, true)
-
   }
 
   @HostListener('document:keydown.control.W')
@@ -125,14 +123,14 @@ export class TabsComponent {
       this.openedTabs.set(tab.path, tab);
     }
     // This handles the scenario where we want to un-select the older tabs as well.
-    if (this.viewService.currentTab() && !deleating) {
-      let tab = this.viewService.currentTab()!;
+    if (this.fsState.currentTab() && !deleating) {
+      let tab = this.fsState.currentTab()!;
       this.openedTabs.set(tab.path, { ...tab, selected: false })
     }
     // This is requried so that there is not a same copy of the same object 
-    this.viewService.currentTab.set({ ...tab });
-    this.viewService.currentWorkingFileName.set(tab.title)
-    this.viewService.currentWorkpadFilePath.set(tab.path)
+    this.fsState.currentTab.set({ ...tab });
+    this.workpadState.currentWorkingFileName.set(tab.title)
+    this.workpadState.currentWorkpadFilePath.set(tab.path)
     this.openedTabsSize = this.openedTabs.size
     this.triggerTabChangeEvent(eventType);
   }
@@ -157,11 +155,11 @@ export class TabsComponent {
     if (event.index != this.openedTabs.size)
       this.syncTabs();
     // Handle Current Active tab closed
-    if (event.index == this.viewService.currentTab()!.id) {
+    if (event.index == this.fsState.currentTab()!.id) {
 
       // If there are no tabsMap is empty
       if (!this.openedTabs.size) {
-        this.viewService.currentTab.set(undefined);
+        this.fsState.currentTab.set(undefined);
         this.wasTabClosed = false;
       }
       // Since the active tab is close we need to set a new active tab and trigger a Tab Change Event
@@ -215,8 +213,8 @@ export class TabsComponent {
   triggerTabChangeEvent(eventType?:AppEvents) {
     if (this.openedTabs.size) {
       this.viewService.notepadEvents$.next({
-        path: this.viewService.currentTab()?.path,
-        file_name: this.viewService.currentTab()?.title,
+        path: this.fsState.currentTab()?.path,
+        file_name: this.fsState.currentTab()?.title,
         type: eventType? eventType : AppEvents.TAB_CHANGE
       });
     } else {
