@@ -2,8 +2,8 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Node } from '../../../utilities/interfaces/Node';
 import { FolderTreeService } from '../folder-tree.service';
-import { ViewService } from '../../rusty-view/rusty-vew.service';
 import { AppEvents } from '../../../utilities/interfaces/Events';
+import { RustyStateService } from '../../../services/rusty/rusty-state.service';
 
 @Component({
   selector: 'rusty-folder',
@@ -19,13 +19,12 @@ export class FolderComponent {
 
   @Input() folders!: Node[];
 
-  constructor(public fs: FolderTreeService, private viewService:ViewService) {
+  constructor(private fs: FolderTreeService, private state:RustyStateService) {
+    
   }
 
   readFile(file: Node) {
-    console.log("Sending a read file event ", file.name);
-
-    this.viewService.notepadEvents$.next({
+    this.state.notepadEvents$.next({
       file_name: file.name,
       path: file.path,
       type: AppEvents.FILE_SYSTEM_READ
@@ -35,6 +34,5 @@ export class FolderComponent {
   openDirectory(folders: Node) {
     this.fs.openDirectory(folders);
   }
-
 
 }
