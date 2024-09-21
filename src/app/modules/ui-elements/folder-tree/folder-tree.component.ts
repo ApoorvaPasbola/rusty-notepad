@@ -36,7 +36,6 @@ export class FolderTreeComponent implements OnDestroy {
         filter(event => event.type == AppEvents.APP_OPEN_DIR))
       .subscribe((event) => {
         console.log("Recevied Path is ", event);
-        
         this.fsService.initialize_Explorer(event.path!);
       })
 

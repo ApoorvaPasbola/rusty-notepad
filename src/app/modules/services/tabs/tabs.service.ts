@@ -1,21 +1,21 @@
-import { Injectable } from '@angular/core';
-import { filter } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { filter, Subscription } from 'rxjs';
 import { RustyStateService } from '../rusty/rusty-state.service';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 @Injectable({
   providedIn: 'root'
 })
-export class TabsService {
+export class TabsService implements OnDestroy{
 
+  private subs:Subscription;
+  
   constructor(private state:RustyStateService) { 
-    this.state.notepadEvents$
-    .pipe(
-      filter(event => 
-        event.type == AppEvents.TABS_EMPTY || 
-        event.type == AppEvents.TAB_DELETE || 
-        event.type == AppEvents.TAB_CREATE || 
-        event.type == AppEvents.TAB_CHANGE 
-      )).subscribe( event => this.handleTabsEvent(event))
+    this.subs = this.state.notepadEvents$
+    .subscribe( event => this.handleTabsEvent(event))
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe()
   }
 
     /**

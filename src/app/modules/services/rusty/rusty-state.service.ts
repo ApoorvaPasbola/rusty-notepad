@@ -1,8 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { Tab } from '../../utilities/interfaces/Tab';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { readFile } from '../../common/FileUtils';
+import { event } from '@tauri-apps/api';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +42,8 @@ export class RustyStateService {
    */
   notepadEvents$ = new Subject<NotepadEvents>();
 
-
-  constructor() { }
+  constructor() { 
+   }
 
   
   handleReadingFile(event: NotepadEvents, eventType: AppEvents) {
