@@ -1,8 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { open } from '@tauri-apps/api/dialog';
-import { ViewService } from './modules/ui-elements/rusty-view/rusty-vew.service';
 import { AppEvents } from './modules/utilities/interfaces/Events';
-import { FsStateService } from './modules/services/fs/fs-state.service';
+import { RustyStateService } from './modules/services/rusty/rusty-state.service';
 
 @Component({
   selector: 'app-root',
@@ -11,20 +10,20 @@ import { FsStateService } from './modules/services/fs/fs-state.service';
 })
 export class AppComponent {
 
-  constructor(private viewService: ViewService, private fs:FsStateService) { }
+  constructor(private state:RustyStateService) { }
 
   @HostListener('document:keydown.control.O')
   openDirectory() {
     open({
-      defaultPath: this.fs.currentWorkingDirectory(),
+      defaultPath: this.state.currentWorkingDirectory(),
       multiple: false,
       directory: true,
     }).then(
       (path) => {
         console.debug('Opening Path ', path)
         if (typeof path == 'string') {
-          this.fs.currentWorkingDirectory.set(path);
-          this.viewService.notepadEvents$.next({
+          this.state.currentWorkingDirectory.set(path);
+          this.state.notepadEvents$.next({
             path: path,
             type: AppEvents.APP_OPEN_DIR
           })

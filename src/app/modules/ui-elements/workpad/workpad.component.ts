@@ -9,12 +9,10 @@ import { FormsModule } from '@angular/forms';
 import Quill from 'quill';
 import { Delta } from 'quill/core';
 import { debounceTime, filter, Subject, Subscription } from 'rxjs';
-import { ViewService } from '../rusty-view/rusty-vew.service';
 import { AppEvents } from '../../utilities/interfaces/Events';
 import { save } from '@tauri-apps/api/dialog';
 import { basename } from '@tauri-apps/api/path';
-import { WorkpadStateService } from '../../services/workpad/workpad-state.service';
-import { FsStateService } from '../../services/fs/fs-state.service';
+import { RustyStateService } from '../../services/rusty/rusty-state.service';
 @Component({
   selector: 'app-workpad',
   standalone: true,
@@ -41,10 +39,10 @@ export class WorkpadComponent implements OnDestroy {
    */
   private quill!: Quill;
 
-  constructor(private viewService: ViewService, private state:WorkpadStateService, private fs:FsStateService) {
+  constructor(private state: RustyStateService) {
     this.workpadContent$ = this.state.currentWorkbookContent$.subscribe(value => this.workpadContent = value);
     this.contentChangeSubscription = this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => this.isQuillDocument(event))
-    this.notepadSubs = this.viewService.notepadEvents$.pipe(
+    this.notepadSubs = this.state.notepadEvents$.pipe(
       filter(event =>
         event.type == AppEvents.WORKPAD_SAVE_REQUEST ||
         event.type == AppEvents.WORKPAD_SAVE_RESPONSE ||
@@ -112,7 +110,7 @@ export class WorkpadComponent implements OnDestroy {
   startSaveCurrentDraft() {
     let currentWorkpadPath: string | undefined = this.state.currentWorkpadFilePath();
     if (!currentWorkpadPath || currentWorkpadPath.endsWith(".")) {
-      save({defaultPath: this.fs.currentWorkingDirectory(), filters:[{name: "All Files (*)", extensions:["*"]}]}).then(
+      save({defaultPath: this.state.currentWorkingDirectory(), filters:[{name: "All Files (*)", extensions:["*"]}]}).then(
         (path) => {
           if (path) {
             this.state.currentWorkpadFilePath.set(path);
@@ -137,14 +135,14 @@ export class WorkpadComponent implements OnDestroy {
     if (this.quill) {
       if (this.supportsQuill) {
         console.debug("Saving quill Supported Content ");
-        return this.viewService.notepadEvents$.next({ data: JSON.stringify(this.quill.getContents()), type: AppEvents.WORKPAD_SAVE_REQUEST });
+        return this.state.notepadEvents$.next({ data: JSON.stringify(this.quill.getContents()), type: AppEvents.WORKPAD_SAVE_REQUEST });
       }
       else {
         console.debug("Saving Normal Text Content");
-        return this.viewService.notepadEvents$.next({ data: this.quill.getText(), type: AppEvents.WORKPAD_SAVE_REQUEST });
+        return this.state.notepadEvents$.next({ data: this.quill.getText(), type: AppEvents.WORKPAD_SAVE_REQUEST });
       }
     }
-    return this.viewService.notepadEvents$.next({ data: undefined, type: AppEvents.WORKPAD_SAVE_REQUEST });
+    return this.state.notepadEvents$.next({ data: undefined, type: AppEvents.WORKPAD_SAVE_REQUEST });
   }
 
   async getNewFilePathFromUser(): Promise<string | null> {
