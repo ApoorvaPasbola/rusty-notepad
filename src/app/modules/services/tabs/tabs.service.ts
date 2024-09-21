@@ -11,6 +11,7 @@ export class TabsService implements OnDestroy{
   
   constructor(private state:RustyStateService) { 
     this.subs = this.state.notepadEvents$
+    .pipe(filter(event => event.type == AppEvents.TAB_CHANGE || event.type == AppEvents.TABS_EMPTY))
     .subscribe( event => this.handleTabsEvent(event))
   }
 

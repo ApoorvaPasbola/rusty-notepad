@@ -20,11 +20,10 @@ export class FolderComponent {
   @Input() folders!: Node[];
 
   constructor(private fs: FolderTreeService, private state:RustyStateService) {
+    
   }
 
   readFile(file: Node) {
-    console.log("Reading File ", file); 
-       
     this.state.notepadEvents$.next({
       file_name: file.name,
       path: file.path,

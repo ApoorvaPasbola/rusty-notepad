@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { RustyStateService } from '../rusty/rusty-state.service';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { invoke } from '@tauri-apps/api';
-import { filter, Subscription } from 'rxjs';
+import { filter, pipe, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,9 @@ export class WorkpadStateService implements OnDestroy {
   private subs:Subscription;
 
   constructor(private state:RustyStateService) { 
-   this.subs = this.state.notepadEvents$.subscribe( event => this.handleWorkpadEvents(event))
+   this.subs = this.state.notepadEvents$
+   .pipe(filter(event => event.type == AppEvents.WORKPAD_SAVE_REQUEST))
+   .subscribe( event => this.handleWorkpadEvents(event))
   }
 
   ngOnDestroy(): void {
