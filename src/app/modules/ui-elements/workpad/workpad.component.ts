@@ -134,7 +134,7 @@ export class WorkpadComponent implements OnDestroy {
   saveDraft() {
     if (this.quill) {
       if (this.supportsQuill) {
-        console.debug("Saving quill Supported Content ");
+        console.debug("Saving quill Supported Content");
         return this.state.notepadEvents$.next({ data: JSON.stringify(this.quill.getContents()), type: AppEvents.WORKPAD_SAVE_REQUEST });
       }
       else {

@@ -1,10 +1,10 @@
 <div *ngIf="openedTabs.size"  >
   <p-tabView (onClose)="tabClose($event)" [scrollable]="true" (activeIndexChange)="handleTabIndexChange($event)" [activeIndex]="activeIndex()" >
-    <p-tabPanel *ngFor="let tab of openedTabs.entries()" [selected]="tab[1].selected" [closable]="tab[1].isClosable">
+    <p-tabPanel *ngFor="let tab of openedTabs | keyvalue : idBasedOrder  " [selected]="tab.value.selected" [closable]="tab.value.isClosable">
         <!-- HEADER -->
         <ng-template pTemplate="header">
             <div  class="flex align-items-center gap-2">
-                    {{tab[1].title}}
+                    {{tab.value.title}}
             </div>
         </ng-template>
         <!-- Content  -->
