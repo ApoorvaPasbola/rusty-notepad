@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Tab } from '../../utilities/interfaces/Tab';
+import { DraftNotes, Tab } from '../../utilities/interfaces/Tab';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { readFile } from '../../common/FileUtils';
@@ -41,6 +41,12 @@ export class RustyStateService {
    * Give the default path of the text file to be used when nothing is given
    */
   notepadEvents$ = new Subject<NotepadEvents>();
+
+
+  /**
+   * Unsaved Draft Notes state 
+   */
+  draftNotes: Map<string, DraftNotes> = new Map();
 
   constructor() { 
    }

@@ -26,13 +26,10 @@ export class WorkpadComponent implements OnDestroy {
    * Takes input string from tabs . Which reads data from the file
    */
   workpadContent!: string;
-  workpadContent$: Subscription;
-
   supportsQuill: boolean = false;
-
   contentChange$ = new Subject<string>();
-  contentChangeSubscription!: Subscription;
-  notepadSubs: Subscription;
+
+  subs:Subscription[] = [];
 
   /**
    * Quill Editor object to access the internal apis
@@ -40,9 +37,12 @@ export class WorkpadComponent implements OnDestroy {
   private quill!: Quill;
 
   constructor(private state: RustyStateService) {
-    this.workpadContent$ = this.state.currentWorkbookContent$.subscribe(value => this.workpadContent = value);
-    this.contentChangeSubscription = this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => this.isQuillDocument(event))
-    this.notepadSubs = this.state.notepadEvents$.pipe(
+    this.subs.push(this.state.currentWorkbookContent$.subscribe(value => this.workpadContent = value));
+    this.subs.push(this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => {
+      this.isQuillDocument(event)
+      this.saveDraft()
+    }));
+    this.subs.push(this.state.notepadEvents$.pipe(
       filter(event =>
         event.type == AppEvents.WORKPAD_SAVE_REQUEST ||
         event.type == AppEvents.WORKPAD_SAVE_RESPONSE ||
@@ -56,13 +56,11 @@ export class WorkpadComponent implements OnDestroy {
           // TODO: This needs to handle UI pop with save successfull or failed. The data contains the response from the backend or service
           console.debug("Event data ", event.data);
         }
-      })
+      }));
   }
 
   ngOnDestroy() {
-    this.contentChangeSubscription.unsubscribe();
-    this.notepadSubs.unsubscribe();
-    this.workpadContent$.unsubscribe();
+    this.subs.forEach(sub=>sub.unsubscribe());
   }
 
   /**
@@ -130,11 +128,15 @@ export class WorkpadComponent implements OnDestroy {
     }
 
   }
-
+  /**
+   * Saves the current workpad based on the type of document. As json, if its a quill document 
+   * as simple string if a not a quill document. 
+   * Emits a undefined data if the quill api is not present. 
+   */
   saveDraft() {
     if (this.quill) {
       if (this.supportsQuill) {
-        console.debug("Saving quill Supported Content ");
+        console.debug("Saving quill Supported Content");
         return this.state.notepadEvents$.next({ data: JSON.stringify(this.quill.getContents()), type: AppEvents.WORKPAD_SAVE_REQUEST });
       }
       else {

@@ -1,3 +1,5 @@
+DOIT_CONFIG = {'default_tasks': ['start']}
+
 def task_start():
     return {
         'actions': ['npm run tauri dev -- -- -- D:\\Sublime']
