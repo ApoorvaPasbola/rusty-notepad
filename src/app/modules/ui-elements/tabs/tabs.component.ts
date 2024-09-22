@@ -64,6 +64,7 @@ export class TabsComponent {
   getTabsArray() {
     return this.openedTabs.values();
   }
+  
   /**
    * Switch to next Tab on control + tab event
    */

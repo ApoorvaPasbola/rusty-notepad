@@ -1,4 +1,4 @@
-export interface Tab{
+export interface Tab {
   id: number,
   title: string,
   isClosable: boolean,
