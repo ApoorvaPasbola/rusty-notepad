@@ -4,13 +4,15 @@ import {
   HostListener,
 } from '@angular/core';
 import { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule, KeyValue, NgFor, NgIf } from '@angular/common';
 import { WorkpadComponent } from '../workpad/workpad.component';
-import { Tab } from '../../utilities/interfaces/Tab';
+import { DraftNotes, Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { filter } from 'rxjs';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
+import { v4 as uuid4 } from "uuid";
+
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
@@ -64,7 +66,7 @@ export class TabsComponent {
   getTabsArray() {
     return this.openedTabs.values();
   }
-  
+
   /**
    * Switch to next Tab on control + tab event
    */
@@ -77,7 +79,9 @@ export class TabsComponent {
 
 
   newTab(tabEvent: NotepadEvents) {
+    
     if (!tabEvent.file_name || !tabEvent.path) {
+      console.log("Is this event called somewhere ??? ");
       this.createBlankTab();
       return;
     }
@@ -93,22 +97,55 @@ export class TabsComponent {
    */
   @HostListener('document:keydown.control.N')
   createBlankTab() {
-    this.newTabActions(this.openedTabs.size, NEW_TAB_DEFAULT.path, NEW_TAB_DEFAULT.title, true)
+    let newTabConfig = this.getNewTabConfig()
+    let tab = this.newTabActions(this.openedTabs.size, newTabConfig.path, newTabConfig.title, true)
+    this.addNewTabToDraft(tab);
+    this.openedTabs.forEach(draftNote => console.log(draftNote))
+
   }
 
+  /**
+   * Generates a randon path which is unique and a new title for the new tab 
+   * @returns returns the path and title for a new tab
+   */
+  getNewTabConfig() {
+    let title = `${NEW_TAB_DEFAULT.title} (${this.state.draftNotes.size + 1})`
+    let path = `${this.state.currentWorkingDirectory()}/${uuid4()}`
+    return { path: path, title: title  }
+  }
+
+  /**
+   * Adds the new unsaved tab to the state in the draftsNotes object . This is used to 
+   * maintain the state of the application on switching tabs on unsaved tabs. 
+   * @param tab 
+   */
+  addNewTabToDraft(tab:Tab) {
+    let draftNote: DraftNotes = {
+      tab: tab,
+      draftId: this.state.draftNotes.size + 1,
+      content: ""
+    }
+    this.state.draftNotes.set(draftNote.tab.path, draftNote);
+    
+  }
+
+  /**
+   * Listner to close the active tab
+   */
   @HostListener('document:keydown.control.W')
   closeTab() {
     this.tabClose({ index: this.activeIndex() } as TabViewCloseEvent);
   }
 
-
   /**
- * All things needs to be done to create a new tab
- */
+   * All things needs to be done to create a new tab
+   */
   newTabActions(id: number, new_path: string, file_name: string, isNewTab: boolean) {
     let tab: Tab = { ...NEW_TAB_DEFAULT, id: id, title: file_name, path: new_path, isNewTab: isNewTab };
     this.activeTabChangeActions(tab, true);
+    return tab;
   }
+
   /**
    * Actions needs to be done while switching a tab
    * Actions
@@ -126,6 +163,7 @@ export class TabsComponent {
       let tab = this.state.currentTab()!;
       this.openedTabs.set(tab.path, { ...tab, selected: false })
     }
+
     // This is requried so that there is not a same copy of the same object 
     this.state.currentTab.set({ ...tab });
     this.state.currentWorkingFileName.set(tab.title)
@@ -133,8 +171,6 @@ export class TabsComponent {
     this.openedTabsSize = this.openedTabs.size
     this.triggerTabChangeEvent(eventType);
   }
-
-
 
   /**
    * This handles the tabs close event.
@@ -150,6 +186,13 @@ export class TabsComponent {
      * re-dender the workpad
      */
     this.openedTabs.delete(close_tab_path);
+
+    /**
+     * This removes the entry from the draft notes if any 
+     */
+    if(this.state.draftNotes.has(close_tab_path)){
+      this.state.draftNotes.delete(close_tab_path);
+    }
 
     if (event.index != this.openedTabs.size)
       this.syncTabs();
@@ -223,5 +266,14 @@ export class TabsComponent {
         type: AppEvents.TABS_EMPTY
       });
     }
+  }
+
+  /**
+   * Id based comparator for the keyvalue Pipe . This is so that new tabs are added in order instead of random order. 
+   * @param a First comparator
+   * @param b Second comparator
+   */
+  idBasedOrder = (a: KeyValue<string,Tab>, b: KeyValue<string,Tab>): number => {
+    return a.value.id - b.value.id
   }
 }

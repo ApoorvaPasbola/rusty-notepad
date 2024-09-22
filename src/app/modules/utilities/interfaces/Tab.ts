@@ -7,3 +7,10 @@ export interface Tab {
   isSaved?: boolean,
   isNewTab:boolean
 }
+
+
+export interface DraftNotes {
+  draftId:number
+  tab: Tab,
+  content: string,
+}

@@ -17,7 +17,7 @@ import { RustyStateService } from '../../services/rusty/rusty-state.service';
 })
 export class FolderTreeComponent implements OnDestroy {
   fileDirectories!: Node[] | undefined;
-  subs$!: Subscription[];
+  subs$: Subscription[] = [];
 
   root!: Node | undefined;
 
@@ -40,7 +40,6 @@ export class FolderTreeComponent implements OnDestroy {
     this.subs$.push(this.state.notepadEvents$
       .pipe(filter((event) => event.type == AppEvents.APP_OPEN_DIR))
       .subscribe((event) => {
-        console.log('Recevied Path is ', event);
         this.fsService.initialize_Explorer(event.path!);
       }))
   }

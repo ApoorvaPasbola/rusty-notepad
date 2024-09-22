@@ -14,7 +14,6 @@ export class FsStateService implements OnDestroy {
       .pipe(
         filter((event) => event.type == AppEvents.FILE_SYSTEM_READ))
       .subscribe((event) => {
-        console.log("Event tapped in FS Service", event)
         this.handleFileSystemtEvents(event);
       });
   }
