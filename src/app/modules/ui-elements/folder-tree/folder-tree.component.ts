@@ -21,30 +21,34 @@ export class FolderTreeComponent implements OnDestroy {
 
   root!: Node | undefined;
 
-
   constructor(
     private fsService: FolderTreeService,
     private state: RustyStateService,
   ) {
+    this.subs$.push(
+      this.fsService.fileDirectoryStructure
+        .pipe(filter((node) => node?.length != 0))
+        .subscribe((ele: Node[] | undefined) => {
+          this.fileDirectories = ele;
+        }),
+    );
 
-    this.subs$.push(this.fsService.fileDirectoryStructure
-      .pipe(filter((node) => node?.length != 0))
-      .subscribe((ele: Node[] | undefined) => {
-        this.fileDirectories = ele;
-      }))
+    this.subs$.push(
+      this.fsService.rootNode.subscribe((ele: Node | undefined) => {
+        this.root = ele;
+      }),
+    );
 
-    this.subs$.push(this.fsService.rootNode.subscribe((ele: Node | undefined) => {
-      this.root = ele;
-    }))
-
-    this.subs$.push(this.state.notepadEvents$
-      .pipe(filter((event) => event.type == AppEvents.APP_OPEN_DIR))
-      .subscribe((event) => {
-        this.fsService.initialize_Explorer(event.path!);
-      }))
+    this.subs$.push(
+      this.state.notepadEvents$
+        .pipe(filter((event) => event.type == AppEvents.APP_OPEN_DIR))
+        .subscribe((event) => {
+          this.fsService.initialize_Explorer(event.path!);
+        }),
+    );
   }
 
   ngOnDestroy(): void {
-    this.subs$.forEach(sub => sub.unsubscribe());
+    this.subs$.forEach((sub) => sub.unsubscribe());
   }
 }
