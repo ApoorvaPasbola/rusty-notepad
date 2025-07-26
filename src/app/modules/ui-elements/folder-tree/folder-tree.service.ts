@@ -24,7 +24,6 @@ export class FolderTreeService {
       return ;
     }
 
-
     invoke<FileSystemItem[]>("read_directory", { path }).then((directory_items: FileSystemItem[]) => {
       let last_node = directory_items.pop()
       if (last_node) {
