@@ -12,11 +12,11 @@ export const applicationReducer = createReducer(
     initialState,
     on(add, (state, { tab }) => ({
         ...state,
-        products: [...state.tabs, tab],
+        tabs: [...state.tabs, tab],
     })),
     on(remove, (state, { tab }) => ({
         ...state,
-        products: state.tabs.filter((p) => tab.id != p.id),
+        tabs: state.tabs.filter((p) => tab.id != p.id),
     })),
     on(updateAll, (state, { tab }) => ({
         ...state,

@@ -8,6 +8,9 @@ import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { filter } from 'rxjs';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
 import { v4 as uuid4 } from 'uuid';
+import { Store } from '@ngrx/store';
+import { selectAllTabs, selectProductById } from '../../../application-state/selectors/selectors';
+import { add } from '../../../application-state/actions/actions';
 
 @Component({
   selector: 'app-tabs',
@@ -33,7 +36,11 @@ export class TabsComponent {
    */
   openedTabs: Map<string, Tab> = new Map();
 
-  constructor(private state: RustyStateService) {
+  openedTabs$ = this.store.selectSignal(selectAllTabs)
+
+  constructor(private state: RustyStateService, private store: Store) {
+    this.store.select(selectAllTabs).subscribe(id=>console.log("Current state is ", id))
+
     this.state.notepadEvents$
       .pipe(
         filter(
@@ -83,7 +90,6 @@ export class TabsComponent {
 
   newTab(tabEvent: NotepadEvents) {
     if (!tabEvent.file_name || !tabEvent.path) {
-      console.log('Is this event called somewhere ??? ');
       this.createBlankTab();
       return;
     }
@@ -112,7 +118,7 @@ export class TabsComponent {
       true,
     );
     this.addNewTabToDraft(tab);
-    this.openedTabs.forEach((draftNote) => console.log(draftNote));
+    this.store.dispatch(add({tab}));
   }
 
   /**
