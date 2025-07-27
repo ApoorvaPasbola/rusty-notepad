@@ -8,9 +8,9 @@ import { filter } from 'rxjs';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
 import { v4 as uuid4 } from 'uuid';
 import { Store } from '@ngrx/store';
-import {  currentTab, selectAppState } from '../../../state/selectors/selectors';
-import { add, closeTab, currentTabChanged } from '../../../state/actions/actions';
-import { TabState } from '../../../state';
+import {  currentTab, selectAppState, workpadState } from '../../../state/selectors/selectors';
+import { add, closeTab, currentTabChanged, updateWorkpadConfig } from '../../../state/actions/actions';
+import { TabState, WorkpadState } from '../../../state';
 
 @Component({
   selector: 'app-tabs',
@@ -27,6 +27,8 @@ export class TabsComponent {
    * This takes a list of tabs from the service which reads all the files
    */
   openedTabs: Map<string, Tab> = new Map();
+  workpadState: Signal<WorkpadState>
+  
 
   tabs: Signal<TabState>;
   activeTab: Signal<Tab|null>;
@@ -43,6 +45,7 @@ export class TabsComponent {
   constructor(private state: RustyStateService, private store: Store) {
     this.tabs = this.store.selectSignal(selectAppState);
     this.activeTab = this.store.selectSignal(currentTab);
+    this.workpadState = this.store.selectSignal(workpadState);
     this.state.notepadEvents$
       .pipe(
         filter(
@@ -57,7 +60,7 @@ export class TabsComponent {
             this.newTab(event);
             break;
           case AppEvents.TAB_TITLE_CHANGE:
-            this.openedTabs.set('', this.state.currentTab()!);
+            this.openedTabs.set('', this.activeTab()!);
             break;
           default:
             console.debug(
@@ -106,7 +109,6 @@ export class TabsComponent {
      console.log("Current tabs stae is ", this.tabs()); 
     }
     else {
-      this.state.currentTab.set({ ...this.openedTabs.get(tabEvent.path)! });
       this.store.dispatch(currentTabChanged({tab: this.openedTabs.get(tabEvent.path)!}))
     }
   }
@@ -143,7 +145,7 @@ export class TabsComponent {
    */
   getNewTabConfig() {
     let title = `${NEW_TAB_DEFAULT.title} (${this.state.draftNotes.size + 1})`;
-    let path = `${this.state.currentWorkingDirectory()}/${uuid4()}`;
+    let path = `${this.workpadState().activeWorkingDirectory}/${uuid4()}`;
     return { path: path, title: title };
   }
 
@@ -208,15 +210,14 @@ export class TabsComponent {
       this.openedTabs.set(tab.path, tab);
     }
     // This handles the scenario where we want to un-select the older tabs as well.
-    if (this.state.currentTab() && !deleating) {
-      let tab = this.state.currentTab()!;
+    if (this.activeTab() && !deleating) {
+      let tab = this.activeTab()!;
       this.openedTabs.set(tab.path, { ...tab, selected: false });
     }
 
     // This is requried so that there is not a same copy of the same object
-    this.state.currentTab.set({ ...tab });
-    this.state.currentWorkingFileName.set(tab.title);
-    this.state.currentWorkpadFilePath.set(tab.path);
+    let config: WorkpadState = { activeWorkingDirectory: this.workpadState().activeWorkingDirectory, activeWorkingFileName: tab.title, activeWorkpadFilePath: tab.path };
+    this.store.dispatch(updateWorkpadConfig({ workpadState: config }))
     this.triggerTabChangeEvent(eventType);
   }
 
@@ -253,10 +254,9 @@ export class TabsComponent {
     // Handle Current Active tab closed
 
     let tab:Tab;
-    if (event.index == this.state.currentTab()!.id) {
+    if (event.index == this.activeTab()!.id) {
       // If there are no tabsMap is empty
       if (!this.openedTabs.size) {
-        this.state.currentTab.set(undefined);
         this.wasTabClosed = false;
       }
       // Since the active tab is close we need to set a new active tab and trigger a Tab Change Event
@@ -312,11 +312,6 @@ export class TabsComponent {
    */
   triggerTabChangeEvent(eventType?: AppEvents) {
     if (this.openedTabs.size) {
-      this.state.notepadEvents$.next({
-        path: this.state.currentTab()?.path,
-        file_name: this.state.currentTab()?.title,
-        type: eventType ? eventType : AppEvents.TAB_CHANGE,
-      });
     } else {
       this.state.notepadEvents$.next({
         path: undefined,

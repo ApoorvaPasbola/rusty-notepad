@@ -2,8 +2,6 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { TabState } from "..";
 import { Tab } from "../../modules/utilities/interfaces/Tab";
 
-
-
 // TABS Selectors 
 export const selectAppState = createFeatureSelector<TabState>('TabState');
 
@@ -19,6 +17,8 @@ export const selectTabById = (id: number) => createSelector(
     (tabs: Tab[]) =>
         tabs.find(tab => tab.id === id)
 );
+
+export const workpadState = createSelector(selectAppState, (state)=> state.workpadState);
 
 export const currentTab = createSelector(
     selectAppState,

@@ -1,5 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { Tab } from "../../modules/utilities/interfaces/Tab";
+import { WorkpadState } from "..";
 
 
 
@@ -13,8 +14,6 @@ export const tittleChanged = createAction(TITLE_UPDATED_TAB_EVENT,props<{tab:Tab
 const UPDATE_CURRENT_TAB_EVENT = '[ApplicationState] Update Current Tab';
 export const currentTabChanged = createAction(UPDATE_CURRENT_TAB_EVENT,props<{tab:Tab}>());
 
-
-
 const CLOSE_TAB_EVENT = '[ApplicationState] Remove Tab';
 export const closeTab = createAction(CLOSE_TAB_EVENT,props<{id:number}>());
 
@@ -23,3 +22,8 @@ export const updateAll = createAction(UPDATE_ALL_TABS_EVENT,props<{tab:Tab[]}>()
 
 const CLEAR_TABS_STATE_EVENT = '[ApplicationState] Clear All Tabs';
 export const clear = createAction(CLEAR_TABS_STATE_EVENT);
+
+
+// Workpad Actions 
+
+export const updateWorkpadConfig = createAction(UPDATE_ALL_TABS_EVENT,props<{workpadState:WorkpadState}>());

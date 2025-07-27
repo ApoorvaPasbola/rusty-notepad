@@ -1,8 +1,13 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Signal } from '@angular/core';
 import { RustyStateService } from '../rusty/rusty-state.service';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { invoke } from '@tauri-apps/api';
 import { filter, pipe, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { WorkpadState } from '../../../state';
+import { currentTab, workpadState } from '../../../state/selectors/selectors';
+import { Tab } from '../../utilities/interfaces/Tab';
+import { currentTabChanged, tittleChanged } from '../../../state/actions/actions';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +15,13 @@ import { filter, pipe, Subscription } from 'rxjs';
 export class WorkpadStateService implements OnDestroy {
 
   private subs:Subscription;
+  workpadState: Signal<WorkpadState>
+  currentTab: Signal<Tab | null>
 
-  constructor(private state:RustyStateService) { 
+
+  constructor(private state:RustyStateService, private store: Store) { 
+  this.workpadState = this.store.selectSignal(workpadState);  
+  this.currentTab = this.store.selectSignal(currentTab);  
    this.subs = this.state.notepadEvents$
    .pipe(filter(event => event.type == AppEvents.WORKPAD_SAVE_REQUEST))
    .subscribe( event => this.handleWorkpadEvents(event))
@@ -31,20 +41,13 @@ export class WorkpadStateService implements OnDestroy {
           this.handleSaveFile(event, AppEvents.WORKPAD_SAVE_RESPONSE);
           // Emit a tab change event only if the file path is different and title is New Tab
           if (
-            this.state.currentTab()?.path !=
-              this.state.currentWorkpadFilePath() &&
-            this.state.currentTab()?.title == 'New Tab'
+            this.currentTab()?.path !=
+              this.workpadState().activeWorkpadFilePath &&
+            this.currentTab()?.title == 'New Tab' // TODO: might cause problem with tabs with id 
           ) {
-            this.state.currentTab.set({
-              ...this.state.currentTab()!,
-              title: this.state.currentWorkingFileName()!,
-              path: this.state.currentWorkpadFilePath()!,
-            });
-            this.state.notepadEvents$.next({
-              type: AppEvents.TAB_TITLE_CHANGE,
-              file_name: this.state.currentWorkingFileName(),
-              path: this.state.currentWorkpadFilePath(),
-            });
+            let tab:Tab = {...this.currentTab()!, title: this.workpadState().activeWorkingFileName!,path: this.workpadState().activeWorkpadFilePath! }
+            this.store.dispatch(currentTabChanged({tab}))
+            this.store.dispatch(tittleChanged({tab}))
           }
           break;
         default:
@@ -80,9 +83,9 @@ export class WorkpadStateService implements OnDestroy {
     saveFile(file: NotepadEvents): Promise<string> {
       if (file.data && file.path) {
         return invoke<string>('save_file', { path: file.path, data: file.data });
-      } else if (file.data && this.state.currentWorkpadFilePath()) {
+      } else if (file.data && this.workpadState().activeWorkpadFilePath) {
         return invoke<string>('save_file', {
-          path: this.state.currentWorkpadFilePath(),
+          path: this.workpadState().activeWorkpadFilePath,
           data: file.data,
         });
       }

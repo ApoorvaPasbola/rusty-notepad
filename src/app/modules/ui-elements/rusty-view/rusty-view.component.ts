@@ -6,13 +6,13 @@ import { FolderTreeComponent } from '../folder-tree/folder-tree.component';
 import { NgIf } from '@angular/common';
 import { LandingPageComponent } from "../landing-page/landing-page.component";
 import { getMatches } from '@tauri-apps/api/cli';
-import { ViewService } from './rusty-vew.service';
 import { AppEvents } from '../../utilities/interfaces/Events';
 import { APP_COMMANDS } from '../../utilities/Constants';
 import { ButtonModule } from 'primeng/button';
 import { open } from '@tauri-apps/api/dialog';
-import { FsStateService } from '../../services/fs/fs-state.service';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
+import { Store } from '@ngrx/store';
+import { updateWorkpadConfig } from '../../../state/actions/actions';
 
 @Component({
   selector: 'app-rusty-view',
@@ -34,7 +34,7 @@ export class RustyViewComponent {
   appCommands = APP_COMMANDS;
 
 
-  constructor(private state: RustyStateService) {
+  constructor(private state: RustyStateService, private store:Store) {
 
     /**
      * Initializes the Notepad with the starting directory . If nothing is passed in cli variable
@@ -55,8 +55,7 @@ export class RustyViewComponent {
       path: path,
       type: AppEvents.APP_OPEN_DIR
     })
-    this.state.currentWorkingDirectory.set(path);
-
+    this.store.dispatch(updateWorkpadConfig({workpadState: {activeWorkingDirectory:path, activeWorkingFileName:undefined, activeWorkpadFilePath:undefined}}));
   }
 
   openWorkspace() {

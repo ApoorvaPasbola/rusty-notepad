@@ -5,7 +5,8 @@ export interface Tab {
   selected: boolean,
   path: string,
   isSaved?: boolean,
-  isNewTab:boolean
+  isNewTab:boolean,
+  content?:string
 }
 
 
