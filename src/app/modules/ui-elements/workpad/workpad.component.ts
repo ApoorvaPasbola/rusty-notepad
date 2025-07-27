@@ -23,24 +23,16 @@ import { Tab } from '../../utilities/interfaces/Tab';
 @Component({
   selector: 'app-workpad',
   standalone: true,
-  imports: [CommonModule, EditorModule, FormsModule, NgStyle],
+  imports: [CommonModule, EditorModule, FormsModule],
   templateUrl: './workpad.component.html',
   styleUrl: './workpad.component.scss',
 })
 export class WorkpadComponent implements OnDestroy {
 
-  /**
-   * Takes input string from tabs . Which reads data from the file
-   */
-  workpadContent= computed(()=> {
-    if(!this.currentTab()?.content?.length)
-      this.currentTab()?.content;
-    else "";
-  });
   supportsQuill: boolean = false;
   contentChange$ = new Subject<string>();
   workpadState: Signal<WorkpadState>
-  currentTab: Signal<Tab| null>;
+  currentTab: Tab | null = null;
   subs: Subscription[] = [];
 
   /**
@@ -49,7 +41,10 @@ export class WorkpadComponent implements OnDestroy {
   private quill!: Quill;
 
   constructor(private state: RustyStateService, private store: Store) {
-    this.currentTab = this.store.selectSignal(currentTab);
+    this.store.select(currentTab).subscribe((next)=> {
+      this.currentTab = next
+      this.loadDataFromFile();
+    });
     this.workpadState = this.store.selectSignal(workpadState);
 
     this.subs.push(this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => {
@@ -97,8 +92,8 @@ export class WorkpadComponent implements OnDestroy {
   loadDataFromFile() {
     if (this.quill) {
       let delta;
-      try {
-        delta = new Delta(JSON.parse(this.workpadContent()!));
+      try {      
+        delta = new Delta(JSON.parse(this.currentTab?.content!));
         if (!delta.ops.length) {
           throw new Error("Not a Quill Object ");
         }
@@ -109,7 +104,7 @@ export class WorkpadComponent implements OnDestroy {
       } catch (error) {
         console.debug("Loading normal text Object");
 
-        this.quill.setText(this.workpadContent()!);
+        this.quill.setText(this.currentTab?.content!);
         this.supportsQuill = false;
       }
     }

@@ -24,8 +24,10 @@ export class TabsService implements OnDestroy{
    * @param event NotepadEvents
    */
     handleTabsEvent(event: NotepadEvents) {
+      console.log("Event ", event);
       switch (event.type) {
         // On Tab change we want to trigger Workpad Event
+        
         case AppEvents.TAB_CHANGE:
           this.state.handleReadingFile(event, AppEvents.WORKPAD_UPDATE);
           break;
