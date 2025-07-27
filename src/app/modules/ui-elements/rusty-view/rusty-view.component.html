@@ -12,8 +12,8 @@
     <!--  WORKPAD Container  -->
     <ng-container panel2 class="w-full">
       <app-tabs class="w-full" #rustyTabs></app-tabs>
-      <app-workpad *ngIf="rustyTabs.openedTabsSize"></app-workpad>
-      <rusty-landing-page *ngIf="!rustyTabs.openedTabsSize" [showIcon]="true" [commands]="appCommands"></rusty-landing-page>
+      <app-workpad *ngIf="rustyTabs.activeTab() !=null"></app-workpad>
+      <rusty-landing-page *ngIf="!rustyTabs.activeTab()" [showIcon]="true" [commands]="appCommands"></rusty-landing-page>
     </ng-container>
   </app-splitter>
 </div>

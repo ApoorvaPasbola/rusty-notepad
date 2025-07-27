@@ -1,7 +1,6 @@
-import { Component, computed, HostListener } from '@angular/core';
+import { Component, computed, HostListener, Signal } from '@angular/core';
 import { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';
 import { CommonModule, KeyValue, NgFor, NgIf } from '@angular/common';
-import { WorkpadComponent } from '../workpad/workpad.component';
 import { DraftNotes, Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
@@ -9,38 +8,41 @@ import { filter } from 'rxjs';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
 import { v4 as uuid4 } from 'uuid';
 import { Store } from '@ngrx/store';
-import { selectAllTabs, selectProductById } from '../../../application-state/selectors/selectors';
-import { add } from '../../../application-state/actions/actions';
+import {  currentTab, selectAppState } from '../../../state/selectors/selectors';
+import { add, closeTab, currentTabChanged } from '../../../state/actions/actions';
+import { TabState } from '../../../state';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   standalone: true,
-  imports: [CommonModule, TabViewModule, WorkpadComponent, NgFor, NgIf],
+  imports: [CommonModule, TabViewModule, NgFor, NgIf],
 })
 export class TabsComponent {
-  /**
-   * This is use to toggle active tab on Ctrl + Tab event
-   */
-  activeIndex = computed(() => {
-    if (this.state.currentTab()) return this.state.currentTab()?.id!;
-    else return -1;
-  });
 
   wasTabClosed: boolean = false;
-  openedTabsSize: number = 0;
 
   /**
    * This takes a list of tabs from the service which reads all the files
    */
   openedTabs: Map<string, Tab> = new Map();
 
-  openedTabs$ = this.store.selectSignal(selectAllTabs)
+  tabs: Signal<TabState>;
+  activeTab: Signal<Tab|null>;
+
+    /**
+   * This is use to toggle active tab on Ctrl + Tab event
+   */
+  activeIndex = computed(() => {
+    if (this.activeTab()) return this.activeTab()?.id!;
+    else return null; // TODO: Might be an issue ???
+  });
+
 
   constructor(private state: RustyStateService, private store: Store) {
-    this.store.select(selectAllTabs).subscribe(id=>console.log("Current state is ", id))
-
+    this.tabs = this.store.selectSignal(selectAppState);
+    this.activeTab = this.store.selectSignal(currentTab);
     this.state.notepadEvents$
       .pipe(
         filter(
@@ -93,15 +95,19 @@ export class TabsComponent {
       this.createBlankTab();
       return;
     }
-    if (!this.openedTabs.has(tabEvent.path))
-      this.newTabActions(
+    if (!this.openedTabs.has(tabEvent.path)){
+      let tab:Tab = this.newTabActions(
         this.openedTabs.size,
         tabEvent.path,
         tabEvent.file_name,
         false,
       );
+      this.store.dispatch(add({tab}));
+     console.log("Current tabs stae is ", this.tabs()); 
+    }
     else {
       this.state.currentTab.set({ ...this.openedTabs.get(tabEvent.path)! });
+      this.store.dispatch(currentTabChanged({tab: this.openedTabs.get(tabEvent.path)!}))
     }
   }
 
@@ -119,6 +125,16 @@ export class TabsComponent {
     );
     this.addNewTabToDraft(tab);
     this.store.dispatch(add({tab}));
+    console.log("Current tabs stae is ", this.tabs());
+    console.log("Current Active Index ", this.activeIndex());
+    console.log("Current Active Tab ", this.activeTab());
+  }
+
+  @HostListener('document:keydown.control.Q')
+  logger(){
+    console.log("Current tabs stae is ", this.tabs());
+    console.log("Current Active Index ", this.activeIndex());
+    console.log("Current Active Tab ", this.activeTab());
   }
 
   /**
@@ -149,8 +165,9 @@ export class TabsComponent {
    * Listner to close the active tab
    */
   @HostListener('document:keydown.control.W')
-  closeTab() {
-    this.tabClose({ index: this.activeIndex() } as TabViewCloseEvent);
+  closeTab() {  
+    if(this.activeIndex() !=null && this.activeIndex()! >= 0)
+    this.tabCloseOptimized({ index: this.activeIndex() } as TabViewCloseEvent);
   }
 
   /**
@@ -161,7 +178,7 @@ export class TabsComponent {
     new_path: string,
     file_name: string,
     isNewTab: boolean,
-  ) {
+  ):Tab {
     let tab: Tab = {
       ...NEW_TAB_DEFAULT,
       id: id,
@@ -200,8 +217,14 @@ export class TabsComponent {
     this.state.currentTab.set({ ...tab });
     this.state.currentWorkingFileName.set(tab.title);
     this.state.currentWorkpadFilePath.set(tab.path);
-    this.openedTabsSize = this.openedTabs.size;
     this.triggerTabChangeEvent(eventType);
+  }
+
+  tabCloseOptimized(event:TabViewCloseEvent){
+    this.store.dispatch(closeTab({id: event.index}))
+    this.tabClose(event);
+    console.log("Tab Closed event called ", this.tabs());
+    
   }
 
   /**
@@ -228,6 +251,8 @@ export class TabsComponent {
 
     if (event.index != this.openedTabs.size) this.syncTabs();
     // Handle Current Active tab closed
+
+    let tab:Tab;
     if (event.index == this.state.currentTab()!.id) {
       // If there are no tabsMap is empty
       if (!this.openedTabs.size) {
@@ -239,15 +264,15 @@ export class TabsComponent {
         // Need to handle the case where syncing the tabsMap changed the indexing
         let new_index = event.index % this.openedTabs.size;
         let path = this.getPathWithIndex(new_index);
+        tab = { ...this.openedTabs.get(path)!, selected: true }
         this.activeTabChangeActions(
-          { ...this.openedTabs.get(path)!, selected: true },
+          tab,
           true,
           true,
         );
         return;
       }
     }
-    this.openedTabsSize = this.openedTabs.size;
     this.triggerTabChangeEvent();
   }
 
@@ -267,6 +292,7 @@ export class TabsComponent {
       let path = this.getPathWithIndex(index);
       let tab = { ...this.openedTabs.get(path)!, selected: true };
       this.activeTabChangeActions(tab, true);
+      this.store.dispatch(currentTabChanged({tab}));
     }
     this.wasTabClosed = false;
   }

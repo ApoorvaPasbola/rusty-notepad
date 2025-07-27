@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { RustyViewComponent } from './modules/ui-elements/rusty-view/rusty-view.component';
 import { StoreModule } from '@ngrx/store';
-import { applicationReducer } from './application-state/reducers/reducers';
+import { tabReducer } from './state/reducers/reducers';
 
 
 @NgModule({
@@ -13,7 +13,7 @@ import { applicationReducer } from './application-state/reducers/reducers';
     CommonModule,
     BrowserModule,
     RustyViewComponent,
-    StoreModule.forRoot({applicationState:applicationReducer}),
+    StoreModule.forRoot({TabState:tabReducer}),
   ],
   providers: [],
   bootstrap: [AppComponent]
