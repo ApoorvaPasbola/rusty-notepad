@@ -8,8 +8,18 @@ import { filter } from 'rxjs';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
 import { v4 as uuid4 } from 'uuid';
 import { Store } from '@ngrx/store';
-import {  currentTab, selectAppState, workpadState } from '../../../state/selectors/selectors';
-import { add, closeTab, currentTabChanged, updateWorkpadConfig } from '../../../state/actions/actions';
+import {
+  currentTab,
+  selectAppState,
+  selectTabById,
+  workpadState,
+} from '../../../state/selectors/selectors';
+import {
+  add,
+  closeTab,
+  currentTabChanged,
+  updateWorkpadConfig,
+} from '../../../state/actions/actions';
 import { TabState, WorkpadState } from '../../../state';
 
 @Component({
@@ -20,20 +30,17 @@ import { TabState, WorkpadState } from '../../../state';
   imports: [CommonModule, TabViewModule, NgFor, NgIf],
 })
 export class TabsComponent {
-
   wasTabClosed: boolean = false;
 
   /**
    * This takes a list of tabs from the service which reads all the files
    */
-  openedTabs: Map<string, Tab> = new Map();
-  workpadState: Signal<WorkpadState>
-  
+  workpadState: Signal<WorkpadState>;
 
-  tabs: Signal<TabState>;
-  activeTab: Signal<Tab|null>;
+  tabState: Signal<TabState>;
+  activeTab: Signal<Tab | null>;
 
-    /**
+  /**
    * This is use to toggle active tab on Ctrl + Tab event
    */
   activeIndex = computed(() => {
@@ -41,9 +48,11 @@ export class TabsComponent {
     else return null; // TODO: Might be an issue ???
   });
 
-
-  constructor(private state: RustyStateService, private store: Store) {
-    this.tabs = this.store.selectSignal(selectAppState);
+  constructor(
+    private state: RustyStateService,
+    private store: Store,
+  ) {
+    this.tabState = this.store.selectSignal(selectAppState);
     this.activeTab = this.store.selectSignal(currentTab);
     this.workpadState = this.store.selectSignal(workpadState);
     this.state.notepadEvents$
@@ -60,55 +69,42 @@ export class TabsComponent {
             this.newTab(event);
             break;
           case AppEvents.TAB_TITLE_CHANGE:
-            this.openedTabs.set('', this.activeTab()!);
+            // this.openedTabs.set('', this.activeTab()!);
             break;
           default:
-            console.debug(
-              'Some Unhandled Event recevied ',
-              event,
-              AppEvents[event.type],
-            );
             break;
         }
       });
   }
 
-  getTabsArray() {
-    return this.openedTabs.values();
-  }
-
   /**
    * Switch to next Tab on control + tab event
    */
-  @HostListener('document:keydown.control.tab')
-  changeTab() {
-    let index = (this.activeIndex()! + 1) % this.openedTabs.size;
-    let tab = {
-      ...this.openedTabs.get(this.getPathWithIndex(index))!,
-      selected: true,
-    };
+  // @HostListener('document:keydown.control.tab')
+  // changeTab() {
+  //   // TODO: if the current tab is a new tab then emit event to save the draft in the local store ??
 
-    // TODO: if the current tab is a new tab then emit event to save the draft in the local store ??
-
-    this.activeTabChangeActions(tab);
-  }
+  //   this.activeTabChangeActions(tab);
+  // }
 
   newTab(tabEvent: NotepadEvents) {
     if (!tabEvent.file_name || !tabEvent.path) {
       this.createBlankTab();
       return;
     }
-    if (!this.openedTabs.has(tabEvent.path)){
-      let tab:Tab = this.newTabActions(
-        this.openedTabs.size,
+    let exsistingTab:Tab|undefined = this.tabState().tabs.find(t=> t.path===tabEvent.path && t.title === tabEvent.file_name);
+    if (!exsistingTab) {
+      let tab: Tab = this.newTabActions(
+        this.tabState().tabs.length,
         tabEvent.path,
         tabEvent.file_name,
         false,
       );
-      this.store.dispatch(add({tab}));
-    }
-    else {
-      this.store.dispatch(currentTabChanged({tab: this.openedTabs.get(tabEvent.path)!}))
+      this.store.dispatch(add({ tab }));
+    } else {
+      this.store.dispatch(
+        currentTabChanged({ tab:exsistingTab }),
+      );
     }
   }
 
@@ -119,23 +115,23 @@ export class TabsComponent {
   createBlankTab() {
     let newTabConfig = this.getNewTabConfig();
     let tab = this.newTabActions(
-      this.openedTabs.size,
+      this.tabState().tabs.length,
       newTabConfig.path,
       newTabConfig.title,
       true,
     );
     this.addNewTabToDraft(tab);
-    this.store.dispatch(add({tab}));
-    console.log("Current tabs stae is ", this.tabs());
-    console.log("Current Active Index ", this.activeIndex());
-    console.log("Current Active Tab ", this.activeTab());
+    this.store.dispatch(add({ tab }));
+    console.log('Current tabs stae is ', this.tabState());
+    console.log('Current Active Index ', this.activeIndex());
+    console.log('Current Active Tab ', this.activeTab());
   }
 
   @HostListener('document:keydown.control.Q')
-  logger(){
-    console.log("Current tabs stae is ", this.tabs());
-    console.log("Current Active Index ", this.activeIndex());
-    console.log("Current Active Tab ", this.activeTab());
+  logger() {
+    console.log('Current tabs stae is ', this.tabState());
+    console.log('Current Active Index ', this.activeIndex());
+    console.log('Current Active Tab ', this.activeTab());
   }
 
   /**
@@ -166,9 +162,11 @@ export class TabsComponent {
    * Listner to close the active tab
    */
   @HostListener('document:keydown.control.W')
-  closeTab() {  
-    if(this.activeIndex() !=null && this.activeIndex()! >= 0)
-    this.tabCloseOptimized({ index: this.activeIndex() } as TabViewCloseEvent);
+  closeTab() {
+    if (this.activeIndex() != null && this.activeIndex()! >= 0)
+      this.tabCloseOptimized({
+        index: this.activeIndex(),
+      } as TabViewCloseEvent);
   }
 
   /**
@@ -179,7 +177,7 @@ export class TabsComponent {
     new_path: string,
     file_name: string,
     isNewTab: boolean,
-  ):Tab {
+  ): Tab {
     let tab: Tab = {
       ...NEW_TAB_DEFAULT,
       id: id,
@@ -187,7 +185,7 @@ export class TabsComponent {
       path: new_path,
       isNewTab: isNewTab,
     };
-    this.activeTabChangeActions(tab, true);
+    this.activeTabChangeActions(tab);
     return tab;
   }
 
@@ -199,22 +197,18 @@ export class TabsComponent {
    * 3. Emit event for tab change.
    * 4. update openedTabsize if changed
    */
-  activeTabChangeActions(
-    tab: Tab,
-    updateOpenedMaps?: boolean
-  ) {
-    if (updateOpenedMaps) {
-      this.openedTabs.set(tab.path, tab);
-    }
-
-    let config: WorkpadState = { activeWorkingDirectory: this.workpadState().activeWorkingDirectory, activeWorkingFileName: tab.title, activeWorkpadFilePath: tab.path };
-    this.store.dispatch(updateWorkpadConfig({ workpadState: config }))
+  activeTabChangeActions(tab: Tab) {
+    let config: WorkpadState = {
+      activeWorkingDirectory: this.workpadState().activeWorkingDirectory,
+      activeWorkingFileName: tab.title,
+      activeWorkpadFilePath: tab.path,
+    };
+    this.store.dispatch(updateWorkpadConfig({ workpadState: config }));
   }
 
-  tabCloseOptimized(event:TabViewCloseEvent){
-    this.store.dispatch(closeTab({id: event.index}))
-    console.log("Tab Closed event called ", this.tabs());
-    
+  tabCloseOptimized(event: TabViewCloseEvent) {
+    this.store.dispatch(closeTab({ id: event.index }));
+    console.log('Tab Closed event called ', event);
   }
 
   /**
@@ -223,42 +217,10 @@ export class TabsComponent {
    * @param event TabViewCloseEvent
    */
   tabClose(event: TabViewCloseEvent) {
-    let close_tab_path = this.getPathWithIndex(event.index);
-
-
-
-    /**
-     * This removes the entry from the draft notes if any
-     */
-    if (this.state.draftNotes.has(close_tab_path)) {
-      this.state.draftNotes.delete(close_tab_path);
-    }
-
-    // Handle Current Active tab closed
-
-    let tab:Tab;
-    if (event.index == this.activeTab()!.id) {
-      // Since the active tab is close we need to set a new active tab and trigger a Tab Change Event
-      if (this.openedTabs.size) {
-        // Need to handle the case where syncing the tabsMap changed the indexing
-        let new_index = event.index % this.tabs().tabs.length;
-        let path = this.getPathWithIndex(new_index);
-        tab = { ...this.openedTabs.get(path)!, selected: true }
-        this.activeTabChangeActions(
-          tab,
-          true
-        );
-        return;
-      }
-    }
+    this.store.dispatch(closeTab({id:event.index}))
+    this.activeTabChangeActions(this.activeTab()!);
   }
 
-  syncTabs() {
-    let n = 0;
-    this.openedTabs.forEach((tab) => {
-      this.openedTabs.set(tab.path, { ...tab, id: n++ });
-    });
-  }
 
   /**
    * Handles tabs change Event
@@ -266,24 +228,12 @@ export class TabsComponent {
    */
   handleTabIndexChange(index: number) {
     if (!this.wasTabClosed) {
-      let path = this.getPathWithIndex(index);
-      let tab = { ...this.openedTabs.get(path)!, selected: true };
-      this.activeTabChangeActions(tab, true);
-      this.store.dispatch(currentTabChanged({tab}));
+      let tab = this.store.selectSignal(selectTabById(index))()
+      this.activeTabChangeActions(tab!);
+      this.store.dispatch(currentTabChanged({ tab:tab! }));
     }
     this.wasTabClosed = false;
   }
-
-  getPathWithIndex(index: number): string {
-    let path = '';
-    this.openedTabs.forEach((tab) => {
-      if (tab.id == index) {
-        path = tab.path;
-      }
-    });
-    return path;
-  }
-
 
   /**
    * Id based comparator for the keyvalue Pipe . This is so that new tabs are added in order instead of random order.

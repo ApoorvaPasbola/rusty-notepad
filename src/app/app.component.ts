@@ -35,7 +35,6 @@ export class AppComponent {
       directory: true,
     }).then(
       (path) => {
-        console.debug('Opening Path ', path)
         if (typeof path == 'string') {
           this.store.dispatch(updateWorkpadConfig({workpadState: {...this.workpadState(), activeWorkingDirectory: path}}))
           this.state.notepadEvents$.next({

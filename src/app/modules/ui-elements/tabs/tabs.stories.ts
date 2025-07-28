@@ -22,7 +22,7 @@ type Story = StoryObj<TabsComponent>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Basic: Story = {
   args: {
-    tabs : [{
+    tabState : [{
       id: 1,
       selected: true,
       isClosable: true,

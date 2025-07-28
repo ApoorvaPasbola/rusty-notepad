@@ -13,8 +13,6 @@ import {  currentTab, selectAppState } from '../../../state/selectors/selectors'
 })
 export class RustyStateService {
 
-
-
   /**
    * Give the default path of the text file to be used when nothing is given
    */
