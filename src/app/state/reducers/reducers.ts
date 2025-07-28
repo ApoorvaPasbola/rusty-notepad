@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { add, clear, closeTab, currentTabChanged, tittleChanged, updateAll, updateWorkpadConfig } from '../actions/actions';
+import { add, clear, closeTab, currentTabChanged, tittleChanged, updateAll, updateTabData, updateWorkpadConfig } from '../actions/actions';
 import { TabState } from '..';
 import { Tab } from '../../modules/utilities/interfaces/Tab';
 
@@ -31,7 +31,11 @@ export const tabReducer = createReducer(
         }),
     })),
     on(currentTabChanged, (state, { tab }) => (updateOldTabInactive(state, tab))),
-    on(updateWorkpadConfig, (state, { workpadState }) => ({ ...state, workpadState }))
+    on(updateWorkpadConfig, (state, { workpadState }) => ({ ...state, workpadState })),
+    on(updateTabData, (state, {data})=>({
+        ...state,
+        currentTab: {...state.currentTab!, content: data}
+    }))
 );
 
 function updateOldTabInactive(state: TabState, tab: Tab): TabState {

@@ -25,5 +25,7 @@ export const clear = createAction(CLEAR_TABS_STATE_EVENT);
 
 
 // Workpad Actions 
+const UPDATE_WORKPAD_CONFIG_EVENT = '[ApplicationState] Update All Tabs';
+export const updateWorkpadConfig = createAction(UPDATE_WORKPAD_CONFIG_EVENT,props<{workpadState:WorkpadState}>());
 
-export const updateWorkpadConfig = createAction(UPDATE_ALL_TABS_EVENT,props<{workpadState:WorkpadState}>());
+export const updateTabData = createAction("[ApplicationState] Update current tab with data",props<{data:string}>())

@@ -27,7 +27,7 @@ export class FolderComponent {
     this.state.notepadEvents$.next({
       file_name: file.name,
       path: file.path,
-      type: AppEvents.FILE_SYSTEM_READ
+      type: AppEvents.TAB_CREATE
     })
   }
 

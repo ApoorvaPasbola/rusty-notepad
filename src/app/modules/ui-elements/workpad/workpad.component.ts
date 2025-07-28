@@ -5,7 +5,7 @@ import {
   OnDestroy,
   Signal,
 } from '@angular/core';
-import { CommonModule, NgStyle } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { EditorInitEvent, EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 import Quill from 'quill';
