@@ -106,7 +106,6 @@ export class TabsComponent {
         false,
       );
       this.store.dispatch(add({tab}));
-     console.log("Current tabs stae is ", this.tabs()); 
     }
     else {
       this.store.dispatch(currentTabChanged({tab: this.openedTabs.get(tabEvent.path)!}))
