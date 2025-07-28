@@ -201,28 +201,18 @@ export class TabsComponent {
    */
   activeTabChangeActions(
     tab: Tab,
-    updateOpenedMaps?: boolean,
-    deleating: boolean = false,
-    eventType?: AppEvents,
+    updateOpenedMaps?: boolean
   ) {
     if (updateOpenedMaps) {
       this.openedTabs.set(tab.path, tab);
     }
-    // This handles the scenario where we want to un-select the older tabs as well.
-    // if (this.activeTab() && !deleating) {
-    //   let tab = this.activeTab()!;
-    //   this.openedTabs.set(tab.path, { ...tab, selected: false });
-    // }
 
-    // This is requried so that there is not a same copy of the same object
     let config: WorkpadState = { activeWorkingDirectory: this.workpadState().activeWorkingDirectory, activeWorkingFileName: tab.title, activeWorkpadFilePath: tab.path };
     this.store.dispatch(updateWorkpadConfig({ workpadState: config }))
-    // this.triggerTabChangeEvent(eventType);
   }
 
   tabCloseOptimized(event:TabViewCloseEvent){
     this.store.dispatch(closeTab({id: event.index}))
-    // this.tabClose(event);
     console.log("Tab Closed event called ", this.tabs());
     
   }
@@ -233,14 +223,9 @@ export class TabsComponent {
    * @param event TabViewCloseEvent
    */
   tabClose(event: TabViewCloseEvent) {
-    // this.wasTabClosed = true;
     let close_tab_path = this.getPathWithIndex(event.index);
 
-    /** This handles non-active tab close and last tab close ,
-     * we do not need to trigger Tab change event since we dont wont to
-     * re-dender the workpad
-     */
-    // this.openedTabs.delete(close_tab_path);
+
 
     /**
      * This removes the entry from the draft notes if any
@@ -249,15 +234,10 @@ export class TabsComponent {
       this.state.draftNotes.delete(close_tab_path);
     }
 
-    // if (event.index != this.openedTabs.size) this.syncTabs();
     // Handle Current Active tab closed
 
     let tab:Tab;
     if (event.index == this.activeTab()!.id) {
-      // If there are no tabsMap is empty
-      // if (!this.openedTabs.size) {
-      //   this.wasTabClosed = false;
-      // }
       // Since the active tab is close we need to set a new active tab and trigger a Tab Change Event
       if (this.openedTabs.size) {
         // Need to handle the case where syncing the tabsMap changed the indexing
@@ -266,13 +246,11 @@ export class TabsComponent {
         tab = { ...this.openedTabs.get(path)!, selected: true }
         this.activeTabChangeActions(
           tab,
-          true,
-          true,
+          true
         );
         return;
       }
     }
-    // this.triggerTabChangeEvent();
   }
 
   syncTabs() {
@@ -306,19 +284,6 @@ export class TabsComponent {
     return path;
   }
 
-  /**
-   * This triggers an Tab Change Event to inform other components to take respective actions
-   */
-  // triggerTabChangeEvent(eventType?: AppEvents) {
-  //   if (this.openedTabs.size) {
-  //   } else {
-  //     this.state.notepadEvents$.next({
-  //       path: undefined,
-  //       file_name: undefined,
-  //       type: AppEvents.TABS_EMPTY,
-  //     });
-  //   }
-  // }
 
   /**
    * Id based comparator for the keyvalue Pipe . This is so that new tabs are added in order instead of random order.
