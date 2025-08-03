@@ -6,7 +6,6 @@ import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { filter } from 'rxjs';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
-import { v4 as uuid4 } from 'uuid';
 import { Store } from '@ngrx/store';
 import {
   currentTab,
@@ -21,6 +20,7 @@ import {
   updateWorkpadConfig,
 } from '../../../state/actions/actions';
 import { TabState, WorkpadState } from '../../../state';
+import { getNewTabConfig } from '../../utilities/helper-functions/tab-creator-util';
 
 @Component({
   selector: 'app-tabs',
@@ -56,12 +56,7 @@ export class TabsComponent {
     this.activeTab = this.store.selectSignal(currentTab);
     this.workpadState = this.store.selectSignal(workpadState);
     this.state.notepadEvents$
-      .pipe(
-        filter(
-          (event) =>
-            event.type === AppEvents.TAB_CREATE 
-        ),
-      )
+      .pipe(filter((event) => event.type === AppEvents.TAB_CREATE))
       .subscribe((event) => {
         switch (event.type) {
           case AppEvents.TAB_CREATE:
@@ -88,19 +83,19 @@ export class TabsComponent {
       this.createBlankTab();
       return;
     }
-    let exsistingTab:Tab|undefined = this.tabState().tabs.find(t=> t.path===tabEvent.path && t.title === tabEvent.file_name);
-    if (!exsistingTab) {
-      let tab: Tab = this.newTabActions(
-        this.tabState().tabs.length,
-        tabEvent.path,
-        tabEvent.file_name,
-        false,
-      );
+    let openedTab: Tab | undefined = this.tabState().tabs.find(
+      (t) => t.path === tabEvent.path && t.title === tabEvent.file_name,
+    );
+    if (!openedTab) {
+      let tab: Tab = { ...NEW_TAB_DEFAULT,
+        id:this.tabState().tabs.length,
+        path:tabEvent.path,
+        title:tabEvent.file_name,
+        isNewTab: false    
+    }
       this.store.dispatch(add({ tab }));
     } else {
-      this.store.dispatch(
-        currentTabChanged({ tab:exsistingTab }),
-      );
+      this.store.dispatch(currentTabChanged({ tab: openedTab }));
     }
   }
 
@@ -109,18 +104,13 @@ export class TabsComponent {
    */
   @HostListener('document:keydown.control.N')
   createBlankTab() {
-    let newTabConfig = this.getNewTabConfig();
-    let tab = this.newTabActions(
+    let tab = getNewTabConfig(
       this.tabState().tabs.length,
-      newTabConfig.path,
-      newTabConfig.title,
-      true,
+      this.workpadState().activeWorkingDirectory!,
     );
+    tab = { ...tab, id: this.tabState().tabs.length };
     this.addNewTabToDraft(tab);
     this.store.dispatch(add({ tab }));
-    console.log('Current tabs stae is ', this.tabState());
-    console.log('Current Active Index ', this.activeIndex());
-    console.log('Current Active Tab ', this.activeTab());
   }
 
   @HostListener('document:keydown.control.Q')
@@ -128,16 +118,6 @@ export class TabsComponent {
     console.log('Current tabs stae is ', this.tabState());
     console.log('Current Active Index ', this.activeIndex());
     console.log('Current Active Tab ', this.activeTab());
-  }
-
-  /**
-   * Generates a randon path which is unique and a new title for the new tab
-   * @returns returns the path and title for a new tab
-   */
-  getNewTabConfig() {
-    let title = `${NEW_TAB_DEFAULT.title} (${this.state.draftNotes.size + 1})`;
-    let path = `${this.workpadState().activeWorkingDirectory}/${uuid4()}`;
-    return { path: path, title: title };
   }
 
   /**
@@ -165,56 +145,10 @@ export class TabsComponent {
       } as TabViewCloseEvent);
   }
 
-  /**
-   * All things needs to be done to create a new tab
-   */
-  newTabActions(
-    id: number,
-    new_path: string,
-    file_name: string,
-    isNewTab: boolean,
-  ): Tab {
-    let tab: Tab = {
-      ...NEW_TAB_DEFAULT,
-      id: id,
-      title: file_name,
-      path: new_path,
-      isNewTab: isNewTab,
-    };
-    this.activeTabChangeActions(tab);
-    return tab;
-  }
-
-  /**
-   * Actions needs to be done while switching a tab
-   * Actions
-   * 1. Set current tab as inactive . selective false
-   * 2. Set the new tab as activetab. update the service for current active tab
-   * 3. Emit event for tab change.
-   * 4. update openedTabsize if changed
-   */
-  activeTabChangeActions(tab: Tab) {
-    let config: WorkpadState = {
-      activeWorkingDirectory: this.workpadState().activeWorkingDirectory,
-      activeWorkingFileName: tab.title,
-      activeWorkpadFilePath: tab.path,
-    };
-    this.store.dispatch(updateWorkpadConfig({ workpadState: config }));
-  }
 
   tabCloseOptimized(event: TabViewCloseEvent) {
     this.store.dispatch(closeTab({ id: event.index }));
     console.log('Tab Closed event called ', event);
-  }
-
-  /**
-   * This handles the tabs close event.
-   * Scenarios -> Current Active tabs is closed , non-active tab is closed , last tab is closed
-   * @param event TabViewCloseEvent
-   */
-  tabClose(event: TabViewCloseEvent) {
-    this.store.dispatch(closeTab({id:event.index}))
-    this.activeTabChangeActions(this.activeTab()!);
   }
 
 
@@ -224,9 +158,8 @@ export class TabsComponent {
    */
   handleTabIndexChange(index: number) {
     if (!this.wasTabClosed) {
-      let tab = this.store.selectSignal(selectTabById(index))()
-      this.activeTabChangeActions(tab!);
-      this.store.dispatch(currentTabChanged({ tab:tab! }));
+      let tab = this.store.selectSignal(selectTabById(index))();
+      this.store.dispatch(currentTabChanged({ tab: tab! }));
     }
     this.wasTabClosed = false;
   }

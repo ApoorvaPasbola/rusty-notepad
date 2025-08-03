@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { RustyViewComponent } from './modules/ui-elements/rusty-view/rusty-view.component';
 import { StoreModule } from '@ngrx/store';
 import { tabReducer } from './state/reducers/tabs-state-reducers';
-import { appReducer } from './state/reducers/app-state-reducers';
 
 
 @NgModule({
