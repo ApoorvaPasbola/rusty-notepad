@@ -8,5 +8,4 @@ export interface NotepadEvents {
 export enum AppEvents {
   TAB_CREATE,
   WORKPAD_SAVE_REQUEST,
-  APP_OPEN_DIR
 }
