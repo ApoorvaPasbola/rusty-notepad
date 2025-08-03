@@ -1,5 +1,5 @@
 import { Injectable, Signal } from '@angular/core';
-import { DraftNotes, Tab } from '../../utilities/interfaces/Tab';
+import { Tab } from '../../utilities/interfaces/Tab';
 import { filter, Subject } from 'rxjs';
 import {  NotepadEvents } from '../../utilities/interfaces/Events';
 import { readFile } from '../../common/FileUtils';
@@ -22,10 +22,6 @@ export class RustyStateService {
   appState: Signal<TabState>
 
   currentOpendFilePath:string = ""
-  /**
-   * Unsaved Draft Notes state 
-   */
-  draftNotes: Map<string, DraftNotes> = new Map();
 
   constructor(private store: Store) {
     this.appState = this.store.selectSignal(selectAppState);

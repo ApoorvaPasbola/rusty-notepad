@@ -50,14 +50,6 @@ export class WorkpadComponent implements OnDestroy {
       this.isQuillDocument(event)
       this.saveDraft()
     }));
-    this.subs.push(this.state.notepadEvents$.pipe(
-      filter(event =>
-        event.type == AppEvents.WORKPAD_UPDATE
-      )).subscribe((event) => {
-        if (event.type == AppEvents.WORKPAD_UPDATE) {
-          this.loadDataFromFile();
-        }
-      }));
   }
 
   ngOnDestroy() {

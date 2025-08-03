@@ -38,14 +38,6 @@ export class FolderTreeComponent implements OnDestroy {
         this.root = ele;
       }),
     );
-
-    this.subs$.push(
-      this.state.notepadEvents$
-        .pipe(filter((event) => event.type == AppEvents.APP_OPEN_DIR))
-        .subscribe((event) => {
-          this.fsService.initialize_Explorer(event.path!);
-        }),
-    );
   }
 
   ngOnDestroy(): void {

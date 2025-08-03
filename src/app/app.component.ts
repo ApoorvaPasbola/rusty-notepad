@@ -1,6 +1,5 @@
 import { Component, HostListener, inject, Signal } from '@angular/core';
 import { open } from '@tauri-apps/api/dialog';
-import { AppEvents } from './modules/utilities/interfaces/Events';
 import { RustyStateService } from './modules/services/rusty/rusty-state.service';
 import { WorkpadStateService } from './modules/services/workpad/workpad-state.service';
 import { Store } from '@ngrx/store';
@@ -37,10 +36,6 @@ export class AppComponent {
       (path) => {
         if (typeof path == 'string') {
           this.store.dispatch(updateWorkpadConfig({workpadState: {...this.workpadState(), activeWorkingDirectory: path}}))
-          this.state.notepadEvents$.next({
-            path: path,
-            type: AppEvents.APP_OPEN_DIR
-          })
         }
       },
       (_) => console.error(_));

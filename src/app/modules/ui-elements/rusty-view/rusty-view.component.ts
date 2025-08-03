@@ -51,10 +51,6 @@ export class RustyViewComponent {
   }
 
   emitOpenDirectoryEvent(path: string | undefined) {
-    this.state.notepadEvents$.next({
-      path: path,
-      type: AppEvents.APP_OPEN_DIR
-    })
     this.store.dispatch(updateWorkpadConfig({workpadState: {activeWorkingDirectory:path, activeWorkingFileName:undefined, activeWorkpadFilePath:undefined}}));
   }
 

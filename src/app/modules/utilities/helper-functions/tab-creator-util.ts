@@ -11,3 +11,9 @@ import { Tab } from "../interfaces/Tab";
     let path = `${activeWorkingDirectory}/${uuid4()}`;
     return { path, title } as Tab;
   }
+
+   export function buildNewTab(id:number, activeWorkingDirectory:string): Tab {
+    let title = `${NEW_TAB_DEFAULT.title} (${id + 1})`;
+    let path = `${activeWorkingDirectory}/${uuid4()}`;
+    return { path, title ,id} as Tab;
+  }

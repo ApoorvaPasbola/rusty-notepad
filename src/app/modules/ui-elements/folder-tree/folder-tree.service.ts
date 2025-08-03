@@ -1,7 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
 import { FileSystemItem, mapFileSystemItem2Node, mapFileSystemItem2NodeList, Node } from '../../utilities/interfaces/Node';
 import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { WorkpadState } from '../../../state';
+import { workpadState } from '../../../state/selectors/tabs-state-selectors';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +14,12 @@ export class FolderTreeService {
   rootNode = new Subject<Node | undefined>();
   ROOT_NAME: string = '';
 
-  constructor() { }
+
+  constructor(private store:Store) { 
+    this.store.select(workpadState).subscribe((state: WorkpadState) => {
+      this.initialize_Explorer(state.activeWorkingDirectory);
+  })
+}
 
   /**
    * The path to load on the file-explorer .TODO: Ideally this should come from the Input variable but as for now this works :p

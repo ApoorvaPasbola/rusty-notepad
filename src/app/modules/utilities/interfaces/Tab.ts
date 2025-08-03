@@ -8,10 +8,3 @@ export interface Tab {
   isNewTab:boolean,
   content?:string
 }
-
-
-export interface DraftNotes {
-  draftId:number
-  tab: Tab,
-  content: string,
-}

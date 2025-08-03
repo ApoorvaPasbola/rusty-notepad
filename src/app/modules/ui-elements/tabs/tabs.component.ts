@@ -1,7 +1,7 @@
 import { Component, computed, HostListener, Signal } from '@angular/core';
 import { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';
 import { CommonModule, KeyValue, NgFor, NgIf } from '@angular/common';
-import { DraftNotes, Tab } from '../../utilities/interfaces/Tab';
+import { Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { filter } from 'rxjs';
@@ -17,10 +17,11 @@ import {
   add,
   closeTab,
   currentTabChanged,
-  updateWorkpadConfig,
 } from '../../../state/actions/actions';
 import { TabState, WorkpadState } from '../../../state';
-import { getNewTabConfig } from '../../utilities/helper-functions/tab-creator-util';
+import {
+  buildNewTab,
+} from '../../utilities/helper-functions/tab-creator-util';
 
 @Component({
   selector: 'app-tabs',
@@ -68,35 +69,29 @@ export class TabsComponent {
       });
   }
 
-  /**
-   * Switch to next Tab on control + tab event
-   */
-  // @HostListener('document:keydown.control.tab')
-  // changeTab() {
-  //   // TODO: if the current tab is a new tab then emit event to save the draft in the local store ??
-
-  //   this.activeTabChangeActions(tab);
-  // }
-
   newTab(tabEvent: NotepadEvents) {
     if (!tabEvent.file_name || !tabEvent.path) {
       this.createBlankTab();
       return;
     }
+
     let openedTab: Tab | undefined = this.tabState().tabs.find(
       (t) => t.path === tabEvent.path && t.title === tabEvent.file_name,
     );
-    if (!openedTab) {
-      let tab: Tab = { ...NEW_TAB_DEFAULT,
-        id:this.tabState().tabs.length,
-        path:tabEvent.path,
-        title:tabEvent.file_name,
-        isNewTab: false    
-    }
-      this.store.dispatch(add({ tab }));
-    } else {
+
+    if (openedTab) {
       this.store.dispatch(currentTabChanged({ tab: openedTab }));
+      return;
     }
+
+    let tab: Tab = {
+      ...NEW_TAB_DEFAULT,
+      id: this.tabState().tabs.length,
+      path: tabEvent.path,
+      title: tabEvent.file_name,
+      isNewTab: false,
+    };
+    this.store.dispatch(add({ tab }));
   }
 
   /**
@@ -104,12 +99,10 @@ export class TabsComponent {
    */
   @HostListener('document:keydown.control.N')
   createBlankTab() {
-    let tab = getNewTabConfig(
+    let tab = buildNewTab(
       this.tabState().tabs.length,
       this.workpadState().activeWorkingDirectory!,
     );
-    tab = { ...tab, id: this.tabState().tabs.length };
-    this.addNewTabToDraft(tab);
     this.store.dispatch(add({ tab }));
   }
 
@@ -118,20 +111,6 @@ export class TabsComponent {
     console.log('Current tabs stae is ', this.tabState());
     console.log('Current Active Index ', this.activeIndex());
     console.log('Current Active Tab ', this.activeTab());
-  }
-
-  /**
-   * Adds the new unsaved tab to the state in the draftsNotes object . This is used to
-   * maintain the state of the application on switching tabs on unsaved tabs.
-   * @param tab
-   */
-  addNewTabToDraft(tab: Tab) {
-    let draftNote: DraftNotes = {
-      tab: tab,
-      draftId: this.state.draftNotes.size + 1,
-      content: '',
-    };
-    this.state.draftNotes.set(draftNote.tab.path, draftNote);
   }
 
   /**
@@ -145,12 +124,10 @@ export class TabsComponent {
       } as TabViewCloseEvent);
   }
 
-
   tabCloseOptimized(event: TabViewCloseEvent) {
     this.store.dispatch(closeTab({ id: event.index }));
     console.log('Tab Closed event called ', event);
   }
-
 
   /**
    * Handles tabs change Event
