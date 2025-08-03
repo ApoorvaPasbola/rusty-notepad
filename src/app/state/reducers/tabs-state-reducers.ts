@@ -16,27 +16,48 @@ export const initialState: TabState = {
 // TABS Reducers 
 export const tabReducer = createReducer(
     initialState,
-    on(add, (state, { tab }) => (addNewTab(state, tab))),
-    on(closeTab, (state, { id }) => ({
+    on(add, (state, { tab }) => addNewTab(state, tab)),
+    on(closeTab, (state, { id }) => closeTabReducer(state, id)),
+    on(clear, () => initialState),
+    on(tittleChanged, (state, { tab }) => tittleChangedReducer(state, tab)),
+    on(currentTabChanged, (state, { tab }) => updateOldTabInactive(state, tab)),
+    on(updateWorkpadConfig, (state, { workpadState }) => updateWorkpadConfigReducer(state, workpadState)),
+    on(updateTabData, (state, { data }) => updateTabDataReducer(state, data))
+);
+
+// Modular reducer functions
+
+function closeTabReducer(state: TabState, id: number): TabState {
+    return {
         ...state,
         currentTab: getNewTab(state, id),
-        tabs: state.tabs.filter((p) => id != p.id),
-    })),
-    on(clear, () => initialState),
-    on(tittleChanged, (state, { tab }) => ({
+        tabs: state.tabs.filter(tab => tab.id !== id),
+    };
+}
+
+function tittleChangedReducer(state: TabState, updatedTab: Tab): TabState {
+    return {
         ...state,
-        tabs: state.tabs.map(t => {
-            if (t.id === tab.id) return tab
-            else return t;
-        }),
-    })),
-    on(currentTabChanged, (state, { tab }) => (updateOldTabInactive(state, tab))),
-    on(updateWorkpadConfig, (state, { workpadState }) => ({ ...state, workpadState })),
-    on(updateTabData, (state, {data})=>({
+        tabs: state.tabs.map(tab =>
+            tab.id === updatedTab.id ? updatedTab : tab
+        ),
+    };
+}
+
+function updateTabDataReducer(state: TabState, data: any): TabState {
+    if (!state.currentTab) return state;
+    return {
         ...state,
-        currentTab: {...state.currentTab!, content: data}
-    }))
-);
+        currentTab: { ...state.currentTab, content: data }
+    };
+}
+
+function updateWorkpadConfigReducer(state: TabState, workpadState: TabState['workpadState']): TabState {
+    return {
+        ...state,
+        workpadState
+    };
+}
 
 function updateOldTabInactive(state: TabState, tab: Tab): TabState {
     return {

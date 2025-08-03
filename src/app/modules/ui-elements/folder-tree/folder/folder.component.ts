@@ -20,7 +20,6 @@ export class FolderComponent {
   @Input() folders!: Node[];
 
   constructor(private fs: FolderTreeService, private state:RustyStateService) {
-    
   }
 
   readFile(file: Node) {

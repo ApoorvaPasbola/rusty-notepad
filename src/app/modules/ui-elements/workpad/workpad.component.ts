@@ -16,7 +16,7 @@ import { basename } from '@tauri-apps/api/path';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
 import { WorkpadState } from '../../../state';
 import { Store } from '@ngrx/store';
-import { currentTab, workpadState } from '../../../state/selectors/selectors';
+import { currentTab, workpadState } from '../../../state/selectors/tabs-state-selectors';
 import { updateWorkpadConfig } from '../../../state/actions/actions';
 import { Tab } from '../../utilities/interfaces/Tab';
 @Component({
@@ -52,17 +52,10 @@ export class WorkpadComponent implements OnDestroy {
     }));
     this.subs.push(this.state.notepadEvents$.pipe(
       filter(event =>
-        event.type == AppEvents.WORKPAD_SAVE_REQUEST ||
-        event.type == AppEvents.WORKPAD_SAVE_RESPONSE ||
         event.type == AppEvents.WORKPAD_UPDATE
       )).subscribe((event) => {
-
         if (event.type == AppEvents.WORKPAD_UPDATE) {
           this.loadDataFromFile();
-        }
-        else if (event.type == AppEvents.WORKPAD_SAVE_RESPONSE) {
-          // TODO: This needs to handle UI pop with save successfull or failed. The data contains the response from the backend or service
-          console.debug("Event data ", event.data);
         }
       }));
   }

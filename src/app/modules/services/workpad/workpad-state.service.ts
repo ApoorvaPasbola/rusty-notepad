@@ -2,10 +2,10 @@ import { Injectable, OnDestroy, Signal } from '@angular/core';
 import { RustyStateService } from '../rusty/rusty-state.service';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
 import { invoke } from '@tauri-apps/api';
-import { filter, pipe, Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { WorkpadState } from '../../../state';
-import { currentTab, workpadState } from '../../../state/selectors/selectors';
+import { currentTab, workpadState } from '../../../state/selectors/tabs-state-selectors';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { currentTabChanged, tittleChanged } from '../../../state/actions/actions';
 
@@ -38,7 +38,7 @@ export class WorkpadStateService implements OnDestroy {
     handleWorkpadEvents(event: NotepadEvents) {
       switch (event.type) {
         case AppEvents.WORKPAD_SAVE_REQUEST:
-          this.handleSaveFile(event, AppEvents.WORKPAD_SAVE_RESPONSE);
+          this.handleSaveFile(event);
           // Emit a tab change event only if the file path is different and title is New Tab
           if (
             this.currentTab()?.path !=
@@ -55,22 +55,10 @@ export class WorkpadStateService implements OnDestroy {
       }
     }
 
-    handleSaveFile(event: NotepadEvents, eventType: AppEvents) {
+    handleSaveFile(event: NotepadEvents) {
       this.saveFile(event).then(
-        (resolved) => {
-          this.state.notepadEvents$.next({
-            ...event,
-            type: eventType,
-            data: resolved,
-          });
-        },
-        (reject) => {
-          this.state.notepadEvents$.next({
-            ...event,
-            type: eventType,
-            data: reject,
-          });
-        },
+        (_) => console.info("File Saved successfully"), 
+        (reject) =>  console.error("File Saved Failed", reject),
       );
     }
   

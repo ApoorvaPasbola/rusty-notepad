@@ -5,7 +5,7 @@ import { RustyStateService } from './modules/services/rusty/rusty-state.service'
 import { WorkpadStateService } from './modules/services/workpad/workpad-state.service';
 import { Store } from '@ngrx/store';
 import { WorkpadState } from './state';
-import { workpadState } from './state/selectors/selectors';
+import { workpadState } from './state/selectors/tabs-state-selectors';
 import { updateWorkpadConfig } from './state/actions/actions';
 
 @Component({

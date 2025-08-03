@@ -13,7 +13,7 @@ import {
   selectAppState,
   selectTabById,
   workpadState,
-} from '../../../state/selectors/selectors';
+} from '../../../state/selectors/tabs-state-selectors';
 import {
   add,
   closeTab,
@@ -59,17 +59,13 @@ export class TabsComponent {
       .pipe(
         filter(
           (event) =>
-            event.type === AppEvents.TAB_CREATE ||
-            event.type === AppEvents.TAB_TITLE_CHANGE,
+            event.type === AppEvents.TAB_CREATE 
         ),
       )
       .subscribe((event) => {
         switch (event.type) {
           case AppEvents.TAB_CREATE:
             this.newTab(event);
-            break;
-          case AppEvents.TAB_TITLE_CHANGE:
-            // this.openedTabs.set('', this.activeTab()!);
             break;
           default:
             break;

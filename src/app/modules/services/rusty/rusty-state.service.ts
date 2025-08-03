@@ -6,7 +6,7 @@ import { readFile } from '../../common/FileUtils';
 import { Store } from '@ngrx/store';
 import {  updateTabData, updateWorkpadConfig } from '../../../state/actions/actions';
 import { TabState } from '../../../state';
-import {  currentTab, selectAppState } from '../../../state/selectors/selectors';
+import {  currentTab, selectAppState } from '../../../state/selectors/tabs-state-selectors';
 
 @Injectable({
   providedIn: 'root'
