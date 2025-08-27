@@ -41,7 +41,7 @@ export class TabsComponent {
 
   activeIndex = computed(() => {
     if (this.activeTab()) return this.activeTab()?.id!;
-    else return null; // TODO: Might be an issue ???
+    else return null;
   });
 
   constructor(
@@ -106,6 +106,15 @@ export class TabsComponent {
     console.log('Current tabs stae is ', this.tabState());
     console.log('Current Active Index ', this.activeIndex());
     console.log('Current Active Tab ', this.activeTab());
+  }
+  
+  @HostListener('document:keydown.control.Tab')
+  changeTab() {
+    if (this.activeIndex() != null && this.activeIndex()! >= 0) {
+      let newTabIndex = (this.activeIndex()! + 1) % this.tabState().tabs.length;
+      let tab = this.store.selectSignal(selectTabById(newTabIndex))();
+     this.store.dispatch(setCurrentTabTo({ tab: tab! }));
+    }
   }
 
   /**

@@ -96,7 +96,6 @@ function updateWorkpadConfigReducer(
 function updateCurrentTab(state: TabState, newCurrentTab: Tab): TabState {
   newCurrentTab = { ...newCurrentTab, selected: true } as Tab;
   return {
-    ...state,
     workpadState: {
       ...state.workpadState,
       activeWorkingFileName: newCurrentTab.title,
