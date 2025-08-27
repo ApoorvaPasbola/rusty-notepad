@@ -1,5 +1,5 @@
 <div *ngIf="activeIndex() !=null && activeIndex()! >=0"  >
-  <p-tabView (onClose)="tabCloseOptimized($event)" [scrollable]="true" (activeIndexChange)="handleTabIndexChange($event)" [activeIndex]="activeIndex()!" >
+  <p-tabView (onClose)="tabClose($event)" [scrollable]="true" (activeIndexChange)="handleTabIndexChange($event)" [activeIndex]="activeIndex()!" >
     <p-tabPanel *ngFor="let tab of tabState().tabs| keyvalue : idBasedOrder  "  [closable]="tab.value.isClosable">
         <!-- HEADER -->
         <ng-template pTemplate="header">

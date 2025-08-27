@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { createReducer, on, select } from '@ngrx/store';
 import {
   add,
   clear,
@@ -38,16 +38,20 @@ export const tabReducer = createReducer(
 // Modular reducer functions
 
 function closeTabReducer(state: TabState, id: number): TabState {
-    let tab = getNewTab(state, id);
+  let tab = { ...getNewTab(state, id), selected: true } as Tab | null;
+  let tabs = state.tabs.filter((tab) => tab.id !== id);
+  tabs = tabs.map((t) => {
+    if (t.id === tab?.id) return { ...t, selected: true } as Tab;
+    else return t;
+  });
   return {
-    ...state,
     currentTab: tab,
     workpadState: {
       ...state.workpadState,
       activeWorkingFileName: tab?.title,
       activeWorkpadFilePath: tab?.path,
     },
-    tabs: state.tabs.filter((tab) => tab.id !== id),
+    tabs: tabs,
   };
 }
 
@@ -90,10 +94,9 @@ function updateCurrentTab(state: TabState, newCurrentTab: Tab): TabState {
     tabs: state.tabs.map((t) => {
       if (t.id === state.currentTab?.id) {
         return { ...t, selected: false };
-      } else if( t.id === newCurrentTab.id) {
+      } else if (t.id === newCurrentTab.id) {
         return { ...t, selected: true };
-      }
-        else return t;
+      } else return t;
     }),
     currentTab: newCurrentTab,
   };
@@ -109,7 +112,6 @@ function addNewTab(state: TabState, tab: Tab): TabState {
       else return t;
     });
     return {
-      ...state,
       currentTab: tab,
       tabs: newTabs,
       workpadState: {

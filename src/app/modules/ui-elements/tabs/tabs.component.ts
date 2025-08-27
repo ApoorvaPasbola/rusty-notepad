@@ -114,14 +114,13 @@ export class TabsComponent {
   @HostListener('document:keydown.control.W')
   closeTab() {
     if (this.activeIndex() != null && this.activeIndex()! >= 0)
-      this.tabCloseOptimized({
+      this.tabClose({
         index: this.activeIndex(),
       } as TabViewCloseEvent);
   }
 
-  tabCloseOptimized(event: TabViewCloseEvent) {
+  tabClose(event: TabViewCloseEvent) {
     this.store.dispatch(closeTab({ id: event.index }));
-    console.log('Tab Closed event called ', event);
   }
 
   /**
