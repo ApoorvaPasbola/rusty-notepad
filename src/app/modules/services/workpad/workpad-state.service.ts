@@ -11,7 +11,7 @@ import {
 } from '../../../state/selectors/tabs-state-selectors';
 import { Tab } from '../../utilities/interfaces/Tab';
 import {
-  currentTabChanged,
+  setCurrentTabTo,
   tittleChanged,
 } from '../../../state/actions/actions';
 
@@ -56,7 +56,7 @@ export class WorkpadStateService implements OnDestroy {
         title: this.workpadState().activeWorkingFileName!,
         path: this.workpadState().activeWorkpadFilePath!,
       };
-      this.store.dispatch(currentTabChanged({ tab }));
+      this.store.dispatch(setCurrentTabTo({ tab }));
       this.store.dispatch(tittleChanged({ tab }));
     }
   }

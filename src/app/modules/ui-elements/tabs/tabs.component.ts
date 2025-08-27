@@ -16,7 +16,7 @@ import {
 import {
   add,
   closeTab,
-  currentTabChanged,
+  setCurrentTabTo,
 } from '../../../state/actions/actions';
 import { TabState, WorkpadState } from '../../../state';
 import {
@@ -33,17 +33,12 @@ import {
 export class TabsComponent {
   wasTabClosed: boolean = false;
 
-  /**
-   * This takes a list of tabs from the service which reads all the files
-   */
   workpadState: Signal<WorkpadState>;
 
   tabState: Signal<TabState>;
   activeTab: Signal<Tab | null>;
 
-  /**
-   * This is use to toggle active tab on Ctrl + Tab event
-   */
+
   activeIndex = computed(() => {
     if (this.activeTab()) return this.activeTab()?.id!;
     else return null; // TODO: Might be an issue ???
@@ -80,7 +75,7 @@ export class TabsComponent {
     );
 
     if (openedTab) {
-      this.store.dispatch(currentTabChanged({ tab: openedTab }));
+      this.store.dispatch(setCurrentTabTo({ tab: openedTab }));
       return;
     }
 
@@ -136,7 +131,7 @@ export class TabsComponent {
   handleTabIndexChange(index: number) {
     if (!this.wasTabClosed) {
       let tab = this.store.selectSignal(selectTabById(index))();
-      this.store.dispatch(currentTabChanged({ tab: tab! }));
+      this.store.dispatch(setCurrentTabTo({ tab: tab! }));
     }
     this.wasTabClosed = false;
   }

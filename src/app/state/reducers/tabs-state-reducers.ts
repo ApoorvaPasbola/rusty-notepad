@@ -3,9 +3,8 @@ import {
   add,
   clear,
   closeTab,
-  currentTabChanged,
+  setCurrentTabTo,
   tittleChanged,
-  updateAll,
   updateTabData,
   updateWorkpadConfig,
 } from '../actions/actions';
@@ -29,7 +28,7 @@ export const tabReducer = createReducer(
   on(closeTab, (state, { id }) => closeTabReducer(state, id)),
   on(clear, () => initialState),
   on(tittleChanged, (state, { tab }) => tittleChangedReducer(state, tab)),
-  on(currentTabChanged, (state, { tab }) => updateOldTabInactive(state, tab)),
+  on(setCurrentTabTo, (state, { tab }) => updateCurrentTab(state, tab)),
   on(updateWorkpadConfig, (state, { workpadState }) =>
     updateWorkpadConfigReducer(state, workpadState),
   ),
@@ -79,20 +78,24 @@ function updateWorkpadConfigReducer(
   };
 }
 
-function updateOldTabInactive(state: TabState, tab: Tab): TabState {
+function updateCurrentTab(state: TabState, newCurrentTab: Tab): TabState {
+  newCurrentTab = { ...newCurrentTab, selected: true } as Tab;
   return {
     ...state,
     workpadState: {
       ...state.workpadState,
-      activeWorkingFileName: tab.title,
-      activeWorkpadFilePath: tab.path,
+      activeWorkingFileName: newCurrentTab.title,
+      activeWorkpadFilePath: newCurrentTab.path,
     },
     tabs: state.tabs.map((t) => {
       if (t.id === state.currentTab?.id) {
         return { ...t, selected: false };
-      } else return t;
+      } else if( t.id === newCurrentTab.id) {
+        return { ...t, selected: true };
+      }
+        else return t;
     }),
-    currentTab: tab,
+    currentTab: newCurrentTab,
   };
 }
 

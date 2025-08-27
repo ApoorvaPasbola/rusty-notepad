@@ -12,7 +12,7 @@ const TITLE_UPDATED_TAB_EVENT = '[ApplicationState] Add New Tab';
 export const tittleChanged = createAction(TITLE_UPDATED_TAB_EVENT,props<{tab:Tab}>());
 
 const UPDATE_CURRENT_TAB_EVENT = '[ApplicationState] Update Current Tab';
-export const currentTabChanged = createAction(UPDATE_CURRENT_TAB_EVENT,props<{tab:Tab}>());
+export const setCurrentTabTo = createAction(UPDATE_CURRENT_TAB_EVENT,props<{tab:Tab}>());
 
 const CLOSE_TAB_EVENT = '[ApplicationState] Remove Tab';
 export const closeTab = createAction(CLOSE_TAB_EVENT,props<{id:number}>());
