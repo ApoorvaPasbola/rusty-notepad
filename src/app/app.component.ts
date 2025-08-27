@@ -1,10 +1,11 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, Signal } from '@angular/core';
 import { open } from '@tauri-apps/api/dialog';
-import { AppEvents } from './modules/utilities/interfaces/Events';
 import { RustyStateService } from './modules/services/rusty/rusty-state.service';
-import { FsStateService } from './modules/services/fs/fs-state.service';
-import { TabsService } from './modules/services/tabs/tabs.service';
 import { WorkpadStateService } from './modules/services/workpad/workpad-state.service';
+import { Store } from '@ngrx/store';
+import { WorkpadState } from './state';
+import { workpadState } from './state/selectors/tabs-state-selectors';
+import { updateWorkpadConfig } from './state/actions/actions';
 
 @Component({
   selector: 'app-root',
@@ -13,16 +14,14 @@ import { WorkpadStateService } from './modules/services/workpad/workpad-state.se
 })
 export class AppComponent {
 
-  fsServcice:FsStateService
-  tabsService:TabsService
   workpadService:WorkpadStateService
+  workpadState:Signal<WorkpadState>
   
-  constructor(private state:RustyStateService) { 
+  constructor(private state:RustyStateService,private store:Store) { 
+    this.workpadState = this.store.selectSignal(workpadState)
     /**
      * Injecting basic services which are used all over the application 
      */
-    this.fsServcice = inject(FsStateService)
-    this.tabsService = inject(TabsService)
     this.workpadService = inject(WorkpadStateService)
 
   }
@@ -30,18 +29,13 @@ export class AppComponent {
   @HostListener('document:keydown.control.O')
   openDirectory() {
     open({
-      defaultPath: this.state.currentWorkingDirectory(),
+      defaultPath: this.workpadState().activeWorkingDirectory,
       multiple: false,
       directory: true,
     }).then(
       (path) => {
-        console.debug('Opening Path ', path)
         if (typeof path == 'string') {
-          this.state.currentWorkingDirectory.set(path);
-          this.state.notepadEvents$.next({
-            path: path,
-            type: AppEvents.APP_OPEN_DIR
-          })
+          this.store.dispatch(updateWorkpadConfig({workpadState: {...this.workpadState(), activeWorkingDirectory: path}}))
         }
       },
       (_) => console.error(_));

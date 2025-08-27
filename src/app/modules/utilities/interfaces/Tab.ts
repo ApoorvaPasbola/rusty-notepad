@@ -5,12 +5,6 @@ export interface Tab {
   selected: boolean,
   path: string,
   isSaved?: boolean,
-  isNewTab:boolean
-}
-
-
-export interface DraftNotes {
-  draftId:number
-  tab: Tab,
-  content: string,
+  isNewTab:boolean,
+  content?:string
 }

@@ -20,14 +20,13 @@ export class FolderComponent {
   @Input() folders!: Node[];
 
   constructor(private fs: FolderTreeService, private state:RustyStateService) {
-    
   }
 
   readFile(file: Node) {
     this.state.notepadEvents$.next({
       file_name: file.name,
       path: file.path,
-      type: AppEvents.FILE_SYSTEM_READ
+      type: AppEvents.TAB_CREATE
     })
   }
 

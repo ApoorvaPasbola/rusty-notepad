@@ -2,8 +2,9 @@ import {
   Component,
   HostListener,
   OnDestroy,
+  Signal,
 } from '@angular/core';
-import { CommonModule, NgStyle } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { EditorInitEvent, EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 import Quill from 'quill';
@@ -13,54 +14,46 @@ import { AppEvents } from '../../utilities/interfaces/Events';
 import { save } from '@tauri-apps/api/dialog';
 import { basename } from '@tauri-apps/api/path';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
+import { WorkpadState } from '../../../state';
+import { Store } from '@ngrx/store';
+import { currentTab, workpadState } from '../../../state/selectors/tabs-state-selectors';
+import { updateWorkpadConfig } from '../../../state/actions/actions';
+import { Tab } from '../../utilities/interfaces/Tab';
 @Component({
   selector: 'app-workpad',
   standalone: true,
-  imports: [CommonModule, EditorModule, FormsModule, NgStyle],
+  imports: [CommonModule, EditorModule, FormsModule],
   templateUrl: './workpad.component.html',
   styleUrl: './workpad.component.scss',
 })
 export class WorkpadComponent implements OnDestroy {
 
-  /**
-   * Takes input string from tabs . Which reads data from the file
-   */
-  workpadContent!: string;
   supportsQuill: boolean = false;
   contentChange$ = new Subject<string>();
-
-  subs:Subscription[] = [];
+  workpadState: Signal<WorkpadState>
+  currentTab: Tab | null = null;
+  subs: Subscription[] = [];
 
   /**
    * Quill Editor object to access the internal apis
    */
   private quill!: Quill;
 
-  constructor(private state: RustyStateService) {
-    this.subs.push(this.state.currentWorkbookContent$.subscribe(value => this.workpadContent = value));
+  constructor(private state: RustyStateService, private store: Store) {
+    this.store.select(currentTab).subscribe((next)=> {
+      this.currentTab = next
+      this.loadDataFromFile();
+    });
+    this.workpadState = this.store.selectSignal(workpadState);
+
     this.subs.push(this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => {
       this.isQuillDocument(event)
       this.saveDraft()
     }));
-    this.subs.push(this.state.notepadEvents$.pipe(
-      filter(event =>
-        event.type == AppEvents.WORKPAD_SAVE_REQUEST ||
-        event.type == AppEvents.WORKPAD_SAVE_RESPONSE ||
-        event.type == AppEvents.WORKPAD_UPDATE
-      )).subscribe((event) => {
-
-        if (event.type == AppEvents.WORKPAD_UPDATE) {
-          this.loadDataFromFile();
-        }
-        else if (event.type == AppEvents.WORKPAD_SAVE_RESPONSE) {
-          // TODO: This needs to handle UI pop with save successfull or failed. The data contains the response from the backend or service
-          console.debug("Event data ", event.data);
-        }
-      }));
   }
 
   ngOnDestroy() {
-    this.subs.forEach(sub=>sub.unsubscribe());
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 
   /**
@@ -83,8 +76,8 @@ export class WorkpadComponent implements OnDestroy {
   loadDataFromFile() {
     if (this.quill) {
       let delta;
-      try {
-        delta = new Delta(JSON.parse(this.workpadContent));
+      try {      
+        delta = new Delta(JSON.parse(this.currentTab?.content!));
         if (!delta.ops.length) {
           throw new Error("Not a Quill Object ");
         }
@@ -95,7 +88,7 @@ export class WorkpadComponent implements OnDestroy {
       } catch (error) {
         console.debug("Loading normal text Object");
 
-        this.quill.setText(this.workpadContent);
+        this.quill.setText(this.currentTab?.content!);
         this.supportsQuill = false;
       }
     }
@@ -106,17 +99,17 @@ export class WorkpadComponent implements OnDestroy {
    */
   @HostListener('document:keydown.control.S')
   startSaveCurrentDraft() {
-    let currentWorkpadPath: string | undefined = this.state.currentWorkpadFilePath();
+    let currentWorkpadPath: string | undefined = this.workpadState().activeWorkpadFilePath;
     if (!currentWorkpadPath || currentWorkpadPath.endsWith(".")) {
-      save({defaultPath: this.state.currentWorkingDirectory(), filters:[{name: "All Files (*)", extensions:["*"]}]}).then(
+      save({ defaultPath: this.workpadState().activeWorkingDirectory, filters: [{ name: "All Files (*)", extensions: ["*"] }] }).then(
         (path) => {
           if (path) {
-            this.state.currentWorkpadFilePath.set(path);
-            basename(path).then(file_name=> {
-              this.state.currentWorkingFileName.set(file_name);
+            basename(path).then(file_name => {
+              let config: WorkpadState = { activeWorkingDirectory: this.workpadState().activeWorkingDirectory, activeWorkingFileName: file_name, activeWorkpadFilePath: path };
+              this.store.dispatch(updateWorkpadConfig({ workpadState: config }))
               this.saveDraft();
             });
-            
+
           } else console.info('Recevied Null path', path);
         },
         (_) => {
