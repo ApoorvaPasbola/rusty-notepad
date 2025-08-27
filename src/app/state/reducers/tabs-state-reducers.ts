@@ -39,6 +39,17 @@ export const tabReducer = createReducer(
 
 function closeTabReducer(state: TabState, id: number): TabState {
   let tab = { ...getNewTab(state, id), selected: true } as Tab | null;
+  if(!tab?.id){
+    return {
+      currentTab: null,
+      workpadState: {
+        ...state.workpadState,
+        activeWorkingFileName: undefined,
+        activeWorkpadFilePath: undefined,
+      },
+      tabs: [],
+    };
+  }
   let tabs = state.tabs.filter((tab) => tab.id !== id);
   tabs = tabs.map((t) => {
     if (t.id === tab?.id) return { ...t, selected: true } as Tab;
