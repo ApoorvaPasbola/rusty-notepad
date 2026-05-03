@@ -10,7 +10,7 @@ export class FolderTreeService {
 
   workspace = new BehaviorSubject<Node[]>([]);
   rootNode = new BehaviorSubject<Node>(DEFAULT_NODE);
-  ROOT_NAME:string = '';
+  ROOT_NAME: string = '';
   private BASE_PATH: string = environment.current_directory
 
   constructor() { }
@@ -27,13 +27,13 @@ export class FolderTreeService {
     });
   }
 
-  openDirectory(workspace:Node[], index:number) {
-    if(!workspace[index].isDirectory)
+  openDirectory(workspace: Node[], index: number) {
+    if (!workspace[index].isDirectory)
       return;
 
-    if(!workspace[index].expanded && !workspace[index].nodes?.length)
+    if (!workspace[index].expanded && !workspace[index].nodes?.length)
       this.expandDirectory(workspace[index]);
-    workspace[index].expanded = ! workspace[index].expanded
+    workspace[index].expanded = !workspace[index].expanded
 
   }
 
@@ -42,7 +42,7 @@ export class FolderTreeService {
     invoke<FileSystemItem[]>("read_directory", { path }).then((items: FileSystemItem[]) => {
       items.pop();
       folder.expanded = true;
-      folder.nodes = mapFileSystemItem2NodeList(items, folder.path )
+      folder.nodes = mapFileSystemItem2NodeList(items, folder.path)
     })
   }
 
