@@ -32,8 +32,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/primeng/resources/themes/lara-dark-blue/theme.css"
+              "src/styles.scss"
             ]
           },
           "configurations": {

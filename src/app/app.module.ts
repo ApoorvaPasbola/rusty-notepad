@@ -5,7 +5,8 @@ import { AppComponent } from './app.component';
 import { RustyViewComponent } from './modules/ui-elements/rusty-view/rusty-view.component';
 import { StoreModule } from '@ngrx/store';
 import { tabReducer } from './state/reducers/tabs-state-reducers';
-
+import {providePrimeNG} from "primeng/config";
+import Lara from '@primeuix/themes/lara';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,7 +16,16 @@ import { tabReducer } from './state/reducers/tabs-state-reducers';
     RustyViewComponent,
     StoreModule.forRoot({TabState:tabReducer}),
   ],
-  providers: [],
+  providers: [
+    providePrimeNG({
+      theme: {
+        preset: Lara,
+        options:{
+          darkModeSelector: '.p-dark'
+        }
+      }
+    })
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
