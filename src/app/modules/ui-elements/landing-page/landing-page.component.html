@@ -1,14 +1,23 @@
-<ng-template #landingPageTemplate >
-  <div class="container flex flex-column justify-content-center h-full align-items-center ">
-    <img *ngIf="icon" class="mb-4" style="width: 25%;filter: grayscale(100%);opacity: 0.7;" src="assets/svgs/icon.png" alt="App Icon">
-    <div *ngFor="let command of commands">
-      <div class="m-3 mb-0">
-        {{command.discription}} <span class="ml-2 mr-1 command"> {{command.keys.key}}</span> + <span class="ml-1 command"> {{command.keys.alpha}}</span>
+<ng-template #landingPageTemplate>
+  <div class="container flex flex-column justify-content-center h-full align-items-center">
+    @if (icon) {
+      <img
+        class="mb-4"
+        style="width: 25%; filter: grayscale(100%); opacity: 0.7"
+        src="assets/svgs/icon.png"
+        alt="App Icon"
+      />
+    }
+    @for (command of commands; track command) {
+      <div>
+        <div class="m-3 mb-0">
+          {{ command.discription }} <span class="ml-2 mr-1 command"> {{ command.keys.key }}</span> +
+          <span class="ml-1 command"> {{ command.keys.alpha }}</span>
+        </div>
       </div>
-    </div>
+    }
     <ng-content></ng-content>
   </div>
 </ng-template>
 
-<ng-container *ngTemplateOutlet="landingPageTemplate">
-</ng-container>
+<ng-container *ngTemplateOutlet="landingPageTemplate"> </ng-container>

@@ -1,9 +1,16 @@
-<p-editor (onTextChange)="handleContentChange($event)" (onInit)="initializeEditor($event)" [spellcheck]="false" class="workpad">
-    <ng-template  pTemplate="header">
-        <span *ngIf="showHeader" class="ql-formats">
-            <button type="button" class="ql-bold" aria-label="Bold"></button>
-            <button type="button" class="ql-italic" aria-label="Italic"></button>
-            <button type="button" class="ql-underline" aria-label="Underline"></button>
-        </span>
-    </ng-template>
+<p-editor
+  (onTextChange)="handleContentChange($event)"
+  (onInit)="initializeEditor($event)"
+  [spellcheck]="false"
+  class="workpad"
+>
+  <ng-template pTemplate="header">
+    @if (showHeader) {
+      <span class="ql-formats">
+        <button type="button" class="ql-bold" aria-label="Bold"></button>
+        <button type="button" class="ql-italic" aria-label="Italic"></button>
+        <button type="button" class="ql-underline" aria-label="Underline"></button>
+      </span>
+    }
+  </ng-template>
 </p-editor>

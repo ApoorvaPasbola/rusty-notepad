@@ -1,10 +1,5 @@
-import {
-  Component,
-  HostListener,
-  OnDestroy,
-  Signal,
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, HostListener, OnDestroy, Signal } from '@angular/core';
+
 import { EditorInitEvent, EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 import Quill from 'quill';
@@ -20,16 +15,15 @@ import { currentTab, workpadState } from '../../../state/selectors/tabs-state-se
 import { updateWorkpadConfig } from '../../../state/actions/actions';
 import { Tab } from '../../utilities/interfaces/Tab';
 @Component({
-    selector: 'app-workpad',
-    imports: [CommonModule, EditorModule, FormsModule],
-    templateUrl: './workpad.component.html',
-    styleUrl: './workpad.component.scss'
+  selector: 'app-workpad',
+  imports: [EditorModule, FormsModule],
+  templateUrl: './workpad.component.html',
+  styleUrl: './workpad.component.scss',
 })
 export class WorkpadComponent implements OnDestroy {
-
   supportsQuill: boolean = false;
   contentChange$ = new Subject<string>();
-  workpadState: Signal<WorkpadState>
+  workpadState: Signal<WorkpadState>;
   currentTab: Tab | null = null;
   subs: Subscription[] = [];
 
@@ -38,28 +32,32 @@ export class WorkpadComponent implements OnDestroy {
    */
   private quill!: Quill;
 
-  constructor(private state: RustyStateService, private store: Store) {
-    this.store.select(currentTab).subscribe((next)=> {
-      this.currentTab = next
+  constructor(
+    private state: RustyStateService,
+    private store: Store,
+  ) {
+    this.store.select(currentTab).subscribe((next) => {
+      this.currentTab = next;
       this.loadDataFromFile();
     });
     this.workpadState = this.store.selectSignal(workpadState);
 
-    this.subs.push(this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => {
-      this.isQuillDocument(event)
-      this.saveDraft()
-    }));
+    this.subs.push(
+      this.contentChange$.pipe(debounceTime(1000)).subscribe((event) => {
+        this.isQuillDocument(event);
+        this.saveDraft();
+      }),
+    );
   }
 
   ngOnDestroy() {
-    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs.forEach((sub) => sub.unsubscribe());
   }
 
   /**
    * Toggle to enable/disable header toolbar
    */
   showHeader: boolean = false;
-
 
   /**
    * Triggered when the Quill Editor is initialiezed
@@ -75,17 +73,17 @@ export class WorkpadComponent implements OnDestroy {
   loadDataFromFile() {
     if (this.quill) {
       let delta;
-      try {      
+      try {
         delta = new Delta(JSON.parse(this.currentTab?.content!));
         if (!delta.ops.length) {
-          throw new Error("Not a Quill Object ");
+          throw new Error('Not a Quill Object ');
         }
-        console.debug("Loading Quill Object ");
+        console.debug('Loading Quill Object ');
 
         this.supportsQuill = true;
         this.quill.setContents(delta);
       } catch (error) {
-        console.debug("Loading normal text Object");
+        console.debug('Loading normal text Object');
 
         this.quill.setText(this.currentTab?.content!);
         this.supportsQuill = false;
@@ -99,16 +97,22 @@ export class WorkpadComponent implements OnDestroy {
   @HostListener('document:keydown.control.S')
   startSaveCurrentDraft() {
     let currentWorkpadPath: string | undefined = this.workpadState().activeWorkpadFilePath;
-    if (!currentWorkpadPath || currentWorkpadPath.endsWith(".")) {
-      save({ defaultPath: this.workpadState().activeWorkingDirectory, filters: [{ name: "All Files (*)", extensions: ["*"] }] }).then(
+    if (!currentWorkpadPath || currentWorkpadPath.endsWith('.')) {
+      save({
+        defaultPath: this.workpadState().activeWorkingDirectory,
+        filters: [{ name: 'All Files (*)', extensions: ['*'] }],
+      }).then(
         (path) => {
           if (path) {
-            basename(path).then(file_name => {
-              let config: WorkpadState = { activeWorkingDirectory: this.workpadState().activeWorkingDirectory, activeWorkingFileName: file_name, activeWorkpadFilePath: path };
-              this.store.dispatch(updateWorkpadConfig({ workpadState: config }))
+            basename(path).then((file_name) => {
+              let config: WorkpadState = {
+                activeWorkingDirectory: this.workpadState().activeWorkingDirectory,
+                activeWorkingFileName: file_name,
+                activeWorkpadFilePath: path,
+              };
+              this.store.dispatch(updateWorkpadConfig({ workpadState: config }));
               this.saveDraft();
             });
-
           } else console.info('Recevied Null path', path);
         },
         (_) => {
@@ -118,25 +122,32 @@ export class WorkpadComponent implements OnDestroy {
     } else {
       this.saveDraft();
     }
-
   }
   /**
-   * Saves the current workpad based on the type of document. As json, if its a quill document 
-   * as simple string if a not a quill document. 
-   * Emits a undefined data if the quill api is not present. 
+   * Saves the current workpad based on the type of document. As json, if its a quill document
+   * as simple string if a not a quill document.
+   * Emits a undefined data if the quill api is not present.
    */
   saveDraft() {
     if (this.quill) {
       if (this.supportsQuill) {
-        console.debug("Saving quill Supported Content");
-        return this.state.notepadEvents$.next({ data: JSON.stringify(this.quill.getContents()), type: AppEvents.WORKPAD_SAVE_REQUEST });
-      }
-      else {
-        console.debug("Saving Normal Text Content");
-        return this.state.notepadEvents$.next({ data: this.quill.getText(), type: AppEvents.WORKPAD_SAVE_REQUEST });
+        console.debug('Saving quill Supported Content');
+        return this.state.notepadEvents$.next({
+          data: JSON.stringify(this.quill.getContents()),
+          type: AppEvents.WORKPAD_SAVE_REQUEST,
+        });
+      } else {
+        console.debug('Saving Normal Text Content');
+        return this.state.notepadEvents$.next({
+          data: this.quill.getText(),
+          type: AppEvents.WORKPAD_SAVE_REQUEST,
+        });
       }
     }
-    return this.state.notepadEvents$.next({ data: undefined, type: AppEvents.WORKPAD_SAVE_REQUEST });
+    return this.state.notepadEvents$.next({
+      data: undefined,
+      type: AppEvents.WORKPAD_SAVE_REQUEST,
+    });
   }
 
   async getNewFilePathFromUser(): Promise<string | null> {
@@ -151,10 +162,9 @@ export class WorkpadComponent implements OnDestroy {
    */
   isQuillDocument(event: string) {
     if (event.match(new RegExp('<(ol|em|strong|li|u)\\b[^>]*>.*?</\\1>'))) {
-      this.supportsQuill = true
-    }
-    else {
-      this.supportsQuill = false
+      this.supportsQuill = true;
+    } else {
+      this.supportsQuill = false;
     }
   }
   /**
@@ -164,5 +174,4 @@ export class WorkpadComponent implements OnDestroy {
   handleContentChange(event: EditorTextChangeEvent) {
     this.contentChange$.next(event.htmlValue);
   }
-
 }

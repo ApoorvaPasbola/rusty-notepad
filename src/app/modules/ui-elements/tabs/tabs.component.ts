@@ -1,6 +1,6 @@
 import { Component, computed, HostListener, Signal } from '@angular/core';
 import { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';
-import { CommonModule, KeyValue, NgFor, NgIf } from '@angular/common';
+import { CommonModule, KeyValue } from '@angular/common';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
@@ -13,21 +13,15 @@ import {
   selectTabById,
   workpadState,
 } from '../../../state/selectors/tabs-state-selectors';
-import {
-  add,
-  closeTab,
-  setCurrentTabTo,
-} from '../../../state/actions/actions';
+import { add, closeTab, setCurrentTabTo } from '../../../state/actions/actions';
 import { TabState, WorkpadState } from '../../../state';
-import {
-  buildNewTab,
-} from '../../utilities/helper-functions/tab-creator-util';
+import { buildNewTab } from '../../utilities/helper-functions/tab-creator-util';
 
 @Component({
-    selector: 'app-tabs',
-    templateUrl: './tabs.component.html',
-    styleUrl: './tabs.component.scss',
-    imports: [CommonModule, TabViewModule, NgFor, NgIf]
+  selector: 'app-tabs',
+  templateUrl: './tabs.component.html',
+  styleUrl: './tabs.component.scss',
+  imports: [CommonModule, TabViewModule],
 })
 export class TabsComponent {
   wasTabClosed: boolean = false;
@@ -36,7 +30,6 @@ export class TabsComponent {
 
   tabState: Signal<TabState>;
   activeTab: Signal<Tab | null>;
-
 
   activeIndex = computed(() => {
     if (this.activeTab()) return this.activeTab()?.id!;
@@ -93,10 +86,7 @@ export class TabsComponent {
    */
   @HostListener('document:keydown.control.N')
   createBlankTab() {
-    let tab = buildNewTab(
-      this.tabState().tabs.length,
-      this.workpadState().activeWorkingDirectory!,
-    );
+    let tab = buildNewTab(this.tabState().tabs.length, this.workpadState().activeWorkingDirectory!);
     this.store.dispatch(add({ tab }));
   }
 
@@ -106,13 +96,13 @@ export class TabsComponent {
     console.log('Current Active Index ', this.activeIndex());
     console.log('Current Active Tab ', this.activeTab());
   }
-  
+
   @HostListener('document:keydown.control.Tab')
   changeTab() {
     if (this.activeIndex() != null && this.activeIndex()! >= 0) {
       let newTabIndex = (this.activeIndex()! + 1) % this.tabState().tabs.length;
       let tab = this.store.selectSignal(selectTabById(newTabIndex))();
-     this.store.dispatch(setCurrentTabTo({ tab: tab! }));
+      this.store.dispatch(setCurrentTabTo({ tab: tab! }));
     }
   }
 
@@ -148,10 +138,7 @@ export class TabsComponent {
    * @param a First comparator
    * @param b Second comparator
    */
-  idBasedOrder = (
-    a: KeyValue<string, Tab>,
-    b: KeyValue<string, Tab>,
-  ): number => {
+  idBasedOrder = (a: KeyValue<string, Tab>, b: KeyValue<string, Tab>): number => {
     return a.value.id - b.value.id;
   };
 }

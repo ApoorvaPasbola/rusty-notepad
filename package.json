@@ -14,14 +14,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^20.3.27",
-    "@angular/common": "^20.3.27",
-    "@angular/compiler": "^20.3.27",
-    "@angular/core": "^20.3.27",
-    "@angular/forms": "^20.3.27",
-    "@angular/platform-browser": "^20.3.27",
-    "@angular/platform-browser-dynamic": "^20.3.27",
-    "@angular/router": "^20.3.27",
+    "@angular/animations": "^21.2.19",
+    "@angular/common": "^21.2.19",
+    "@angular/compiler": "^21.2.19",
+    "@angular/core": "^21.2.19",
+    "@angular/forms": "^21.2.19",
+    "@angular/platform-browser": "^21.2.19",
+    "@angular/platform-browser-dynamic": "^21.2.19",
+    "@angular/router": "^21.2.19",
     "@ngrx/store": "^20.1.0",
     "@tauri-apps/api": "^1",
     "primeflex": "^3.3.1",
@@ -34,9 +34,9 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular/build": "^20.3.32",
-    "@angular/cli": "^20.3.32",
-    "@angular/compiler-cli": "^20.3.27",
+    "@angular/build": "^21.2.19",
+    "@angular/cli": "^21.2.19",
+    "@angular/compiler-cli": "^21.2.19",
     "@chromatic-com/storybook": "^1.6.1",
     "@compodoc/compodoc": "^1.1.25",
     "@storybook/addon-docs": "^8.2.2",
@@ -58,6 +58,6 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "storybook": "^8.2.2",
     "storybook-dark-mode": "^4.0.2",
-    "typescript": "~5.8.3"
+    "typescript": "~5.9.3"
   }
 }

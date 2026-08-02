@@ -1,19 +1,30 @@
 <div class="layout h-full">
-
   <app-splitter class="h-full">
     <!--  EXPLORER CONTIANER  -->
     <ng-container>
       <rusty-folder-tree #explorer></rusty-folder-tree>
-      <rusty-landing-page *ngIf="!explorer.fileDirectories" >
-          <p-button (onClick)="openWorkspace()" [style]="{'fontSize':'0.8rem', 'width':'130px','padding':'0.7rem'}" label="Open Directory" [text]="true" [raised]="true" />
-      </rusty-landing-page>
+      @if (!explorer.fileDirectories) {
+        <rusty-landing-page>
+          <p-button
+            (onClick)="openWorkspace()"
+            [style]="{ fontSize: '0.8rem', width: '130px', padding: '0.7rem' }"
+            label="Open Directory"
+            [text]="true"
+            [raised]="true"
+          />
+        </rusty-landing-page>
+      }
     </ng-container>
 
     <!--  WORKPAD Container  -->
     <ng-container panel2 class="w-full">
       <app-tabs class="w-full" #rustyTabs></app-tabs>
-      <app-workpad *ngIf="rustyTabs.activeTab() !=null"></app-workpad>
-      <rusty-landing-page *ngIf="!rustyTabs.activeTab()" [showIcon]="true" [commands]="appCommands"></rusty-landing-page>
+      @if (rustyTabs.activeTab() != null) {
+        <app-workpad></app-workpad>
+      }
+      @if (!rustyTabs.activeTab()) {
+        <rusty-landing-page [showIcon]="true" [commands]="appCommands"></rusty-landing-page>
+      }
     </ng-container>
   </app-splitter>
 </div>
