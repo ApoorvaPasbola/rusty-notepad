@@ -9,11 +9,10 @@ import { AppEvents } from '../../utilities/interfaces/Events';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
 
 @Component({
-  selector: 'rusty-folder-tree',
-  standalone: true,
-  imports: [NgIf, NgFor, NgClass, FolderComponent, UpperCasePipe],
-  templateUrl: './folder-tree.component.html',
-  styleUrl: './folder-tree.component.scss',
+    selector: 'rusty-folder-tree',
+    imports: [NgIf, NgFor, NgClass, FolderComponent, UpperCasePipe],
+    templateUrl: './folder-tree.component.html',
+    styleUrl: './folder-tree.component.scss'
 })
 export class FolderTreeComponent implements OnDestroy {
   fileDirectories!: Node[] | undefined;

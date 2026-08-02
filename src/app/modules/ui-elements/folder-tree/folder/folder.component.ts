@@ -6,14 +6,13 @@ import { AppEvents } from '../../../utilities/interfaces/Events';
 import { RustyStateService } from '../../../services/rusty/rusty-state.service';
 
 @Component({
-  selector: 'rusty-folder',
-  standalone: true,
-  imports: [NgFor, NgIf, NgClass],
-  host: {
-    '[style.list-style-type]': "none"
-  },
-  templateUrl: './folder.component.html',
-  styleUrl: './folder.component.scss'
+    selector: 'rusty-folder',
+    imports: [NgFor, NgIf, NgClass],
+    host: {
+        '[style.list-style-type]': "none"
+    },
+    templateUrl: './folder.component.html',
+    styleUrl: './folder.component.scss'
 })
 export class FolderComponent {
 

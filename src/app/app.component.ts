@@ -8,9 +8,10 @@ import { workpadState } from './state/selectors/tabs-state-selectors';
 import { updateWorkpadConfig } from './state/actions/actions';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    standalone: false
 })
 export class AppComponent {
 

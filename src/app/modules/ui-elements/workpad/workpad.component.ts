@@ -20,11 +20,10 @@ import { currentTab, workpadState } from '../../../state/selectors/tabs-state-se
 import { updateWorkpadConfig } from '../../../state/actions/actions';
 import { Tab } from '../../utilities/interfaces/Tab';
 @Component({
-  selector: 'app-workpad',
-  standalone: true,
-  imports: [CommonModule, EditorModule, FormsModule],
-  templateUrl: './workpad.component.html',
-  styleUrl: './workpad.component.scss',
+    selector: 'app-workpad',
+    imports: [CommonModule, EditorModule, FormsModule],
+    templateUrl: './workpad.component.html',
+    styleUrl: './workpad.component.scss'
 })
 export class WorkpadComponent implements OnDestroy {
 

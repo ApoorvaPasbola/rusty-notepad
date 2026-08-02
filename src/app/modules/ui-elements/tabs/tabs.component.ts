@@ -24,11 +24,10 @@ import {
 } from '../../utilities/helper-functions/tab-creator-util';
 
 @Component({
-  selector: 'app-tabs',
-  templateUrl: './tabs.component.html',
-  styleUrl: './tabs.component.scss',
-  standalone: true,
-  imports: [CommonModule, TabViewModule, NgFor, NgIf],
+    selector: 'app-tabs',
+    templateUrl: './tabs.component.html',
+    styleUrl: './tabs.component.scss',
+    imports: [CommonModule, TabViewModule, NgFor, NgIf]
 })
 export class TabsComponent {
   wasTabClosed: boolean = false;

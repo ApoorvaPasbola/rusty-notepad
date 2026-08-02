@@ -15,19 +15,18 @@ import { Store } from '@ngrx/store';
 import { updateWorkpadConfig } from '../../../state/actions/actions';
 
 @Component({
-  selector: 'app-rusty-view',
-  templateUrl: './rusty-view.component.html',
-  styleUrl: './rusty-view.component.scss',
-  standalone: true,
-  imports: [
-    TabsComponent,
-    WorkpadComponent,
-    SplitterComponent,
-    FolderTreeComponent,
-    NgIf,
-    LandingPageComponent,
-    ButtonModule,
-  ],
+    selector: 'app-rusty-view',
+    templateUrl: './rusty-view.component.html',
+    styleUrl: './rusty-view.component.scss',
+    imports: [
+        TabsComponent,
+        WorkpadComponent,
+        SplitterComponent,
+        FolderTreeComponent,
+        NgIf,
+        LandingPageComponent,
+        ButtonModule,
+    ]
 })
 export class RustyViewComponent {
 
