@@ -1,0 +1,10 @@
+@layer tokens {
+  :root {
+    --duration-fast: 120ms;
+    --duration-base: 220ms;
+    --duration-slow: 400ms;
+    --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  }
+}
+

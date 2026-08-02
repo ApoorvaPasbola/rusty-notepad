@@ -33,7 +33,8 @@
         "save": true
       },
       "path": {
-        "all": true
+        "all": false,
+        "basename": true
       },
       "all": false,
       "shell": {

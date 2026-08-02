@@ -1,0 +1,42 @@
+// Backward-compatible aliases. Kept only so unmigrated CSS keeps working
+// during the rollout. New code must consume `--color-*`, `--space-*`,
+// `--font-*`, `--radius-*` directly.
+
+@layer theme {
+  :root {
+    // Surfaces
+    --workpad-background: var(--color-surface);
+    --surface-dark-primary: var(--color-surface);
+    --surface-dark-secondary: var(--color-surface-raised);
+    --surface-dark-tertiary: var(--color-surface-overlay);
+    --surface-light-primary: var(--color-surface);
+
+    // Accents / borders
+    --accent-color: var(--color-accent);
+    --accent-color-full: var(--color-accent-strong);
+    --border-lines: var(--color-border);
+    --border-lines-40: var(--color-border-subtle);
+
+    // Text
+    --text-color-dark-base: var(--color-text);
+    --text-color-light-base: var(--color-text);
+    --text-color-accent: var(--color-accent-strong);
+
+    // Spacing
+    --padding-xs: var(--space-1);
+    --padding-s: var(--space-2);
+    --padding-m: var(--space-4);
+    --padding-x: var(--space-5);
+    --padding-xl: var(--space-6);
+    --size-xs: var(--space-1);
+
+    // Typography
+    --workpad-font-family: var(--font-family-editor);
+    --workpad-line-height: var(--line-height-base);
+    --font-size-primary: var(--font-size-lg);
+    --font-size-secondary: var(--font-size-sm);
+    --font-weight-primary: var(--font-weight-light);
+    --font-weight-secondary: var(--font-weight-regular);
+  }
+}
+

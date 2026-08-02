@@ -1,0 +1,24 @@
+@layer tokens {
+  :root {
+    --font-family-base:
+      "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    --font-family-mono: Consolas, Monaco, "Courier New", monospace;
+    --font-family-editor: "Courier New", Consolas, monospace;
+
+    --font-size-sm: 0.75rem;
+    --font-size-md: 0.9rem;
+    --font-size-lg: 1rem;
+    --font-size-xl: 1.25rem;
+
+    --font-weight-light: 200;
+    --font-weight-regular: 300;
+    --font-weight-medium: 400;
+    --font-weight-bold: 700;
+
+    --line-height-tight: 1.2;
+    --line-height-base: 1.4;
+    --line-height-relaxed: 1.6;
+  }
+}
+

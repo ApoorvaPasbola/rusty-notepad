@@ -1,23 +1,26 @@
-.container::-webkit-scrollbar {
-	width: 14px;
-}
-.container::-webkit-scrollbar-thumb {
-	background-clip: content-box;
-	border: 4px solid transparent;
-	border-radius: 7px;
-	box-shadow: inset 0 0 0 10px;
-}
-.container::-webkit-scrollbar-button {
-	width: 0;
-	height: 0;
-	display: none;
-}
-.container::-webkit-scrollbar-corner {
-	background-color: transparent;
-}
 .container {
-    &:hover {
-        overflow: auto;
-        z-index:1000 !important;
-    }
+  &:hover {
+    overflow: auto;
+    z-index: var(--z-overlay);
+  }
+
+  // Splitter-specific scrollbar that overrides the global base scrollbar
+  // for this component only — unlayered, so it wins without !important.
+  &::-webkit-scrollbar {
+    width: 14px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-clip: content-box;
+    border: 4px solid transparent;
+    border-radius: var(--radius-lg);
+    box-shadow: inset 0 0 0 10px;
+  }
+  &::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
 }

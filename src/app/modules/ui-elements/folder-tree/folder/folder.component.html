@@ -1,14 +1,28 @@
-<!-- Contents of the Opened Directory -->
-<li class="item" *ngFor="let folder of folders;index as i">
-  <span (click)="folder.isDirectory? this.openDirectory(folder): this.readFile(folder)" class="py-1 flex items-center"
-    [ngClass]="folder.isDirectory ? '' : 'ml-1 mt-1'">
-    <i style="font-size: 12px; align-content: end; margin-right: 3px;" *ngIf="folder.isDirectory" class="pi" [ngClass]="
-    folder.expanded ? 'pi-angle-down' : 'pi-angle-right'
-  "></i> {{folder.name}}
-  </span>
+<!-- Contents of the opened directory -->
+@for (folder of folders; track folder.path) {
+  <li class="item">
+    <span
+      (click)="folder.isDirectory ? openDirectory(folder) : readFile(folder)"
+      class="py-1 flex items-center"
+      [class.ml-1]="!folder.isDirectory"
+      [class.mt-1]="!folder.isDirectory"
+    >
+      @if (folder.isDirectory) {
+        <i
+          style="font-size: 12px; align-content: end; margin-right: 3px;"
+          class="pi"
+          [class.pi-angle-down]="folder.expanded"
+          [class.pi-angle-right]="!folder.expanded"
+        ></i>
+      }
+      {{ folder.name }}
+    </span>
 
-  <!-- Sub Folders - if any  -->
-  <ul *ngIf="folder.nodes && folder.expanded" style="padding-left: .7rem;">
-    <rusty-folder [folders]="folder.nodes" />
-  </ul>
-</li>
+    <!-- Sub folders, if any -->
+    @if (folder.nodes && folder.expanded) {
+      <ul style="padding-left: .7rem;">
+        <rusty-folder [folders]="folder.nodes" />
+      </ul>
+    }
+  </li>
+}

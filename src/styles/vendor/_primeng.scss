@@ -1,0 +1,141 @@
+@layer vendor {
+  // Quill editor — host, toolbar, scrollers.
+  .p-editor-container {
+    height: 100%;
+    background-color: var(--color-surface-raised);
+
+    .p-editor-toolbar.ql-toolbar.ql-snow {
+      border: none;
+      padding: 0;
+    }
+
+    .ql-container {
+      height: calc(100% - 24px);
+    }
+
+    .p-editor-content.ql-container.ql-snow {
+      border: none;
+
+      .ql-editor {
+        padding: var(--space-1);
+
+        h1,
+        h3,
+        p,
+        blockquote,
+        pre {
+          font-family: var(--font-family-mono);
+        }
+        h1 {
+          font-size: var(--font-size-xl);
+          font-weight: var(--font-weight-bold);
+          line-height: var(--line-height-tight);
+        }
+        h3 {
+          font-size: var(--font-size-md);
+          font-weight: var(--font-weight-bold);
+          line-height: var(--line-height-tight);
+        }
+        p {
+          font-size: var(--font-size-md);
+          font-weight: var(--font-weight-medium);
+          line-height: var(--line-height-base);
+        }
+        blockquote {
+          font-size: var(--font-size-lg);
+          line-height: var(--line-height-relaxed);
+        }
+        pre {
+          font-size: var(--font-size-md);
+          line-height: var(--line-height-base);
+        }
+      }
+    }
+  }
+
+  // Tabs
+  .p-tabview.p-component.p-tabview-scrollable {
+    div.p-tabview-panels {
+      padding: 0;
+      display: none;
+    }
+
+    .p-tabview-nav-container * {
+      background-color: var(--color-surface-raised);
+
+      :focus,
+      :focus * {
+        background-color: var(--color-surface);
+      }
+    }
+
+    .p-tabview-nav-container {
+      button.p-tabview-nav-btn {
+        border: 0;
+        height: 22px;
+        padding: 0;
+        opacity: 0.94;
+        width: 40px;
+
+        svg {
+          padding-top: 5px;
+        }
+      }
+
+      .p-tabview-nav li {
+        width: max(100px, fit-content);
+        white-space: nowrap;
+        border-left: 1.5px solid var(--color-surface);
+
+        .p-tabview-nav-link {
+          padding: var(--space-1);
+          font-weight: var(--font-weight-regular);
+          font-size: var(--font-size-sm);
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+
+        .p-element.p-icon-wrapper {
+          margin-left: auto;
+          padding-right: 2px;
+        }
+
+        timesicon {
+          margin-right: 2px;
+          svg {
+            height: 9px;
+            width: 9px;
+          }
+        }
+      }
+    }
+  }
+
+  // Splitter gutter
+  p-splitter > div {
+    div.p-splitter-gutter {
+      width: 2.5px;
+
+      &:hover {
+        background: var(--color-accent);
+        transition: background-color var(--duration-base) var(--easing-standard);
+        width: 0.27rem;
+      }
+    }
+  }
+
+  // Scroll panel
+  .p-scrollpanel-content {
+    width: 100%;
+    padding: 0 0 18px 0;
+  }
+
+  // Cross-cutting surface background — kept under @layer vendor so any
+  // component scss (unlayered) can override without !important.
+  .p-splitter,
+  .p-tabview *,
+  .p-editor-content * {
+    background-color: var(--color-surface);
+  }
+}
+

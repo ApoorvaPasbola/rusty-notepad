@@ -8,7 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "tauri": "tauri",
     "storybook": "ng run rusty-notepad:storybook",
-    "build-storybook": "ng run rusty-notepad:build-storybook"
+    "build-storybook": "ng run rusty-notepad:build-storybook",
+    "format": "prettier --write \"src/**/*.{ts,html,scss,json}\" \"plan/**/*.md\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,json}\""
   },
   "private": true,
   "dependencies": {

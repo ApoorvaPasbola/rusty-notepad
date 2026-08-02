@@ -1,14 +1,14 @@
 .container {
-  font-family: monospace;
-  font-size: 0.9rem;
-  color: var(--gray-500);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+
   .command {
-    background-color: var(--surface-dark-tertiary) ;
-    border-bottom: 1px solid grey ;
-    padding: .05rem .4rem;
-    font-weight: 100;
-    border-radius: 3px;
-    color: var(--gray-400);
+    background-color: var(--color-surface-overlay);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-1) var(--space-2);
+    font-weight: var(--font-weight-light);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
   }
 }
-

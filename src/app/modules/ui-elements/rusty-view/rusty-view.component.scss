@@ -1,6 +1,8 @@
 .layout {
     display: flex;
     flex-direction: column;
+    height: 100%;
+
     app-tabs {
         flex-basis: 32px;
         flex-grow: 0;

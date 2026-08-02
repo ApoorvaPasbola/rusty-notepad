@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SplitterModule } from 'primeng/splitter';
 
 @Component({
@@ -6,7 +6,7 @@ import { SplitterModule } from 'primeng/splitter';
   templateUrl: './splitter.component.html',
   styleUrl: './splitter.component.scss',
   standalone: true,
-  imports: [SplitterModule]
+  imports: [SplitterModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SplitterComponent {
-}
+export class SplitterComponent {}

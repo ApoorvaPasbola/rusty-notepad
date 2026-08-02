@@ -1,17 +1,21 @@
 :host {
-  font-size: var(--font-size-secondary);
-  font-weight: var(--font-weight-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text);
 }
-.item:hover:not(:has(.item:hover)) {
-  background-color: var(--bluegray-900);
-  border: 1px solid var(--accent-color);
-  cursor: pointer;
+.item {
+  &:hover:not(:has(.item:hover)) {
+    background-color: var(--color-surface-overlay);
+    border: 1px solid var(--color-accent);
+    cursor: pointer;
+  }
 }
 ul {
   list-style-type: none;
   padding: 0;
 }
- * li {
- text-wrap: nowrap;
+
+li {
+  text-wrap: nowrap;
 }
 
