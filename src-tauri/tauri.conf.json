@@ -42,8 +42,7 @@
           "name": "path",
           "index": 1,
           "takesValue": true,
-          "multiple": false,
-          "multipleOccurrences": false
+          "multiple": false
         }
       ]
     },
