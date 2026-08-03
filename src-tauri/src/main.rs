@@ -110,6 +110,9 @@ fn main() {
     info!("starting rusty-notepad");
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_cli::init())
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![
             read_directory,
             read_file,

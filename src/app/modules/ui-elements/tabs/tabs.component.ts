@@ -1,5 +1,5 @@
 import { Component, computed, HostListener, Signal } from '@angular/core';
-import { TabViewCloseEvent, TabViewModule } from 'primeng/tabview';
+import { TabsModule } from 'primeng/tabs';
 import { CommonModule, KeyValue } from '@angular/common';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { NEW_TAB_DEFAULT } from '../../utilities/Constants';
@@ -21,7 +21,7 @@ import { buildNewTab } from '../../utilities/helper-functions/tab-creator-util';
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
-  imports: [CommonModule, TabViewModule],
+  imports: [CommonModule, TabsModule],
 })
 export class TabsComponent {
   wasTabClosed: boolean = false;
@@ -111,25 +111,29 @@ export class TabsComponent {
    */
   @HostListener('document:keydown.control.W')
   closeTab() {
-    if (this.activeIndex() != null && this.activeIndex()! >= 0)
-      this.tabClose({
-        index: this.activeIndex(),
-      } as TabViewCloseEvent);
+    if (this.activeIndex() != null && this.activeIndex()! >= 0) {
+      this.tabClose(this.activeIndex()!);
+    }
   }
 
-  tabClose(event: TabViewCloseEvent) {
-    this.store.dispatch(closeTab({ id: event.index }));
+  tabClose(id: number) {
+    this.store.dispatch(closeTab({ id }));
   }
 
   /**
    * Handles tabs change Event
    * @param index
    */
-  handleTabIndexChange(index: number) {
+  handleTabIndexChange(index: string | number | undefined) {
+    if (typeof index !== 'number') {
+      return;
+    }
+
     if (!this.wasTabClosed) {
-      let tab = this.store.selectSignal(selectTabById(index))();
+      const tab = this.store.selectSignal(selectTabById(index))();
       this.store.dispatch(setCurrentTabTo({ tab: tab! }));
     }
+
     this.wasTabClosed = false;
   }
 

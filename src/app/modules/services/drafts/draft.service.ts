@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { invoke } from '@tauri-apps/api';
+import { invoke } from '@tauri-apps/api/core';
 import { Draft, DraftMeta } from '../../utilities/interfaces/Draft';
 
 /** Thin wrapper around the Tauri draft commands. Keeps `invoke` out of

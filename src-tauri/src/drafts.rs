@@ -12,7 +12,7 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
-use tauri::AppHandle;
+use tauri::{AppHandle, Manager};
 use tracing::{debug, warn};
 use uuid::Uuid;
 
@@ -135,9 +135,9 @@ fn validate_id(id: &str) -> AppResult<()> {
 
 fn ensure_dir(app: &AppHandle) -> AppResult<PathBuf> {
     let base = app
-        .path_resolver()
+        .path()
         .app_local_data_dir()
-        .ok_or_else(|| AppError::Io("cannot resolve app data dir".into()))?;
+        .map_err(|e| AppError::Io(format!("cannot resolve app data dir: {e}")))?;
     let dir = base.join(DRAFTS_DIR);
     if !dir.exists() {
         fs::create_dir_all(&dir)?;

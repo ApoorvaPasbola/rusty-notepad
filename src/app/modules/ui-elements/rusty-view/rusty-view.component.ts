@@ -5,11 +5,10 @@ import { SplitterComponent } from '../splitter/splitter.component';
 import { FolderTreeComponent } from '../folder-tree/folder-tree.component';
 
 import { LandingPageComponent } from '../landing-page/landing-page.component';
-import { getMatches } from '@tauri-apps/api/cli';
-import { AppEvents } from '../../utilities/interfaces/Events';
+import { getMatches } from '@tauri-apps/plugin-cli';
 import { APP_COMMANDS } from '../../utilities/Constants';
 import { ButtonModule } from 'primeng/button';
-import { open } from '@tauri-apps/api/dialog';
+import { open } from '@tauri-apps/plugin-dialog';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
 import { Store } from '@ngrx/store';
 import { updateWorkpadConfig } from '../../../state/actions/actions';
@@ -38,7 +37,7 @@ export class RustyViewComponent {
      * Initializes the Notepad with the starting directory . If nothing is passed in cli variable
      * It takes one from the env variables
      */
-    getMatches().then((matches) => {
+    getMatches().then((matches:any) => {
       let path = matches.args['path'].value;
       if (typeof path == 'string') {
         this.emitOpenDirectoryEvent(path);

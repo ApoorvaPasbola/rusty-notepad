@@ -1,10 +1,11 @@
-import { Injectable, Signal } from '@angular/core';
-import { invoke } from '@tauri-apps/api';
+import { Injectable } from '@angular/core';
 import { FileSystemItem, mapFileSystemItem2Node, mapFileSystemItem2NodeList, Node } from '../../utilities/interfaces/Node';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { WorkpadState } from '../../../state';
 import { workpadState } from '../../../state/selectors/tabs-state-selectors';
+import {invoke} from "@tauri-apps/api/core";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +16,7 @@ export class FolderTreeService {
   ROOT_NAME: string = '';
 
 
-  constructor(private store:Store) { 
+  constructor(private store:Store) {
     this.store.select(workpadState).subscribe((state: WorkpadState) => {
       this.initialize_Explorer(state.activeWorkingDirectory);
   })

@@ -1,19 +1,41 @@
 @if (activeIndex() != null && activeIndex()! >= 0) {
-  <p-tabView
-    (onClose)="tabClose($event)"
-    [scrollable]="true"
-    (activeIndexChange)="handleTabIndexChange($event)"
-    [activeIndex]="activeIndex()!"
-  >
-    @for (tab of (tabState().tabs | keyvalue : idBasedOrder); track tab.value.id) {
-      <p-tabPanel [closable]="tab.value.isClosable">
-        <!-- HEADER -->
-        <ng-template pTemplate="header">
-          <div class="flex align-items-center gap-2">
-            {{ tab.value.title }}@if (tab.value.isDirty) {<span aria-label="unsaved changes">&nbsp;•</span>}
-          </div>
-        </ng-template>
-      </p-tabPanel>
+<!-- p-tabView is replaced by p-tabs; scrollable prop remains -->
+<p-tabs
+  [value]="activeIndex()!"
+  [scrollable]="true"
+  (valueChange)="handleTabIndexChange($event)"
+>
+  <!-- Headers must be distinctly wrapped inside p-tablist -->
+  <p-tablist>
+    @for (tab of (tabState().tabs | keyvalue : idBasedOrder); track tab.value.id; let idx = $index) {
+    <!-- p-tab handles the header click target and selection tracking -->
+    <p-tab [value]="idx">
+      <div class="flex align-items-center gap-2">
+        <span>{{ tab.value.title }}</span>
+
+        @if (!tab.value.isSaved) {
+        <span aria-label="unsaved changes">&nbsp;•</span>
+        }
+
+        <!-- Custom closable indicator since p-tabPanel closable attribute was dropped -->
+        @if (tab.value.isClosable) {
+        <i
+          class="pi pi-times ml-2 cursor-pointer text-xs opacity-60 hover:opacity-100"
+          (click)="$event.stopPropagation(); tabClose(idx)"
+        ></i>
+        }
+      </div>
+    </p-tab>
     }
-  </p-tabView>
+  </p-tablist>
+
+  <!-- Tab panel body structures are rendered inside p-tabpanels -->
+  <p-tabpanels>
+    @for (tab of (tabState().tabs | keyvalue : idBasedOrder); track tab.value.id; let idx = $index) {
+    <p-tabpanel [value]="idx">
+      <!-- INSERT YOUR TAB BODY COMPONENT CONTENT HERE -->
+    </p-tabpanel>
+    }
+  </p-tabpanels>
+</p-tabs>
 }

@@ -1,4 +1,4 @@
-@import "theme-dark";
-@import "theme-light";
-@import "legacy-aliases";
+@forward "theme-dark";
+@forward "theme-light";
+@forward "legacy-aliases";
 

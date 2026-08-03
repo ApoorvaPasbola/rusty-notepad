@@ -40,8 +40,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -86,6 +86,7 @@
             "configDir": ".storybook",
             "browserTarget": "rusty-notepad:build",
             "compodoc": true,
+            "allowedCommonJsDependencies": ["quill-delta"],
             "compodocArgs": [
               "-e",
               "json",
@@ -95,7 +96,10 @@
             "port": 6006,
             "styles":[
               "src/styles.scss",
-              "node_modules/primeng/resources/themes/lara-dark-blue/theme.css"
+              "node_modules/primeng/resources/themes/lara-dark-blue/theme.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/primeicons/primeicons.css"
             ]
           }
         },

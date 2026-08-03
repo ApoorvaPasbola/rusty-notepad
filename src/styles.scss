@@ -1,20 +1,8 @@
-// Global stylesheet — entrypoint only. All application CSS is split into
-// `src/styles/` partials and assembled via @layer. See plan/PROGRESS.md
-// §3.1 for the layered architecture overview.
+@use "primeflex/primeflex.scss";
 
-// 1. Declare layer order. Later wins. Unlayered (component SCSS) beats
-//    all layered styles, so per-component overrides never need !important.
+@use "styles/tokens/index" as tokens;
+@use "styles/themes/index" as themes;
+@use "styles/base/index" as base;
+@use "styles/vendor/index" as vendor;
+
 @layer reset, base, tokens, theme, vendor;
-
-// 2. Third-party stylesheets — loaded outside layers so they form the
-//    cascade baseline before our overrides apply.
-@import "primeflex/primeflex.scss";
-@import "quill/dist/quill.core.css";
-@import "quill/dist/quill.snow.css";
-@import "primeicons/primeicons.css";
-
-// 3. Our own design system.
-@import "styles/tokens/index";
-@import "styles/themes/index";
-@import "styles/base/index";
-@import "styles/vendor/index";

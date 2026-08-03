@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, Signal } from '@angular/core';
 import { RustyStateService } from '../rusty/rusty-state.service';
 import { AppEvents, NotepadEvents } from '../../utilities/interfaces/Events';
-import { invoke } from '@tauri-apps/api';
+import { invoke } from '@tauri-apps/api/core';
 import { filter, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { WorkpadState } from '../../../state';

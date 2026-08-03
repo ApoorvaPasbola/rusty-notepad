@@ -25,7 +25,8 @@
       "@shared/*": ["src/app/modules/utilities/*"],
       "@state/*": ["src/app/state/*"],
       "@features/*": ["src/app/modules/ui-elements/*"],
-      "@environments": ["src/environments/environment"]
+      "@environments": ["src/environments/environment"],
+      "primeng/*": ["node_modules/primeng/*"],
     }
   },
   "angularCompilerOptions": {

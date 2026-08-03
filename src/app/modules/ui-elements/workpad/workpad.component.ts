@@ -1,12 +1,12 @@
 import { Component, HostListener, OnDestroy, Signal } from '@angular/core';
 
-import { EditorInitEvent, EditorModule, EditorTextChangeEvent } from 'primeng/editor';
+import {EditorInitEvent, EditorModule, EditorTextChangeEvent} from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 import Quill from 'quill';
 import { Delta } from 'quill/core';
-import { debounceTime, filter, Subject, Subscription } from 'rxjs';
+import { debounceTime, Subject, Subscription } from 'rxjs';
 import { AppEvents } from '../../utilities/interfaces/Events';
-import { save } from '@tauri-apps/api/dialog';
+import { save } from '@tauri-apps/plugin-dialog';
 import { basename } from '@tauri-apps/api/path';
 import { RustyStateService } from '../../services/rusty/rusty-state.service';
 import { WorkpadState } from '../../../state';
@@ -102,7 +102,7 @@ export class WorkpadComponent implements OnDestroy {
         defaultPath: this.workpadState().activeWorkingDirectory,
         filters: [{ name: 'All Files (*)', extensions: ['*'] }],
       }).then(
-        (path) => {
+        (path:any) => {
           if (path) {
             basename(path).then((file_name) => {
               let config: WorkpadState = {
@@ -115,7 +115,7 @@ export class WorkpadComponent implements OnDestroy {
             });
           } else console.info('Recevied Null path', path);
         },
-        (_) => {
+        (_: any) => {
           console.error(_);
         },
       );
@@ -172,6 +172,6 @@ export class WorkpadComponent implements OnDestroy {
    * @param event takes in the Quill EditorTextChangeEvent
    */
   handleContentChange(event: EditorTextChangeEvent) {
-    this.contentChange$.next(event.htmlValue);
+    this.contentChange$.next(event.htmlValue!);
   }
 }

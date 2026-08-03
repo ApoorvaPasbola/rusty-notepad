@@ -1,5 +1,5 @@
-@import "spacing";
-@import "radii";
-@import "motion";
-@import "zindex";
-@import "typography";
+@forward "spacing";
+@forward "radii";
+@forward "motion";
+@forward "zindex";
+@forward "typography";

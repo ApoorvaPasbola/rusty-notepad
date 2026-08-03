@@ -1,15 +1,13 @@
-import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Node } from '../../../utilities/interfaces/Node';
+import { Node } from '@shared/interfaces/Node';
 import { FolderTreeService } from '../folder-tree.service';
-import { AppEvents } from '../../../utilities/interfaces/Events';
-import { RustyStateService } from '../../../services/rusty/rusty-state.service';
+import { AppEvents } from '@shared/interfaces/Events';
+import { RustyStateService } from '@core/rusty/rusty-state.service';
 
 @Component({
   selector: 'rusty-folder',
-  imports: [NgClass],
   host: {
-    '[style.list-style-type]': 'none',
+    style: '[style.list-style-type]:none'
   },
   templateUrl: './folder.component.html',
   styleUrl: './folder.component.scss',

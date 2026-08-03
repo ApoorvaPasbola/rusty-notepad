@@ -2,7 +2,6 @@ import { Injectable, Signal } from '@angular/core';
 import { Tab } from '../../utilities/interfaces/Tab';
 import { filter, Subject } from 'rxjs';
 import { NotepadEvents } from '../../utilities/interfaces/Events';
-import { readFile } from '../../common/FileUtils';
 import { Store } from '@ngrx/store';
 import {
   updateTabData,
@@ -13,6 +12,7 @@ import {
   currentTab,
   selectAppState,
 } from '../../../state/selectors/tabs-state-selectors';
+import {readFile} from "../../common/file-utils";
 
 @Injectable({
   providedIn: 'root',
@@ -44,10 +44,10 @@ export class RustyStateService {
 
   handleReadingFile(tab: Tab) {
     readFile(tab.path).then(
-      (data) => {
+      (data: any) => {
         this.setWorkpadConfigs(tab, data);
       },
-      (rejectResponse) => {
+      (rejectResponse:any) => {
         this.resetWorkpadConfig(tab, rejectResponse);
       },
     );
